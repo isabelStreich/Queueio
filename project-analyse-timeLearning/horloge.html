@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projet apprentissage horloge</title>
+    <style>
+        #canvas {
+            background-color: rgb(27, 148, 156);
+            width: 400px;
+            height: 400px;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        button {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        #infosPage #div1,
+        #mesInfos {
+            border: 2px solid white;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        div {
+            padding: 8px;
+        }
+    </style>
+    <script>
+        function loadPage(href) {
+            return href;
+        }
+    </script>
+</head>
+
+<body onload="startTimeAndReadTime()">
+
+    <button onclick="page()">Login/Learn to read time in french or english</button>
+    <div id="infosPage">
+        <div id="div1"></div>
+    </div>
+    <div id="mesInfos"></div>
+    <div><canvas id="canvas"></canvas></div>
+    <!--<div id="txt"></div>-->
+    <div id="timeFrench" style="color: white;"></div>
+    <div id="timeEnglish" style="color: white;"></div>
+
+    <script>
+        let verify;
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var radius = canvas.height / 2;
+        canvas.width = 2 * radius;
+        ctx.translate(radius, radius);
+        radius = radius * 0.90;
+
+        function getForm() {
+            let html = "";
+            if (verify == false) {
+                document.getElementById('mesInfos').innerHTML = "";
+                document.getElementById('mesInfos').style.borderColor = 'white';
+                document.getElementById('div1').innerHTML = "";
+                document.getElementById('div1').style.borderColor = 'white';
+                document.getElementById('timeFrench').style.color = 'white';
+                document.getElementById('timeEnglish').style.color = 'white';
+            } else {
+                html += "<div style='border:2px solid blue'><form id='myForm' action='horloge.html' method='POST'>";
+                html += "<div>Presence</div>";
+                html += "<div>Prenom <input type='text' id='input2'></div>";
+                //html += "<div><input type='submit' name='Submit'></div>";
+                html += "</form>";
+                html += "<div><button onclick='infos()'>Submit</button></div></div>";
+            }
+            verify = true;
+            return html;
+        }
+
+        function page() {
+            //document.getElementById('infosPage').innerHTML = loadPage('<a href="test.html">Mes infos</a>');
+            document.getElementById('div1').innerHTML = getForm().toString();
+        }
+
+        function infos(value) {
+            document.getElementById('mesInfos').innerHTML = document.getElementById('myForm').elements[0].value;
+            document.getElementById('mesInfos').style.borderColor = 'blue';
+            if (document.getElementById('myForm').elements[0].value != "") {
+                document.getElementById('timeFrench').style.color = 'black';
+                document.getElementById('timeEnglish').style.color = 'black';
+                setInterval(drawClockAndReadTime, 0);
+            }
+            verify = false;
+        }
+
+        function drawClockAndReadTime() {
+            drawFace(ctx, radius);
+            drawNumbers(ctx, radius);
+            drawTime(ctx, radius);
+        }
+
+        function drawFace(ctx, radius) {
+            var grad;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+            grad.addColorStop(0, 'blue');
+            grad.addColorStop(0.5, 'green');
+            grad.addColorStop(1, 'red');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = radius * 0.1;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+        }
+
+        function drawNumbers(ctx, radius) {
+            var ang;
+            var num;
+            ctx.font = radius * 0.15 + "px arial";
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            for (num = 1; num < 13; num++) {
+                ang = num * Math.PI / 6;
+                ctx.rotate(ang);
+                ctx.translate(0, -radius * 0.85);
+                ctx.rotate(-ang);
+                ctx.fillText(num.toString(), 0, 0);
+                ctx.rotate(ang);
+                ctx.translate(0, radius * 0.85);
+                ctx.rotate(-ang);
+            }
+        }
+
+        function drawTime(ctx, radius) {
+            var now = new Date();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            //hour
+            hour = hour % 12;
+            hour = (hour * Math.PI / 6) +
+                (minute * Math.PI / (6 * 60)) +
+                (second * Math.PI / (360 * 60));
+            drawHand(ctx, hour, radius * 0.5, radius * 0.07);
+            //minute
+            minute = (minute * Math.PI / 30) + (second * Math.PI / (30 * 60));
+            drawHand(ctx, minute, radius * 0.8, radius * 0.07);
+            // second
+            second = (second * Math.PI / 30);
+            drawHand(ctx, second, radius * 0.9, radius * 0.02);
+        }
+
+        function drawHand(ctx, pos, length, width) {
+            ctx.beginPath();
+            ctx.lineWidth = width;
+            ctx.lineCap = "round";
+            ctx.moveTo(0, 0);
+            ctx.rotate(pos);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+            ctx.rotate(-pos);
+        }
+
+        function startTimeAndReadTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            //document.getElementById('txt').innerHTML =
+            //    h + ":" + m + ":" + s;
+
+            if (h >= 0 && h <= 11) {
+                document.getElementById('timeFrench').innerHTML = "Learn time in french = " + h + ":" + m + ":" + s + " AM";
+            } else if (h > 11 && h <= 23) {
+                document.getElementById('timeFrench').innerHTML = "Learn time in french = " + h + ":" + m + ":" + s + " PM";
+            }
+            if (h > 12) {
+                document.getElementById('timeEnglish').innerHTML = "Learn time in english = " + (h - 12) + ":" + m + ":" + s + " PM";
+            } else if (h <= 12) {
+                document.getElementById('timeEnglish').innerHTML = "Learn time in english = " + h + ":" + m + ":" + s + " AM";
+            }
+            var t = setTimeout(startTimeAndReadTime, 0);
+        }
+
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+            return i;
+        }
+    </script>
+    <!--<script src="testResult.js"></script>-->
+
+</body>
+
+</html>
