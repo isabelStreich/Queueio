@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="#f7f7f7"
     android:orientation="vertical">
 
     <TextView
@@ -59,10 +60,10 @@
         android:id="@+id/loginBtn"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="50dp"
         android:background="#FFC107"
         android:text="Soumettre"
-        android:textColor="#1E39D3"
+        android:textColor="#29609A"
         android:textSize="14dp"
         android:textStyle="bold" />
 
