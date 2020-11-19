@@ -160,7 +160,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/clock_id"
+                android:id="@+id/time_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
