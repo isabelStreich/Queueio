@@ -2,15 +2,29 @@ package com.example.q_io;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -26,13 +40,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("queue.io");
         setContentView(R.layout.activity_main);
         ctx = this;
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        loginBtn = findViewById(R.id.loginBtn);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        String user_email = "maria@gmail.com";
+        String user_password = "maria";
+        loginBtn = findViewById(R.id.login_btn_id);
         loginBtn.setOnClickListener(v -> {
             Intent intent = new Intent(ctx, HomePageActivity.class);
-            SetValidation();
-            startActivity(intent);
+            if (email.getText().toString().equals(user_email) && password.getText().toString().equals(user_password)) {
+                startActivity(intent);
+            } else {
+                SetValidation();
+            }
         });
     }
     public void SetValidation() {
@@ -50,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
         if (password.getText().toString().isEmpty()) {
             password.setError(getResources().getString(R.string.password_error));
             isPasswordValid = false;
-        } else if (password.getText().length() < 6) {
+        } else if (password.getText().length() < 4) {
             password.setError(getResources().getString(R.string.error_invalid_password));
             isPasswordValid = false;
         } else {
             isPasswordValid = true;
         }
         if (isEmailValid && isPasswordValid) {
-            Toast.makeText(getApplicationContext(), "Avec succès", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Succès :)", Toast.LENGTH_SHORT).show();
         }
     }
 }
