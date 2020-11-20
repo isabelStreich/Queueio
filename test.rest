@@ -1,0 +1,8 @@
+GET http://localhost:3000/commerce
+###
+POST  http://localhost:3000/post
+###
+PUT  http://localhost:3000/put
+###
+DELETE  http://localhost:3000/delete
+###
