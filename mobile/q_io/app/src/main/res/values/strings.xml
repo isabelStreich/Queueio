@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">queue.io</string>
+    <string name="email_error">Erreur d\'adresse courriel</string>
+    <string name="password_error">Erreur du mot de passe</string>
+    <string name="error_invalid_email">Courriel n\'est pas valide</string>
+    <string name="error_invalid_password">Mot de passe n\'est pas valide</string>
+</resources>

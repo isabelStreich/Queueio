@@ -15,6 +15,9 @@ const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 
 app.get('/commercetest/:commerce_id',controler.commercesss)
+// app.get('/commercetest/:filtre_id',controler.commerceAvecFiltre)
+app.get('/commercetest',controler.commercesTous)
+app.get('/commercetest/:id',controler.commerceStat)
 
 app.get('/commerce',function(request,response){
     response.writeHead(HTTP_OK, {'Content-type':CONTENT_TYPE_HTML})
