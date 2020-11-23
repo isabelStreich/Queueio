@@ -5,6 +5,7 @@ const socketIO = require('socket.io');
 const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
+const controler = require('./backend/controler/controler')
 
 const app=express()
 
@@ -13,6 +14,7 @@ const HTTP_OK = 200
 const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 
+app.get('/commercetest/:commerce_id',controler.commercesss)
 
 app.get('/commerce',function(request,response){
     response.writeHead(HTTP_OK, {'Content-type':CONTENT_TYPE_HTML})
