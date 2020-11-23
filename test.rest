@@ -6,3 +6,4 @@ PUT  http://localhost:3000/put
 ###
 DELETE  http://localhost:3000/delete
 ###
+GET http://localhost:3000/commercetest/3
