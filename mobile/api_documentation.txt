@@ -1,0 +1,26 @@
+API documentation
+***************************************
+GET
+https://queueio.com/queue)
+{
+id: "123" 
+id_current_number_to_serve: (int)1,
+queue_length: (int)25
+}
+
+***************************************
+
+POST
+https://queueio.com/queue_invite)
+{
+id_current_number_to_serve: (int)1,
+id_client: (int)1
+}
+
+***************************************
+
+POST
+https://queueio.com/queue_comfirm)
+{
+id_current_number_to_serve: (int)1,
+}
