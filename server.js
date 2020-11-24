@@ -1,15 +1,15 @@
 'use strict'
 const express = require('express')
-// const socketIO = require('socket.io')
-// const http = require('http')
-// const bodyParser = require('body-parser')
-// const { response } = require('express')
+const socketIO = require('socket.io')
+const http = require('http')
+const bodyParser = require('body-parser')
+const { response } = require('express')
 
 const app = express()
 
 const PORT = 3000
 const HTTP_OK = 200
-// const CONTENT_TYPE_JSON = 'application/json'
+const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 
 app.get('/commerce', function (request, response) {
