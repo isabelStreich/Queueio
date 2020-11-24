@@ -16,12 +16,12 @@ const commercesTous = (req, res) => {
     })
 }
 
-// const commerceAvecFiltre = (req, res) => {
-//     const comerceFiltreID = req.params.filtre_id
-//     manager.commerceFiltre.getData(comerceFiltreID).then(result => {
-//         sendData(res, result)
-//     })
-// }
+const commerceAvecFiltre = (req, res) => {
+    const comerceFiltreID = req.params.filtre_id
+    manager.commerceFiltre.getData(comerceFiltreID).then(result => {
+        sendData(res, result)
+    })
+}
 
 const commerceStat = (req, res) => {
     const comerceStatique = req.params.commerce_id
@@ -33,7 +33,7 @@ const commerceStat = (req, res) => {
 module.exports = {
     commercesss,
     commercesTous,
-    commerceStat
-    // commerceAvecFiltre
+    commerceStat,
+    commerceAvecFiltre
 
 }
