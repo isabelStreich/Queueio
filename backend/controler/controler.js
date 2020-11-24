@@ -27,6 +27,7 @@ const commerceStat = (req, res) => {
     const comerceStatique = req.params.commerce_id
     manager.commerceStatistiques.getData(comerceStatique).then(result => {
         sendData(res, result)
+        
     })
 }
 
