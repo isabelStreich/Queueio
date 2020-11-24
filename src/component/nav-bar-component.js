@@ -1,3 +1,4 @@
+
 import React from 'react'
 
 function renderLi(buttons, index) {
@@ -64,17 +65,18 @@ const NavBarComponent = ({ onSubmit, genres, buttons }) => (
 
                         </select>
 
-                        <div class='input-group-append'>
+                        {/* <div class='input-group-append'>
 
                             <button id='btnPlaylist' class='btn btn-outline-secondary' type='button'>Afficher</button>
 
-                        </div>
+                        </div> */}
 
                     </div>
 
                 </div>
-
+                {/* barre de recherche des commerces */}
                 <form onSubmit={onSubmit} id='formRecherche' class='form-inline my-2 my-xl-0'>
+
 
                     <input id='barreRecherche' class='form-control mr-sm-2' type='search' placeholder='artist,album,titre...' aria-label='Search' />
 

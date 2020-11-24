@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <p class="flotte">
+        <figure>
+            <img src="image/queue.io.png" alt="queue.io" title="queue.io">
+            <figcaption>Queue.io</figcaption>
+        </figure>
+        </p>
+        <nav>
+            <a href="../Accueil.html" target="_blank">Accueil </a>
+            <a href="../configurationDePoste.html">ConfigurationDePoste</a>
+            <a href="../Statistique.html">Statistique</a>
+        </nav>
+        <p>Bienvenu</p>
+    </header>
+    <h1>Inscription</h1>
+    <div>
+        <input type="radio" id="client" name="typeTravailleur" value="client">
+        <label for="client">Client</label>
+    </div>
+
+    <div>
+        <input type="radio" id="commercant" name="typeTravailleur" value="commercant" checked>
+        <label for="commercant">Commercant</label>
+    </div>
+
+    <form action="inscription.html">
+
+        <fieldset>
+            <legend>Vous êtes:</legend>
+            <div>
+                <label for="nomDuCommerce">Nom Du Commerce</label>
+                <input type="text" id="nomDuCommerce" placeholder="Nom Du Commerce" name="nomDuCommerce"
+                    required="required" maxlength="50" autofocus />
+            </div>
+            <div>
+                <label for="nomDuCommerce">Ville</label>
+                <input type="text" id="ville" placeholder="Ville" name="ville" required="required" maxlength="50" />
+            </div>
+            <div>
+                <label for="nomDuCommerce">Pays</label>
+                <input type="text" id="pays" placeholder="pays" name="pays" required="required" maxlength="50" />
+            </div>
+
+            <div>
+                <label for="userPhone">Téléphone</label>
+                <input type="tel" id="userPhone" name="userPhone" placeholder="514-888-9999"
+                    pattern="^\(?\d{3}\)?(-| )?\d{3}(-| )?\d{4}$" required="required" />
+            </div>
+
+            <div>
+                <label for="userEmail">Courriel</label>
+                <input type="email" id="userEmail" name="userEmail" placeholder="Courriel" required="required"
+                    maxlength="100" />
+            </div>
+
+            <div>
+                <label for="password">Mot de Passe </label>
+                <input type="text" id="password" name="password" placeholder="Mot de Passe" required="required"
+                    maxlength="2000" />
+            </div>
+
+            <div>
+                <label for="story">Adresse</label>
+
+                <textarea id="adresse" name="adresse" rows="5" cols="33">
+                </textarea>
+            </div>
+        </fieldset>
+
+        <div>
+            <input type="submit" value="Soumettre" />
+        </div>
+
+        <div>
+            <input type="submit" value="Quitter" />
+        </div>
+
+    </form>
+</body>
+
+<footer>
+
+    <div class="footer">
+        <nav>
+            <a href="../Accueil.html" target="_blank">Accueil </a>
+            <a href="../configurationDePoste.html">ConfigurationDePoste</a>
+            <a href="../Statistique.html">Statistique</a>
+        </nav>
+
+        <div class="localisation">
+            <b>MONTREAL</b><br>
+            <br>
+            82, boul. Maisonneuve
+            Saint-Jérôme, Québec
+            J5L 0A1
+        </div>
+
+        <div class="contact">
+            <b>Contact</b>
+
+            <a href="tel:1-451-487-4587">
+                <img src="image/image-telephone.png" alt=" tel:1-451-487-4587" title="clic pour plus d'info">
+                <p>Telephone: (438)789-1235/(541)789-1235</p>
+            </a>
+            <!--affichage de l'adresse e-mail en bas de la page-->
+            <a href="queuio@yahoo.com">
+                <img src="image/image.e-mail.png" alt="image e-mail" title="clic pour plus d'info">
+                <p>contactez Nous par e-mail</p>
+            </a>
+
+            © Queue.io ®
+        </div>
+
+    </div>
+
+</footer>
+
+</html>
