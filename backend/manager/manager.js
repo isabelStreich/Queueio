@@ -37,24 +37,23 @@ const commercesTous = class CommercesTous {
 }
 
 //select *from commerce WHERE filtre_id =1
-// const commerceFiltre = class CommerceFiltre {
-//     static getData (comerceFiltreID) {
-//         let pgJsonResult = null
-//         return new Promise(resolve => {
-//             dao.connect()
-//             const newLocal = 'SELECT * FROM commerce WHERE filtre_id = $1'
-//             dao.query(newLocal, [comerceFiltreID], (result) => {
-//                 if (result.rowCount > 0) {
-//                     pgJsonResult = result.rows
-//                 } else {
-//                     pgJsonResult = []
-//                 }
-//                 resolve(pgJsonResult)
-//                 dao.disconnect()
-//             })
-//         })
-//     }
-// }
+const commerceFiltre = class CommerceFiltre {
+    static getData(comerceFiltreID) {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * FROM commerce WHERE filtre_id = $1', [comerceFiltreID], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
 const commerceStatistiques = class CommerceStatistiques {
     static getData (comerceStatique) {
         let pgJsonResult = null
@@ -76,6 +75,6 @@ const commerceStatistiques = class CommerceStatistiques {
 module.exports = {
     commerce,
     commercesTous,
-    // commerceFiltre
+    commerceFiltre,
     commerceStatistiques
 }

@@ -10,5 +10,7 @@ GET http://localhost:3000/commercetest/3
 ###
 GET http://localhost:3000/commercetest
 ###
-GET http://localhost:3000/commercetest/1
+GET http://localhost:3000/commercetest/filtreId/2
+###
+GET http://localhost:3000/commercetest/stats/1
 ###
