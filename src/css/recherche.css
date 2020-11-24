@@ -1,0 +1,174 @@
+/* ***************************** RESULTAT RECHERCHE ************************************************ */
+
+#divCarPrincipal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: left;
+    margin-top: 160px;
+    transition: all 1s;
+}
+
+#divCardResultatRecherche {
+    /* height: 40%; */
+    /* width: 20%; */
+    width: 30%;
+}
+
+#divCardResultatRecherche:hover {
+    /* height: 40%; */
+    /* width: 20%; */
+    width: 30.5%;
+    transition: all 0.3s;
+}
+
+#divCardResultatRecherche:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+}
+
+.card-body {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card {
+    box-shadow: 20px 9px 10px 0px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+}
+
+.card:hover {
+    box-shadow: 14px 14px 10px 4px rgba(0, 0, 0, 0.6);
+}
+
+.card-img-top {
+    height: 300px;
+    transition: 0.2s;
+}
+
+#select_each_album {
+    font-size: 2rem;
+    /* margin-top: 20px; */
+    background-color: black;
+    color: white;
+}
+
+hr {
+    width: 100%;
+    background-color: rgb(170, 170, 170);
+    /* border: 8px; */
+    height: 1.5px;
+}
+
+@media screen and (max-width: 1920px) {
+    #divCardResultatRecherche {
+        /* height: 40%; */
+        /* width: 20%; */
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    #divCardResultatRecherche {
+        /* height: 40%; */
+        /* width: 20%; */
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    #divCardResultatRecherche {
+        /* height: 40%; */
+        /* width: 20%; */
+        width: 100%;
+    }
+}
+
+/* ***************************** FIN RESULTAT RECHERCHE ************************************************ */
+
+/* ***************************** DETAIL ALBUM RECHERCHE ************************************************ */
+
+#carDetailAlbum {
+    width: 60%;
+    height: 500px;
+}
+
+/* ***************************** FIN DETAIL ALBUM RECHERCHE************************************************ */
+
+/* ***************************** DETAIL TRACK RECHERCHE ************************************************ */
+
+#divColonneTrack {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 100px;
+}
+
+#divContainerDetail {
+    margin-top: 160px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divPrincipalDetail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    font-size: 2rem;
+    padding: 4px;
+    padding-right: 8px;
+    padding-bottom: 0px;
+    width: 115%;
+    height: 100%;
+    box-shadow: 20px 9px 10px 0px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+}
+
+#divPrincipalDetail:hover {
+    box-shadow: 14px 14px 10px 4px rgba(0, 0, 0, 0.6);
+}
+
+#divPrincipalDetail:hover {
+    width: 116%;
+    transition: all 0.3s;
+}
+
+#divPrincipalDetail:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+}
+
+#textTitreTrack {
+    color: black;
+    font-weight: bold;
+}
+
+#divIconeAjoutPlaylist {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    float: right;
+}
+
+#iconeAjoutPlaylist {
+    width: 30px;
+    height: 30px;
+}
+
+#textAjout {
+    color: black;
+    font-weight: bold;
+}
+
+/* ***************************** FIN DETAIL TRACK RECHERCHE************************************************ */

@@ -1,0 +1,99 @@
+#imgJoinUs {
+    width: 90%;
+    height: 100%;
+    /* margin-bottom: 10px; */
+}
+
+#img2JoinUs {
+    width: 1050px;
+    height: 850px;
+    /* margin-bottom: 10px; */
+}
+
+#imgJoinUsLink {}
+
+#divJoinUs {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    /* float: left; */
+    /* font-size: 50px; */
+    margin-top: 8%;
+    color: white;
+    font-weight: bold;
+}
+
+#divTextMarketing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10em;
+}
+
+#divImgMarketing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#divText1 {
+    /* font-size: 4.8em; */
+    margin-bottom: 6em;
+}
+
+#divText1 p {
+    font-size: 5.5em;
+}
+
+#divTextAbonnement {
+    /* font-size: 3em; */
+    margin-bottom: 0.5em;
+}
+
+#divTextAbonnement p {
+    font-size: 3em;
+}
+
+#divBtnJoin {
+    margin-top: 0.5em;
+}
+
+#btnJoin {
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    text-decoration: none;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    border-color: black;
+    text-transform: none;
+    background-color: black;
+    box-shadow: 6px 5px 5px rgba(0, 0, 0, 0.7);
+    /* background: -webkit-linear-gradient(360deg, rgb(41, 9, 153), rgb(241, 33, 214));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+}
+
+#btnJoin:hover {
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    transition: all 0.5s;
+    text-decoration: none;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: black;
+    border-color: white;
+    text-transform: none;
+    background-color: white;
+    box-shadow: 6px 5px 5px rgba(0, 0, 0, 0.7);
+}
+
+#imgDecouvrir {
+    width: 100%;
+    height: 100%;
+    /* margin-bottom: 10px; */
+}
+
+#divImgDecouvrir {}
