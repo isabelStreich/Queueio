@@ -6,6 +6,7 @@ const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
 const controler = require('./backend/controler/controler')
+const controler_post = require('./backend/controler/controler_post')
 
 const app=express()
 
@@ -14,10 +15,18 @@ const HTTP_OK = 200
 const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 
-app.get('/commercetest/:commerce_id',controler.commercesss)
+app.get('/commercetest/:commerce_id',controler.commercesss) //obtenir un commerce
 app.get('/commercetest/filtreId/:filtre_id',controler.commerceAvecFiltre)
-app.get('/commercetest',controler.commercesTous)
-app.get('/commercetest/stats/:commerce_id',controler.commerceStat)
+app.get('/commercetest',controler.commercesTous) //obtenir la liste de tous les commerces
+app.get('/commercetest/stats/:commerce_id',controler.commerceStat) //obtenir statistiques
+
+// app.get('/commercetest/user/:role_id',controler.roleEmployee)//obtenir info employe-doesn't work
+// app.get('/commercetest/login/:courriel/:mot_passe',controler.login) //login
+//post
+// app.post('/commercetest/creation_commerce', tracksControleur.ajout)//creation commerce//Formulaire d'Inscription
+app.post('/test/:nom/:adresse/:courriel/:mot_passe',controler_post.commerceInscription)//inscription
+app.post('/test/login/:courriel/:mot_passe',controler_post.login)//Login
+
 
 app.get('/commerce',function(request,response){
     response.writeHead(HTTP_OK, {'Content-type':CONTENT_TYPE_HTML})

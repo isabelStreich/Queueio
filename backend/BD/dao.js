@@ -6,7 +6,8 @@ function connect () {
     client = new Client({
         host: 'localhost',
         port: 5432,
-        database: 'queueio',
+        database: 'queueioDB',
+        // database: 'queueio',
         user: 'postgres',
         password: 'postgres'
     })
