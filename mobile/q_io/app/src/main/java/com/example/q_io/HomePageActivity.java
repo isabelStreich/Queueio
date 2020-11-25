@@ -1,6 +1,7 @@
 package com.example.q_io;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,30 +27,32 @@ import org.json.JSONException;
 import org.json.JSONObject;
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
     Context ctx;
-    private ImageView company_logo;
-    private TextView company_name;
-    private TextView total_queue;
-    private TextView list_queue;
+    private ImageView companyLogo;
+    private TextView companyName;
+    private TextView totalQueue;
+    private TextView listQueue;
+    private TextView currentNumber;
     private TextView chronometer;
     private TextView time;
     private TextView date;
-    private Button confirm_btn;
-    private Button invite_btn;
-    private Button terminate_btn;
+    private Button confirmBtn;
+    private Button inviteBtn;
+    private Button terminateBtn;
     private RequestQueue myQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         ctx = this;
-        company_logo = (ImageView) findViewById(R.id.company_logo_id);
-        company_name = (TextView) findViewById(R.id.company_name_id);
-        total_queue = (TextView) findViewById(R.id.total_queue_id);
-        list_queue = (TextView) findViewById(R.id.list_queue_id);
+        companyLogo = (ImageView) findViewById(R.id.company_logo_id);
+        companyName = (TextView) findViewById(R.id.company_name_id);
+        totalQueue = (TextView) findViewById(R.id.total_queue_id);
+//        currentNumber = (TextView) findViewById(R.current_number_id);
+        listQueue = (TextView) findViewById(R.id.list_queue_id);
         chronometer = (TextView) findViewById(R.id.chronometer_id);
-        Button confirm_btn = (Button) findViewById(R.id.confirm_btn_id);
-        Button invite_btn = (Button) findViewById(R.id.invite_btn_id);
-        Button terminate_btn = (Button) findViewById(R.id.terminate_btn_id);
+        Button confirmBtn = (Button) findViewById(R.id.confirm_btn_id);
+        Button inviteBtn = (Button) findViewById(R.id.invite_btn_id);
+        Button terminateBtn = (Button) findViewById(R.id.terminate_btn_id);
         //Définir la date actuelle
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
@@ -61,30 +63,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         time.setText(currentTime);
         myQueue = Volley.newRequestQueue(this);
-        invite_btn.setOnClickListener(v -> jsonParse());
+        inviteBtn.setOnClickListener(v -> jsonParse());
         //Définir des boutons
-        confirm_btn.setOnClickListener(this);
-        invite_btn.setOnClickListener(this);
-        terminate_btn.setOnClickListener(this);
-    }
-    //Appel API
-    private void jsonParse() {
-        String url = "https://???";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        JSONArray jsonArray = response.getJSONArray("queues");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject queue = jsonArray.getJSONObject(i);
-                            int totalInQueue = queue.getInt("totalInQueue");
-                            int nextNumberInQueue = queue.getInt("nextNumberInQueue");
-                            total_queue.append(totalInQueue + ", " + String.valueOf(nextNumberInQueue) + "\n\n");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> error.printStackTrace());
-        myQueue.add(request);
+        confirmBtn.setOnClickListener(this);
+        inviteBtn.setOnClickListener(this);
+        terminateBtn.setOnClickListener(this);
     }
     //Traitement des boutons
     @Override
@@ -97,7 +80,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 inviteClient();
                 break;
             case R.id.terminate_btn_id:
-                terminateService();
+                try {
+                    terminateSession();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -106,8 +93,41 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
     public void inviteClient() {
         Toast.makeText(this, "Un client suivent invité", Toast.LENGTH_SHORT).show();
+//        if(inviteBtn.isPressed() == true){
+//            chronometer--;
+//            totalQueue--;
+//        }
+//        else{
+//            Toast.makeText(this, "Il n'y a personne dans la file", Toast.LENGTH_SHORT).show();
+//        }
     }
-    public void terminateService() {
+    public void terminateSession() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+        close();
+    }
+    private void close() {
         Toast.makeText(this, "Service actuel terminé", Toast.LENGTH_SHORT).show();
+        if (terminateBtn.isPressed() == true) {
+            this.close();
+        }
+    }
+    //Call API
+    private void jsonParse() {
+        String url = "https://queueio.com/queue)";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("queues");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject queue = jsonArray.getJSONObject(i);
+                            int totalInQueue = queue.getInt("totalInQueue");
+                            int nextNumberInQueue = queue.getInt("nextNumberInQueue");
+                            totalQueue.append(totalInQueue + ", " + String.valueOf(nextNumberInQueue) + "\n\n");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> error.printStackTrace());
+        myQueue.add(request);
     }
 }

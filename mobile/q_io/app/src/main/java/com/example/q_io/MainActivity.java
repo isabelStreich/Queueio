@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(ctx, HomePageActivity.class);
 //            if (email.getText().toString().equals(user_email) && password.getText().toString().equals(user_password))
 //            {
-            startActivity(intent);
+                startActivity(intent);
 //            } else {
-//                SetValidation();
+//                setValidation();
 //            }
         });
     }
-    public void SetValidation() {
+    public void setValidation() {
         // Validation de courriel
         if (email.getText().toString().isEmpty()) {
             email.setError(getResources().getString(R.string.email_error));

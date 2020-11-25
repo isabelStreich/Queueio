@@ -103,6 +103,7 @@
                     android:layout_marginLeft="50dp"
                     android:background="@drawable/my_gradient"
                     android:text="Dans la file:"
+                    android:textColor="#636363"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -125,6 +126,7 @@
                 android:background="@drawable/my_gradient"
                 android:gravity="center_horizontal"
                 android:text="25"
+                android:textColor="#636363"
                 android:textAlignment="center"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -136,6 +138,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/my_gradient"
                 android:gravity="center_horizontal"
+                android:textColor="#636363"
                 android:text="11"
                 android:textAlignment="center"
                 android:textSize="18dp"
@@ -152,10 +155,8 @@
                 android:id="@+id/terminate_btn_id"
                 android:layout_width="270dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="20dp"
                 android:background="#4D03DAC5"
-                android:text="Terminer"
+                android:text="Terminer la session"
                 android:textColor="#E60808"
                 android:textStyle="bold" />
 
@@ -163,24 +164,24 @@
                 android:id="@+id/time_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="58dp"
                 android:gravity="center_horizontal"
                 android:text="11:00"
                 android:textAlignment="center"
                 android:background="#FFC107"
-                android:textColor="#f7f7f7"
+                android:textColor="#636363"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/date_id"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:background="#FFC107"
                 android:gravity="center_horizontal"
                 android:text="11 Décembre 2020"
                 android:textAlignment="center"
-                android:textColor="#f7f7f7"
+                android:textColor="#636363"
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
