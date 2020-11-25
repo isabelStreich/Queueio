@@ -37,6 +37,16 @@ const roleEmployee = (req, res) => {
     })
 }
 
+
+const login = (req, res) => {
+    const courriel = req.params.courriel
+    const mot_passe = req.params.mot_passe
+    manager.login.getData(courriel,mot_passe).then(result => {
+        sendData(res, result)
+    })
+}
+
+
 // const login = (req, res) => {
 //     const mail = req.params.courriel
 //     const pwd = req.params.mot_passe
@@ -56,7 +66,8 @@ module.exports = {
     commercesTous,
     commerceStat,
     commerceAvecFiltre,
-    roleEmployee
+    roleEmployee,
+    login
     // user
 
 }

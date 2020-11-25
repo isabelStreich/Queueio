@@ -14,10 +14,6 @@ GET http://localhost:3000/commercetest/filtreId/2
 ###
 GET http://localhost:3000/commercetest/stats/1
 ###
-PUT  http://localhost:3000/commercetest/updateC
-### 
-GET http://localhost:3000/test/2
-###
 
 GET http://localhost:3000/commercetest/user/2
 ###
@@ -28,4 +24,3 @@ GET http://localhost:3000/test/2
 POST http://localhost:3000/test/boutique/123 Victoria A1B 1C1/boutique@mail.com/toto123
 ###
 GET http://localhost:3000/test/login/iga@mail.com/123456
-
