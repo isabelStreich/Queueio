@@ -41,6 +41,47 @@ const login = class Login {
         })
     }
 }
+// (creation employee)
+//INSERT INTO public.employee(nom,courriel,mot_passe,id_commerce) VALUES ('mon employee', 'employe@mail.com', 'qwerty',3)
+const employecreation = class Employecreation {
+    static getData (nom,courriel,mot_passe,id_commerce) {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('INSERT INTO public.employee(nom,courriel,mot_passe,id_commerce) VALUES ($1, $2, $3,$4)', [nom,courriel,mot_passe,id_commerce], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+// (creation service)
+//INSERT INTO public.services (nom_service,duree_aprox) VALUES ('service pour hommes','10')
+
+const servicesCreation = class ServicesCreation {
+    static getData (nomService,dureeAprox) {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('INSERT INTO public.services (nom_service,duree_aprox) VALUES ($1, $2)', [nomService,dureeAprox], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+
+
 // const commerceInscription = class CommerceInscription {
 //     static addData (trackObject) {
 //         let pgJsonResult = null
@@ -71,5 +112,7 @@ const login = class Login {
 
 module.exports = {
     commerceInscription,
+    employecreation,
+    servicesCreation
    
 }

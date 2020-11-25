@@ -21,7 +21,28 @@ const login = (req, res) => {
     })
 }
 
+const employecreation = (req, res) => {
+    const nom = req.params.nom
+    const courriel = req.params.courriel
+    const mot_passe = req.params.mot_passe
+    const id_commerce = req.params.id_commerce
+    manager.employecreation.getData(nom,courriel,mot_passe,id_commerce).then(result => {
+        sendData(res, result)
+    })
+}
+
+const servicesCreation = (req, res) => {
+    const nomService = req.params.nom_service
+    const dureeAprox = req.params.duree_aprox
+    
+    manager.servicesCreation.getData(nomService,dureeAprox).then(result => {
+        sendData(res, result)
+    })
+}
+
 module.exports = {
     commerceInscription,
-    login
+    login,
+    employecreation,
+    servicesCreation
 }

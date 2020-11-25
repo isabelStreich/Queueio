@@ -45,6 +45,18 @@ const login = (req, res) => {
         sendData(res, result)
     })
 }
+const couleur = (req, res) => {
+    
+    manager.couleur.getData().then(result => {
+        sendData(res, result)
+    })
+}
+const filtre = (req, res) => {
+    
+    manager.filtre.getData().then(result => {
+        sendData(res, result)
+    })
+}
 
 
 // const login = (req, res) => {
@@ -67,7 +79,9 @@ module.exports = {
     commerceStat,
     commerceAvecFiltre,
     roleEmployee,
-    login
+    login,
+    couleur,
+    filtre
     // user
 
 }
