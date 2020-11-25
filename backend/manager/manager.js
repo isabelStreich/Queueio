@@ -37,6 +37,7 @@ const commercesTous = class CommercesTous {
 }
 
 //select *from commerce WHERE filtre_id =1
+//filtre des commerces
 const commerceFiltre = class CommerceFiltre {
     static getData(comerceFiltreID) {
         let pgJsonResult = null
@@ -54,6 +55,7 @@ const commerceFiltre = class CommerceFiltre {
         })
     }
 }
+//statistiques segun id
 const commerceStatistiques = class CommerceStatistiques {
     static getData (comerceStatique) {
         let pgJsonResult = null
@@ -71,7 +73,24 @@ const commerceStatistiques = class CommerceStatistiques {
         })
     }
 }
-
+//LOGIN:(session de login)
+const login = class Login {
+    static getData (courriel,mot_passe) {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * FROM public.commerce WHERE courriel = $1 AND mot_passe =$2', [courriel,mot_passe], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
  
 // const user=class UserFiltre{
 //     static getData(userFiltre){
@@ -134,6 +153,7 @@ module.exports = {
     commerce,
     commercesTous,
     commerceFiltre,
-    commerceStatistiques
+    commerceStatistiques,
+    login
 //    user
 }

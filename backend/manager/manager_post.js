@@ -23,7 +23,7 @@ const commerceInscription = class CommerceInscription {
 }
 
 
-
+//LOGIN:(session de login)
 const login = class Login {
     static getData (courriel,mot_passe) {
         let pgJsonResult = null
@@ -71,5 +71,5 @@ const login = class Login {
 
 module.exports = {
     commerceInscription,
-    login
+   
 }

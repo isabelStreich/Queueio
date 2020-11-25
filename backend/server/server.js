@@ -5,8 +5,8 @@ const socketIO = require('socket.io');
 const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
-const controler = require('./backend/controler/controler')
-const controler_post = require('./backend/controler/controler_post')
+const controler = require('../controler/controler')
+const controler_post = require('../controler/controler_post')
 
 const app=express()
 
