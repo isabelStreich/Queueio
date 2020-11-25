@@ -6,6 +6,7 @@ const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
 const controler = require('./backend/controler/controler')
+const controlerUpdate = require('./backend/controler/controleur_update')
 
 const app=express()
 
@@ -18,6 +19,12 @@ app.get('/commercetest/:commerce_id',controler.commercesss)
 app.get('/commercetest/filtreId/:filtre_id',controler.commerceAvecFiltre)
 app.get('/commercetest',controler.commercesTous)
 app.get('/commercetest/stats/:commerce_id',controler.commerceStat)
+
+app.put('/commercetest/updateC',controlerUpdate.updateCouleur)
+
+
+app.get('/test/:roleid',controler.user)
+
 
 app.get('/commerce',function(request,response){
     response.writeHead(HTTP_OK, {'Content-type':CONTENT_TYPE_HTML})
