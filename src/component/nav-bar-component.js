@@ -44,51 +44,9 @@ const NavBarComponent = ({ onSubmit, genres, buttons }) => (
                 </a>
 
             </div>
-
-            <div class='collapse navbar-collapse' id='navbarTogglerDemo03'>
-
-                <ul id='listNavbar' class='navbar-nav mr-auto mt-2 mt-sm-0'>
-
-                    {buttons.map((buttons, index) => renderLi(buttons, index))}
-
-                </ul>
-
-                <div id='divSelectPlaylist'>
-
-                    <div class='input-group'>
-
-                        <select class='custom-select' id='inputGroupSelect04'>
-
-                            <option selected value='-1'>choisir playlist</option>
-
-                            {genres.map((genre, index) => optionRender(genre, index))}
-
-                        </select>
-
-                        {/* <div class='input-group-append'>
-
-                            <button id='btnPlaylist' class='btn btn-outline-secondary' type='button'>Afficher</button>
-
-                        </div> */}
-
-                    </div>
-
-                </div>
-                {/* barre de recherche des commerces */}
-                <form onSubmit={onSubmit} id='formRecherche' class='form-inline my-2 my-xl-0'>
-
-
-                    <input id='barreRecherche' class='form-control mr-sm-2' type='search' placeholder='artist,album,titre...' aria-label='Search' />
-
-                    <button id='btnRecherche' class='btn btn-outline-success my-2 my-sm-0' type='submit'>Rechercher</button>
-
-                </form>
-
-            </div>
-
         </nav>
 
-    </div>
+    </div >
 
 )
 
