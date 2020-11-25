@@ -6,6 +6,7 @@ const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
 const controler = require('./backend/controler/controler')
+const controlerUpdate = require('./backend/controler/controleur_update')
 const controler_post = require('./backend/controler/controler_post')
 
 const app=express()
@@ -26,6 +27,12 @@ app.get('/test/login/:courriel/:mot_passe',controler.login)//Login
 // app.post('/commercetest/creation_commerce', tracksControleur.ajout)//creation commerce//Formulaire d'Inscription
 app.post('/test/:nom/:adresse/:courriel/:mot_passe',controler_post.commerceInscription)//inscription
 // app.post('/test/login/:courriel/:mot_passe',controler_post.login)//Login
+
+
+app.put('/commercetest/updateC',controlerUpdate.updateCouleur)
+
+
+app.get('/test/:roleid',controler.user)
 
 
 app.get('/commerce',function(request,response){
