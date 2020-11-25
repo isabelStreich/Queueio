@@ -7,6 +7,7 @@ function connect () {
         host: 'localhost',
         port: 5432,
         database: 'queueioDB',
+        // database: 'queueio',
         user: 'postgres',
         password: 'postgres'
     })

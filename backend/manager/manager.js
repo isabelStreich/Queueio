@@ -5,7 +5,7 @@ const commerce = class commerceSele {
         let pgJsonResult = null
         return new Promise(resolve => {
             dao.connect()
-            dao.query('SELECT * FROM commerce WHERE id = $1', [comerceID], (result) => {
+            dao.query('SELECT * FROM public.commerce WHERE id = $1', [comerceID], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
                 } else {
@@ -23,7 +23,7 @@ const commercesTous = class CommercesTous {
         let pgJsonResult = null
         return new Promise(resolve => {
             dao.connect()
-            dao.query('SELECT * FROM commerce', [], (result) => {
+            dao.query('SELECT * FROM public.commerce', [], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
                 } else {
@@ -42,7 +42,7 @@ const commerceFiltre = class CommerceFiltre {
         let pgJsonResult = null
         return new Promise(resolve => {
             dao.connect()
-            dao.query('SELECT * FROM commerce WHERE filtre_id = $1', [comerceFiltreID], (result) => {
+            dao.query('SELECT * FROM public.commerce_config WHERE filtre_id = $1', [comerceFiltreID], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
                 } else {
@@ -59,7 +59,7 @@ const commerceStatistiques = class CommerceStatistiques {
         let pgJsonResult = null
         return new Promise(resolve => {
             dao.connect()
-            dao.query('select *from statistiques WHERE id = $1', [comerceStatique], (result) => {
+            dao.query('SELECT * FROM statistique WHERE id = $1', [comerceStatique], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
                 } else {
@@ -72,9 +72,68 @@ const commerceStatistiques = class CommerceStatistiques {
     }
 }
 
+ 
+// const user=class UserFiltre{
+//     static getData(userFiltre){
+//         let pgJsonResult = null
+//         return new Promise(resolve => {
+//             dao.connect()
+//             dao.query('SELECT * FROM public.user WHERE role_id = $1', [userFiltre], (result) => {
+//                 if (result.rowCount > 0) {
+//                     pgJsonResult = result.rows
+//                 } else {
+//                     pgJsonResult = []
+//                 }
+//                 resolve(pgJsonResult)
+//                 dao.disconnect()
+//             })
+//         })
+//     }
+// }
+
+// // SELECT * FROM public."user"
+// // where role_id =2
+// const userRole = class UserRole {
+//     static getData (employeRole2) {
+//         let pgJsonResult = null
+//         return new Promise(resolve => {
+//             dao.connect()
+//             dao.query('SELECT * FROM user WHERE role_id = $1', [employeRole2], (result) => {
+//                 if (result.rowCount > 0) {
+//                     pgJsonResult = result.rows
+//                 } else {
+//                     pgJsonResult = []
+//                 }
+//                 resolve(pgJsonResult)
+//                 dao.disconnect()
+//             })
+//         })
+//     }
+// }
+
+// // SELECT 	* FROM 	public.user WHERE courriel = 'employee@gmail.com' AND mot_passe = 'abc123'
+// const loginUser = class LoginUser {
+//     static getData (mail,pwd) {
+//         let pgJsonResult = null
+//         return new Promise(resolve => {
+//             dao.connect()
+//             dao.query('SELECT * FROM user WHERE courriel = $1 AND mot_passe =$2', [mail,pwd], (result) => {
+//                 if (result.rowCount > 0) {
+//                     pgJsonResult = result.rows
+//                 } else {
+//                     pgJsonResult = []
+//                 }
+//                 resolve(pgJsonResult)
+//                 dao.disconnect()
+//             })
+//         })
+//     }
+// }
+
 module.exports = {
     commerce,
     commercesTous,
     commerceFiltre,
     commerceStatistiques
+//    user
 }
