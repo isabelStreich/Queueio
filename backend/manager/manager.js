@@ -91,7 +91,42 @@ const login = class Login {
         })
     }
 }
- 
+ //get  tous les couleurs 
+const couleur = class Couleur {
+    static getData () {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * FROM public.couleur', [], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+//get all filtre
+const filtre = class Filtre {
+    static getData () {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * FROM public.filtre', [], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
 // const user=class UserFiltre{
 //     static getData(userFiltre){
 //         let pgJsonResult = null
@@ -154,6 +189,8 @@ module.exports = {
     commercesTous,
     commerceFiltre,
     commerceStatistiques,
-    login
+    login,
+    couleur,
+    filtre
 //    user
 }
