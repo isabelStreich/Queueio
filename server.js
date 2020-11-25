@@ -40,6 +40,8 @@ app.put('/commercetest/updateC',controlerUpdate.updateCouleur)
 
 
 // app.get('/test/:roleid',controler.user)
+app.put('/update/horaire/:ouvertureSem,:fermetureSem,:ouvertureFinSem,:fermetureFinSem,:id',controlerUpdate.updateOuverture)
+app.put('/update/commerce/:nom,:adress,:courriel,:mot_passe,:id',controlerUpdate.updateCommerce)
 
 
 app.get('/commerce',function(request,response){

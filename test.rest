@@ -29,6 +29,9 @@ POST http://localhost:3000/test/sportExpert/123 Ste Catherine A1B 1C1/sportExper
 ###
 GET http://localhost:3000/test/login/iga@mail.com/123456
 ###
+PUT http://localhost:3000/update/horaire/9,22,10,20,1
+###
+PUT http://localhost:3000/update/commerce/IGA_test,test,iga@test.com,654321,2
 GET http://localhost:3000/test/couleur
 ###
 GET http://localhost:3000/test/filtre
