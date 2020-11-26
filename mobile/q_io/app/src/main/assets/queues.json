@@ -1,7 +1,13 @@
 {
-  "id": "1",
-  "commerce_id": 1234,
-  "role_id": 2,
-  "email": "toto@test.com",
-  "pwd": "123456"
+  "queues": [
+    {
+      "id": "1",
+      "commerce_id": "commerce_id",
+      "password": "password",
+      "email": "aaa@gmail.com",
+      "current_number": "40",
+      "totalInQueue": "3",
+      "date": "23/11/2020"
+    }
+  ]
 }

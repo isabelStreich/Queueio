@@ -6,10 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -32,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
         String user_email = "maria@gmail.com";
         String user_password = "maria";
         loginBtn = findViewById(R.id.login_btn_id);
-        // Passer à la page (terminal) d'employé
-        loginBtn.setOnClickListener(v -> {
+        loginBtn.setOnClickListener(v ->
+        {
             Intent intent = new Intent(ctx, HomePageActivity.class);
 //            if (email.getText().toString().equals(user_email) && password.getText().toString().equals(user_password))
 //            {
-                startActivity(intent);
+            startActivity(intent);
 //            } else {
 //                setValidation();
 //            }

@@ -164,7 +164,7 @@
                 android:id="@+id/time_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="58dp"
+                android:layout_marginTop="61dp"
                 android:gravity="center_horizontal"
                 android:text="11:00"
                 android:textAlignment="center"

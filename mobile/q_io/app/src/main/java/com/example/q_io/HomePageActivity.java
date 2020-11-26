@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +64,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         time.setText(currentTime);
         myQueue = Volley.newRequestQueue(this);
-        inviteBtn.setOnClickListener(v -> jsonParse());
+//        inviteBtn.setOnClickListener(v -> jsonParse());
         //Définir des boutons
         confirmBtn.setOnClickListener(this);
         inviteBtn.setOnClickListener(this);
@@ -93,13 +94,19 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
     public void inviteClient() {
         Toast.makeText(this, "Un client suivent invité", Toast.LENGTH_SHORT).show();
-//        if(inviteBtn.isPressed() == true){
+        if(inviteBtn.isPressed() == true){
+            inviteBtn.setOnClickListener(v ->
+            {
+                Intent intent = new Intent(ctx, RecyclerView.class);
+                startActivity(intent);
+            });
+
 //            chronometer--;
 //            totalQueue--;
 //        }
 //        else{
 //            Toast.makeText(this, "Il n'y a personne dans la file", Toast.LENGTH_SHORT).show();
-//        }
+        }
     }
     public void terminateSession() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
@@ -112,22 +119,22 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         }
     }
     //Call API
-    private void jsonParse() {
-        String url = "https://queueio.com/queue)";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        JSONArray jsonArray = response.getJSONArray("queues");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject queue = jsonArray.getJSONObject(i);
-                            int totalInQueue = queue.getInt("totalInQueue");
-                            int nextNumberInQueue = queue.getInt("nextNumberInQueue");
-                            totalQueue.append(totalInQueue + ", " + String.valueOf(nextNumberInQueue) + "\n\n");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> error.printStackTrace());
-        myQueue.add(request);
-    }
+//    private void jsonParse() {
+//        String url = "https://queueio.com/queue)";
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+//                response -> {
+//                    try {
+//                        JSONArray jsonArray = response.getJSONArray("queues");
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject queue = jsonArray.getJSONObject(i);
+//                            int totalInQueue = queue.getInt("totalInQueue");
+//                            int nextNumberInQueue = queue.getInt("nextNumberInQueue");
+//                            totalQueue.append(totalInQueue + ", " + String.valueOf(nextNumberInQueue) + "\n\n");
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }, error -> error.printStackTrace());
+//        myQueue.add(request);
+//    }
 }
