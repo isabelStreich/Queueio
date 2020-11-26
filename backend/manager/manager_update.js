@@ -54,8 +54,68 @@ const updateCommerce=class UpdateCommerce{
     }
 }
 
+// UPDATE public.commerce_config set filtre_id=1, logo='monimage.img', couleur_id='2',nb_minutes_retard='1', temps_moyen_clients ='15' where id=1
+const updateCommerceConfig=class UpdateCommerceConfig{
+    static getData(filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,id){
+        let pgJsonResult=null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('UPDATE public.commerce_config set filtre_id=$1, logo=$2, couleur_id=$3,nb_minutes_retard=$4, temps_moyen_clients =$5 where id= $6', [filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,id], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+
+// Updateemployee
+// UPDATE public.employee set nom='seul employe', courriel='seulEmployee@mail.com', mot_passe='qwerty' where id= 4
+const updateemployee=class Updateemployee{
+    static getData(nom,courriel,motPasse,id){
+        let pgJsonResult=null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('UPDATE public.employee set nom=$1, courriel=$2, mot_passe=$3 where id= $4', [nom,courriel,motPasse,id], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+// 
+//UPDATE public.services set nom_service='ns/nc', duree_aprox='0' where id= 1
+const updateService=class UpdateService{
+    static getData(nomService,dureeAprox,id){
+        let pgJsonResult=null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('UPDATE public.services set nom_service=$1, duree_aprox=$2 where id= $3', [nomService,dureeAprox,id], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
 module.exports = {
     updateCouleur,
     updateHoraire,
-    updateCommerce
+    updateCommerce,
+    updateCommerceConfig,
+    updateemployee,
+    updateService
 }

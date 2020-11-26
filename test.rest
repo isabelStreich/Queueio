@@ -32,6 +32,7 @@ GET http://localhost:3000/test/login/iga@mail.com/123456
 PUT http://localhost:3000/update/horaire/9,22,10,20,1
 ###
 PUT http://localhost:3000/update/commerce/IGA_test,test,iga@test.com,654321,2
+###
 GET http://localhost:3000/test/couleur
 ###
 GET http://localhost:3000/test/filtre
@@ -40,4 +41,12 @@ GET http://localhost:3000/test/filtre
 POST http://localhost:3000/test/employecreation/employee3/employee3@mail.com/qwerty2/3
 ###
 POST http://localhost:3000/test/servicesCreation/service femmes/15
+###
+
+PUT http://localhost:3000/update/updateCommerceConfig/1,superlogo,1,2,25,3
+###
+
+PUT http://localhost:3000/update/updateemployee/test,test@mail.com,456789,4
+###
+PUT http://localhost:3000/update/updateService/service unique,0,1
 ###
