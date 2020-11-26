@@ -81,21 +81,21 @@ const PageInscriptionComponent = () => (
                         </div>
                     </fieldset>
 
-                    <div>
+                    {/* <div>
                         <input type="submit" value="Soumettre" />
                     </div>
 
                     <div>
                         <input type="submit" value="Quitter" />
+                    </div> */}
+                    <div id='divBtnJoin'>
+                        <Button id='btnJoin1' variant='outlined'>Soumettre</Button>
+                        <Button id='btnJoin2' variant='outlined'>S'inscrire</Button>
                     </div>
-
                 </form>
             </div>
 
-            <div id='divBtnJoin'>
-                <Button id='btnJoin1' variant='outlined'>Soumettre</Button>
-                <Button id='btnJoin2' variant='outlined'>S'inscrire</Button>
-            </div>
+
 
         </div>
     </div>

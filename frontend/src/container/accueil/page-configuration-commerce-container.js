@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 
-import PageInscriptionComponent from '../../component/page-inscription-commercant-component'
+import PageConfigurationComponent from '../../component/page-configuration-commerce-component'
 import NavBarComponent from '../../component/nav-bar-component'
 
 class PageInscriptionContainer extends Component {
@@ -20,19 +20,26 @@ class PageInscriptionContainer extends Component {
 
     render() {
         const BUTTONS = [{
-            label: 'Acceuil',
+            label: 'Changer le logo',
+            onClick: this.hadelOnclick
+        },
+        {
+            label: 'Configuration de profil',
             onClick: this.hadelOnclick
         }, {
-            label: 'Commerces',
+            label: 'statistiques',
+            onClick: this.hadelOnclick
+        },
+        {
+            label: 'Employes',
             onClick: this.hadelOnclick
         }
         ]
         return (
 
             <div>
-                <PageInscriptionComponent />
+                <PageConfigurationComponent />
             </div>
-
         )
     }
 }
