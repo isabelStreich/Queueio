@@ -45,6 +45,8 @@ app.put('/update/commerce/:nom,:adress,:courriel,:mot_passe,:id',controlerUpdate
 app.put('/update/updateCommerceConfig/:filtre_id,:logo,:couleur_id,:nb_minutes_retard,:temps_moyen_clients,:id',controlerUpdate.updateCommerceConfig)
 app.put('/update/updateemployee/:nom,:courriel,:mot_passe,:id',controlerUpdate.updateemployee)
 app.put('/update/updateService/:nom_service,:duree_aprox,:id',controlerUpdate.updateService)
+app.put('/update/updateStatistique/:nb_client_jour,:nb_client_mois,:nb_client_annee,:temp_moyen_attendre,:temp_moyen_client_commerce,:id',controlerUpdate.updateStatistique)
+
 
 
 app.get('/commerce',function(request,response){

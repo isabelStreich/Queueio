@@ -50,3 +50,5 @@ PUT http://localhost:3000/update/updateemployee/test,test@mail.com,456789,4
 ###
 PUT http://localhost:3000/update/updateService/service unique,0,1
 ###
+PUT http://localhost:3000/update/updateStatistique/3,30,536,60,50,2
+###

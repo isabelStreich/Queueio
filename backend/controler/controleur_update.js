@@ -60,6 +60,30 @@ const updateService=(req,res)=>{
         sendData(res,result)
     })
 }
+const updateStatistique=(req,res)=>{
+    const nbClientJour=req.params.nb_client_jour
+    const nbClientMois=req.params.nb_client_mois
+    const nbClientAnnee=req.params.nb_client_annee
+    const tempMoyenAttendre=req.params.temp_moyen_attendre
+    const tempMoyenClientCommerce=req.params.temp_moyen_client_commerce
+    const id=req.params.id
+    manager_update.updateStatistique.getData(nbClientJour,nbClientMois,nbClientAnnee,tempMoyenAttendre,tempMoyenClientCommerce,id).then(result=>{
+        sendData(res,result)
+    })
+}
+// ******************************************************
+// ******************************************************
+// ******************************************************
+// ******************************************************
+// ******************************************************
+// ******************************************************
+const deleteCommerce=(req,res)=>{
+    
+    const id=req.params.id
+    manager_update.deleteCommerce.getData(id).then(result=>{
+        sendData(res,result)
+    })
+}
 
 module.exports = {
     updateCouleur,
@@ -67,5 +91,7 @@ module.exports = {
     updateCommerce,
     updateCommerceConfig,
     updateemployee,
-    updateService
+    updateService,
+    updateStatistique,
+    deleteCommerce
 }
