@@ -42,6 +42,9 @@ app.put('/commercetest/updateC',controlerUpdate.updateCouleur)
 // app.get('/test/:roleid',controler.user)
 app.put('/update/horaire/:ouvertureSem,:fermetureSem,:ouvertureFinSem,:fermetureFinSem,:id',controlerUpdate.updateOuverture)
 app.put('/update/commerce/:nom,:adress,:courriel,:mot_passe,:id',controlerUpdate.updateCommerce)
+app.put('/update/updateCommerceConfig/:filtre_id,:logo,:couleur_id,:nb_minutes_retard,:temps_moyen_clients,:id',controlerUpdate.updateCommerceConfig)
+app.put('/update/updateemployee/:nom,:courriel,:mot_passe,:id',controlerUpdate.updateemployee)
+app.put('/update/updateService/:nom_service,:duree_aprox,:id',controlerUpdate.updateService)
 
 
 app.get('/commerce',function(request,response){
