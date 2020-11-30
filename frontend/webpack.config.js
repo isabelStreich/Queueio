@@ -23,6 +23,10 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: [{ loader: "html-loader", options: { minimize: false } }]
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -31,16 +35,7 @@ module.exports = {
             template: "src/index.html",
             filename: "./index.html"
         })
-    ],
-
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }
-        ]
-    }
+    ]
 
 
 };

@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const { response } = require('express')
 
 const app = express()
-
+app.use(express.static('dist'));
 const PORT = 3000
 const HTTP_OK = 200
 const CONTENT_TYPE_JSON = 'application/json'

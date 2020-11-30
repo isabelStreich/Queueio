@@ -1,4 +1,5 @@
 import React, { Component } from 'react' // importer li
+import LoginContainer from './accueil/page-login-container'
 
 
 class App extends Component { // composant container qui est le formualaire 'Contenant'
@@ -12,8 +13,8 @@ class App extends Component { // composant container qui est le formualaire 'Con
     render() {
         return (
             <div>
-                hello
 
+                <LoginContainer />
 
             </div>
         )

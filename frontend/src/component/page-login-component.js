@@ -1,49 +1,49 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
 
-const LoginComponent = () => (
-    <div className=''>
+const LoginComponent = ({ emailRef, passwordRef, handleSubmit, handleChange, errors }) => {
+    return (
 
+        <div classNameName=''>
+            <div id='divTextMarketing'>
 
-        <div id='divTextMarketing'>
-            <div id='divText1' href='#'>
+                <div id='divText1' href='#'>
 
-                <p>Bienvenu</p>
+                    <p>Bienvenu</p>
 
-            </div>
-            <div id='divFormulaire'>
-                <form action='login.html'>
+                </div>
+                <div className='wrapper'>
+                    <div className='form-wrapper'>
+                        <div id='divFormulaire'>
+                            <form onSubmit={handleSubmit}>
+                                <div className='email'>
+                                    <label htmlFor="email">Email</label>
+                                    <input ref={emailRef} type='email' name='email' onChange={handleChange} placeholder="Enter email" />
+                                    {errors.email.length > 0 &&
+                                        <span className='error'>{errors.email}</span>}
+                                </div>
+                                <div className='password'>
+                                    <label htmlFor="password">Password</label>
+                                    <input ref={passwordRef} type='password' name='password' onChange={handleChange} placeholder="Enter password" />
+                                    {errors.password.length > 0 &&
+                                        <span className='error'>{errors.password}</span>}
+                                </div>
+                                <div className='submit'>
+                                    <button>Soumettre</button>
+                                </div>
+                                <div className='inscription'>
+                                    <button>S'inscrire</button>
+                                </div>
 
-                    <fieldset>
-                        <legend>Se connecter</legend>
-                        <div>
-                            <label for='Courriel'>Courriel</label>
-                            <input
-                                type='text' id='Courriel' placeholder='Courriel' name='Courriel' required='required'
-                                maxlength='50' autofocus
-                            />
+                            </form>
                         </div>
+                    </div>
+                </div>
 
-                        <div>
-                            <label for='firstName'>Mot de passe </label>
-                            <input
-                                type='text' id='password' name='password' placeholder='Mot de passe' required='required'
-                                maxlength='50'
-                            />
-                        </div>
-                    </fieldset>
-
-                </form>
             </div>
-
-            <div id='divBtnJoin'>
-                <Button id='btnJoin1' variant='outlined'>Soumettre</Button>
-                <Button id='btnJoin2' variant='outlined'>S'inscrire</Button>
-            </div>
-
         </div>
-    </div>
 
-)
+    )
+}
 
 export default LoginComponent
