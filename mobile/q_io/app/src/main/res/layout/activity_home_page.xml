@@ -52,6 +52,7 @@
                     android:layout_width="142dp"
                     android:layout_height="60dp"
                     android:text="Bienvenue Maria!"
+                    android:gravity="center"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
@@ -61,7 +62,7 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="70dp"
                     android:background="@drawable/my_gradient"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:text="Temps d'attente du client"
                     android:textColor="#636363"
                     android:textSize="20dp"
@@ -72,9 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:background="@drawable/my_gradient"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textColor="#E60808"
+                    android:gravity="center"
+                    android:textColor="#ff0000"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -84,9 +84,9 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="26dp"
                     android:background="#4DFFC107"
-                    android:text="Confirmer si le client est arrivé"
-                    android:textColor="#8d5524"
-                    android:textSize="15dp"
+                    android:text="Confirmer la présence du client"
+                    android:textColor="#636363"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -97,13 +97,13 @@
 
                 <TextView
                     android:layout_width="112dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="7dp"
-                    android:gravity="center_horizontal"
                     android:background="@drawable/my_gradient"
+                    android:gravity="center"
                     android:text="Dans la file:"
                     android:textColor="#636363"
-                    android:textSize="20dp"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -111,13 +111,12 @@
                     android:layout_width="112dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
-                    android:layout_marginTop="5dp"
                     android:background="@drawable/my_gradient"
                     android:gravity="center_horizontal"
                     android:text="25"
                     android:textAlignment="center"
                     android:textColor="#636363"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <Button
@@ -126,12 +125,20 @@
                     android:layout_height="304dp"
                     android:layout_below="@+id/output"
                     android:layout_marginLeft="7dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="40dp"
                     android:background="#4DFFFFFF"
-                    android:textSize="17dp"
                     android:text="Inviter client"
-                    android:textColor="#008744"
+                    android:textColor="#008000"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
+                <ProgressBar
+                    android:layout_weight="1"
+                    android:id="@+id/progressBar_cyclic"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:minWidth="40dp" />
 
             </LinearLayout>
 
@@ -143,39 +150,38 @@
 
                 <TextView
                     android:layout_width="115dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/my_gradient"
-                    android:gravity="center_horizontal"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="7dp"
-                    android:text="Suivent:"
+                    android:background="@drawable/my_gradient"
+                    android:gravity="center"
+                    android:text="№ suivent:"
                     android:textColor="#636363"
-                    android:textSize="20dp"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/list_queue_id"
                     android:layout_width="115dp"
-                    android:layout_marginLeft="7dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
                     android:gravity="center_horizontal"
                     android:text="11"
                     android:textAlignment="center"
                     android:textColor="#636363"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/terminate_btn_id"
                     android:layout_width="115dp"
                     android:layout_height="304dp"
-                    android:layout_marginTop="30dp"
-                    android:background="#3203DAC5"
                     android:layout_marginLeft="7dp"
-                    android:text="Terminer service"
-                    android:textColor="#E60808"
-                    android:textSize="14dp"
+                    android:layout_marginTop="40dp"
+                    android:background="#3203DAC5"
+                    android:text="Mettre fin au service actuel"
+                    android:textColor="#bf0000"
+                    android:textSize="13dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -194,8 +200,9 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="30dp"
                 android:background="#3203DAC5"
+                android:gravity="center"
                 android:text="Déconnection"
-                android:textColor="#E60808"
+                android:textColor="#bf0000"
                 android:textSize="17dp"
                 android:textStyle="bold" />
 

@@ -1,7 +1,9 @@
 package com.example.q_io;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,20 +72,20 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 //        myQueue = Volley.newRequestQueue(this);
 //        inviteBtn.setOnClickListener(v -> jsonParse());
         //Définir des boutons
-        confirmBtn.setOnClickListener(this);
-        confirmBtn.setOnClickListener(v -> confirmPresence());
-//        confirmBtn.cancel();
-        //        inviteBtn.setOnClickListener(this);
+//        confirmBtn.setOnClickListener(this);
+//        confirmBtn.setOnClickListener(v -> confirmPresence());
+//        inviteBtn.setOnClickListener(this);
         terminateServiceBtn.setOnClickListener(this);
         deconnectionBtn.setOnClickListener(this);
-        inviteBtn.setOnClickListener(v -> {
-            inviteBtn.setOnClickListener(v1 -> inviteClient());
-            new CountDownTimer(30000, 1000) {
+        inviteBtn.setOnClickListener(v1 -> {
+            new CountDownTimer(10000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     chronometer.setText(millisUntilFinished / 1000 + "");
+                    inviteBtn.setEnabled(false);
+                    inviteBtn.setText("...");
                     if (confirmBtn.isPressed() == true) {
                         cancel();
-                        chronometer.setText("");
+                        chronometer.setText("Client servi !");
                     }
                 }
                 public void onFinish() {
@@ -91,6 +93,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 }
             }.start();
         });
+//        inviteBtn.setOnClickListener(v1 -> inviteClient());
     }
     //Traitement des boutons
     @Override
@@ -106,51 +109,38 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 terminateService();
                 break;
             case R.id.deconnection_btn_id:
-                try {
-                    deconnection();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                deconnection();
                 break;
         }
     }
     public void confirmPresence() {
-//        Toast.makeText(this, "Présence du client confirmée", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Client servi", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Présence du client confirmée", Toast.LENGTH_SHORT).show();
     }
     public void inviteClient() {
         Toast.makeText(this, "Un client suivent invité", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ctx, RecyclerView.class);
         startActivity(intent);
     }
-    //        if(inviteBtn.isPressed() == true){
-//            inviteBtn.setOnClickListener(v ->
-//            {
-//                Intent intent = new Intent(ctx, MainActivity.class);
-//                startActivity(intent);
-//            });
-//            chronometer--;
-//            totalQueue--;
-//        }
-//        else{
-//        Toast.makeText(this,"Il n'y a personne dans la file",Toast.LENGTH_SHORT).
-//    show();
-//        }
-//}
+    //        Toast.makeText(this,"Il n'y a personne dans la file",Toast.LENGTH_SHORT).show();
     public void terminateService() {
-        Toast.makeText(this, "Un service terminé", Toast.LENGTH_SHORT).show();
+//        inviteBtn.setEnabled(false);
+        Intent intent = new Intent(ctx, HomePageActivity.class);
+        startActivity(intent);
+//        Toast.makeText(this, "Un service terminé", Toast.LENGTH_SHORT).show();
     }
-    public void deconnection() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(1);
+    public void deconnection() {
         close();
     }
-    private void close() {
-        Toast.makeText(this, "Déconnection", Toast.LENGTH_SHORT).show();
-        if (deconnectionBtn.isPressed() == true) {
-            this.close();
-        }
+    public void close() {
+        deconnectionBtn.setOnClickListener(v -> {
+            if (deconnectionBtn.isPressed() == true) {
+                this.close();
+                //            Intent intent = new Intent(ctx, MainActivity.class);
+//            startActivity(intent);
+            }
+        });
     }
-    //Call API
+//Call API
 //    private void jsonParse() {
 //        String url = "https://queueio.com/queue)";
 //        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
