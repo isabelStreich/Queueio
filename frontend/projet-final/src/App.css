@@ -1,0 +1,43 @@
+.form-inline{
+  justify-content:center;
+}
+
+#rechercheCommerce{
+  flex: 5;
+}
+
+#input-recherche{
+  flex:1;
+}
+#btn-recherche{
+  flex: 1;
+  margin: 0px 30px;
+}
+
+.liste-commerces{
+  text-align: center;
+  margin: 15px;
+}
+
+#carte-commerce{
+  max-width: 35rem;
+  
+}
+
+.card-header{
+  font-size: 2rem;
+}
+
+.conteneur-commerces{
+  display: flex;
+}
+
+.conteneur-commerces div{
+  margin: 10px;
+  flex: 1;
+}
+
+#filtre-commerce{
+  width: 25%;
+  background-color: #5cd28e36 !important;
+}
