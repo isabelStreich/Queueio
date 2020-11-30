@@ -7,6 +7,6 @@ public class ConnectionDb {
     public static SQLiteDatabase getBd(Context context) {
         return null;
     }
-//    pgsqlcon pgcon = new pgsqlcon();
-//    pgcon.execute();
+    Postgresqlcon postgresqlcon = new Postgresqlcon();
+//    postgresqlcon.execute();
 }

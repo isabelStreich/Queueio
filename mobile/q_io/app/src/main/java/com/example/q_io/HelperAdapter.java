@@ -30,7 +30,7 @@ public class HelperAdapter extends RecyclerView.Adapter<HelperAdapter.MyViewClas
     @NonNull
     @Override
     public MyViewClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_json_test_layout, parent, false);
         MyViewClass myViewClass = new MyViewClass(view);
         return myViewClass;
     }
@@ -61,9 +61,8 @@ public class HelperAdapter extends RecyclerView.Adapter<HelperAdapter.MyViewClas
             password = (TextView) itemView.findViewById(R.id.password_id);
             email = (TextView) itemView.findViewById(R.id.email);
             current_number = (TextView) itemView.findViewById(R.id.current_number_id);
-            date = (TextView) itemView.findViewById(R.id.date_id);
+            date = (TextView) itemView.findViewById(R.id.date_app_id);
             totalInQueue = (TextView) itemView.findViewById(R.id.total_in_queue_id);
         }
     }
 }
-
