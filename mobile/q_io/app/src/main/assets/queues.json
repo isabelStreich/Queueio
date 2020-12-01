@@ -2,7 +2,8 @@
   "queues": [
     {
       "id": "1",
-      "commerce_id": "commerce_id",
+      "commerce_id": "Banque royale du Canada",
+      "company_logo_id": "logo_rbc.JPG",
       "password": "password",
       "email": "aaa@gmail.com",
       "current_number": "40",

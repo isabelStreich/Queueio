@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +36,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     Context ctx;
     private ImageView companyLogo;
     private TextView companyName;
-    private TextView totalQueue;
+    private TextView totalInQueue;
     private TextView listQueue;
     private TextView currentNumber;
     private TextView chronometer;
@@ -50,10 +52,10 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         ctx = this;
-//        companyLogo = (ImageView) findViewById(R.id.company_logo_id);
-//        companyName = (TextView) findViewById(R.id.company_name_id);
-//        totalQueue = (TextView) findViewById(R.id.total_queue_id);
-//        currentNumber = (TextView) findViewById(R.current_number_id);
+        companyLogo = (ImageView) findViewById(R.id.company_logo_id);
+        companyName = (TextView) findViewById(R.id.company_name_id);
+        totalInQueue = (TextView) findViewById(R.id.total_queue_id);
+        currentNumber = (TextView) findViewById(R.id.current_number_id);
 //        listQueue = (TextView) findViewById(R.id.list_queue_id);
         chronometer = (TextView) findViewById(R.id.chronometer_id);
         Button confirmBtn = (Button) findViewById(R.id.confirm_btn_id);
@@ -61,6 +63,23 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button terminateServiceBtn = (Button) findViewById(R.id.terminate_btn_id);
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         //Définir la date actuelle
+        try {
+            JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
+            JSONArray jsonArray = jsonObject.getJSONArray("queues");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject userData = jsonArray.getJSONObject(i);
+                //.add(userData.getString("commerce_id"));
+                companyName.setText(userData.getString("commerce_id"));
+                companyLogo.setImageResource(R.drawable.logo_rbc);
+//                password.setText(userData.getString("password"));
+//                email.add(userData.getString("email"));
+                currentNumber.setText(userData.getString("current_number"));
+//                date.add(userData.getString("date"));
+                totalInQueue.setText(userData.getString("totalInQueue"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         dateApp = (TextView) findViewById(R.id.date_app_id);
@@ -72,9 +91,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 //        myQueue = Volley.newRequestQueue(this);
 //        inviteBtn.setOnClickListener(v -> jsonParse());
         //Définir des boutons
-//        confirmBtn.setOnClickListener(this);
-//        confirmBtn.setOnClickListener(v -> confirmPresence());
-//        inviteBtn.setOnClickListener(this);
         terminateServiceBtn.setOnClickListener(this);
         deconnectionBtn.setOnClickListener(this);
         inviteBtn.setOnClickListener(v1 -> {
@@ -82,7 +98,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 public void onTick(long millisUntilFinished) {
                     chronometer.setText(millisUntilFinished / 1000 + "");
                     inviteBtn.setEnabled(false);
-                    inviteBtn.setText("...");
+                    inviteBtn.setText("Attendre client ...");
                     if (confirmBtn.isPressed() == true) {
                         cancel();
                         chronometer.setText("Client servi !");
@@ -93,7 +109,21 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 }
             }.start();
         });
-//        inviteBtn.setOnClickListener(v1 -> inviteClient());
+    }
+    private String JsonDataFromAsset() {
+        String json = null;
+        try {
+            InputStream inputStream = getAssets().open("queues.json");
+            int sizeOfFile = inputStream.available();
+            byte[] bufferData = new byte[sizeOfFile];
+            inputStream.read(bufferData);
+            inputStream.close();
+            json = new String(bufferData, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return json;
     }
     //Traitement des boutons
     @Override
@@ -102,47 +132,49 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             case R.id.confirm_btn_id:
                 confirmPresence();
                 break;
-            case R.id.invite_btn_id:
-                inviteClient();
-                break;
+//            case R.id.invite_btn_id:
+//                inviteClient();
+//                break;
             case R.id.terminate_btn_id:
                 terminateService();
                 break;
             case R.id.deconnection_btn_id:
-                deconnection();
+                try {
+                    deconnection();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
     public void confirmPresence() {
         Toast.makeText(this, "Présence du client confirmée", Toast.LENGTH_SHORT).show();
     }
-    public void inviteClient() {
-        Toast.makeText(this, "Un client suivent invité", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(ctx, RecyclerView.class);
-        startActivity(intent);
-    }
-    //        Toast.makeText(this,"Il n'y a personne dans la file",Toast.LENGTH_SHORT).show();
     public void terminateService() {
 //        inviteBtn.setEnabled(false);
         Intent intent = new Intent(ctx, HomePageActivity.class);
         startActivity(intent);
-//        Toast.makeText(this, "Un service terminé", Toast.LENGTH_SHORT).show();
     }
-    public void deconnection() {
+    //    public void close() {
+//        deconnectionBtn.setOnClickListener(v -> {
+////            this.close();
+//            Intent intent = new Intent(ctx, MainActivity.class);
+//            startActivity(intent);
+//        });
+//    }
+    public void deconnection() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
         close();
     }
-    public void close() {
-        deconnectionBtn.setOnClickListener(v -> {
-            if (deconnectionBtn.isPressed() == true) {
-                this.close();
-                //            Intent intent = new Intent(ctx, MainActivity.class);
-//            startActivity(intent);
-            }
-        });
+    private void close() {
+//        Toast.makeText(this, "Déconnection", Toast.LENGTH_SHORT).show();
+        if (deconnectionBtn.isPressed() == true) {
+            this.close();
+        }
     }
 //Call API
 //    private void jsonParse() {
-//        String url = "https://queueio.com/queue)";
+//        String url = "https://queueio.com/queue";
 //        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
 //                response -> {
 //                    try {

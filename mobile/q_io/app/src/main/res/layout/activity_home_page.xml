@@ -10,27 +10,26 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:background="#f0f7da">
 
         <LinearLayout
             android:layout_width="250dp"
             android:layout_height="100dp"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/company_logo_id"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="10dp"
                 app:srcCompat="@drawable/logo_com" />
 
             <TextView
                 android:id="@+id/company_name_id"
-                android:layout_width="170dp"
+                android:layout_width="145dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="10dp"
-                android:text="Nom du commerçant"
+                android:text="TEST. Nom du commerçant"
                 android:textSize="22dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -60,7 +59,7 @@
                     android:id="@+id/temps_text_id"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="80dp"
                     android:background="@drawable/my_gradient"
                     android:gravity="center"
                     android:text="Temps d'attente du client"
@@ -113,7 +112,6 @@
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
                     android:gravity="center_horizontal"
-                    android:text="25"
                     android:textAlignment="center"
                     android:textColor="#636363"
                     android:textSize="20dp"
@@ -125,11 +123,11 @@
                     android:layout_height="304dp"
                     android:layout_below="@+id/output"
                     android:layout_marginLeft="7dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="50dp"
                     android:background="#4DFFFFFF"
                     android:text="Inviter client"
                     android:textColor="#008000"
-                    android:textSize="17dp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
                 <ProgressBar
                     android:layout_weight="1"
@@ -160,13 +158,12 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/list_queue_id"
+                    android:id="@+id/current_number_id"
                     android:layout_width="115dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
                     android:gravity="center_horizontal"
-                    android:text="11"
                     android:textAlignment="center"
                     android:textColor="#636363"
                     android:textSize="20dp"
@@ -177,11 +174,11 @@
                     android:layout_width="115dp"
                     android:layout_height="304dp"
                     android:layout_marginLeft="7dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="50dp"
                     android:background="#3203DAC5"
-                    android:text="Mettre fin au service actuel"
+                    android:text="Mettre fin à la visite actuelle du client"
                     android:textColor="#bf0000"
-                    android:textSize="13dp"
+                    android:textSize="11dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
