@@ -1,49 +1,14 @@
-import './App.css';
-import Navbar from './component/navbar-component'
-import Recherche from './component/recherche-commerce-component'
-import CarteCommerce from './component/carte-commerce-component'
-import Filtre from './component/filtre-component'
+import React from 'react'
+import './App.css'
+import PageListeCommerces from './container/page-liste-commerces-container'
+import PageInscriptionClient from'./container/page-inscription-client-container'
+import PageFileAttente from './container/page-file-attente-container'
 
 function App() {
   return (
     <div className="App">
-      <Navbar
-      />
-      <h1>Bienvenue!</h1>
-      <Recherche
-      /> 
-      <h1 className="liste-commerces">Liste de commerces</h1>     
-
-      <div className="conteneur-commerces">
-        <CarteCommerce 
-          nom= 'Services Canada'
-          nbPersonnesEnFile= ' 10'
-          tempsAttenteApprox= ' 35 mins'
-        />
-
-        <CarteCommerce 
-          nom= 'Services Canada'
-          nbPersonnesEnFile= ' 10'
-          tempsAttenteApprox= ' 35 mins'
-        />
-
-        <CarteCommerce 
-          nom= 'Services Canada'
-          nbPersonnesEnFile= ' 10'
-          tempsAttenteApprox= ' 35 mins'
-        />
-
-        <CarteCommerce 
-          nom= 'Services Canada'
-          nbPersonnesEnFile= ' 10'
-          tempsAttenteApprox= ' 35 mins'
-        />
-      </div>
-
-      <Filtre
-      />    
-
-      <p>Lorem ipsum</p>
+      <PageFileAttente/>
+      
     </div>
   );
 }

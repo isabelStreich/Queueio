@@ -24,6 +24,10 @@
   
 }
 
+.vue-commerces{
+  display: flex;
+}
+
 .card-header{
   font-size: 2rem;
 }
@@ -38,6 +42,34 @@
 }
 
 #filtre-commerce{
-  width: 25%;
+  width: 100%;
   background-color: #5cd28e36 !important;
+}
+
+.div-filtre{
+  margin: 23px;
+}
+
+.label-filtre{
+  display: block;
+  margin: 10px;
+}
+
+.form-client{
+  width: 50%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.file-attente{
+  width: 50%;
+  margin: auto;
+}
+
+.file-attente h2 {
+  margin-top: 30px;
+}
+
+#carte-file-attente{
+  margin-top: 100px;
 }
