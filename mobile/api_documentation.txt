@@ -1,0 +1,74 @@
+ANDROID
+**************************************************************************************************
+**************************************************************************************************
+GET
+https://queueio.com/login)
+(login)
+{
+"status": {
+        "error": false,
+        "code": 200,
+        "type": "success",
+        "message": "Success"
+ }
+"Employee":{
+		"id":"1",
+		"commerce_id": 1234,
+		"email": toto@test.com,
+		"pwd": "123456"
+		}
+}
+**************************************************************************************************
+**************************************************************************************************
+PUT
+https://queueio.com/queue_invite)
+(paramettres: numero_actuel, date)
+(request pour passer au prochaine)
+{
+"status": {
+        "error": false,
+        "code": 200,(ok)
+        "type": "success",
+        "message": "Success"
+ }
+"data":{
+				numero_actuel: (int)1,
+				date : 23/11/2020
+				
+}
+"status": {
+						"code": 404,
+						"error": true,
+						"message": "User avec id 1 n'est pas trouve",
+						"type": "pas trouve"
+    }
+}
+**************************************************************************************************
+**************************************************************************************************
+
+GET
+https://queueio.com/employe_accueil)
+
+(affichage de numero_fille_attendre)
+
+{
+"status": {
+        "error": false,
+        "code": 200,(ok)
+        "type": "success",
+        "message": "Success"
+ }
+"data":{
+				"id_commerce": 1,
+			"total_numero_pris": 40,
+			"numero_actuel": 3,	
+			"date" : 23/11/2020
+				
+}
+"status": {
+						"code": 404,
+						"error": true,
+						"message": "User avec id 1 n'est pas trouve",
+						"type": "pas trouve"
+    }
+}
