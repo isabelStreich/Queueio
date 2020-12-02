@@ -52,3 +52,12 @@ PUT http://localhost:3000/update/updateService/service unique,0,1
 ###
 PUT http://localhost:3000/update/updateStatistique/3,30,536,60,50,2
 ###
+GET http://localhost:3000/queueio/cles_redis
+
+###
+POST http://localhost:3000/queueio/prendre_numero/:idcommerce,:nom,:telephone
+
+###
+POST http://localhost:3000/test/commerceConfig/2,1,testImages,2,1,0,10,20,2,1,3
+
+###

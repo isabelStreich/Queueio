@@ -127,51 +127,13 @@ const filtre = class Filtre {
         })
     }
 }
-// const user=class UserFiltre{
-//     static getData(userFiltre){
+//get all filtre
+// const clesRedis = class ClesRedis {
+//     static getData () {
 //         let pgJsonResult = null
 //         return new Promise(resolve => {
 //             dao.connect()
-//             dao.query('SELECT * FROM public.user WHERE role_id = $1', [userFiltre], (result) => {
-//                 if (result.rowCount > 0) {
-//                     pgJsonResult = result.rows
-//                 } else {
-//                     pgJsonResult = []
-//                 }
-//                 resolve(pgJsonResult)
-//                 dao.disconnect()
-//             })
-//         })
-//     }
-// }
-
-// // SELECT * FROM public."user"
-// // where role_id =2
-// const userRole = class UserRole {
-//     static getData (employeRole2) {
-//         let pgJsonResult = null
-//         return new Promise(resolve => {
-//             dao.connect()
-//             dao.query('SELECT * FROM user WHERE role_id = $1', [employeRole2], (result) => {
-//                 if (result.rowCount > 0) {
-//                     pgJsonResult = result.rows
-//                 } else {
-//                     pgJsonResult = []
-//                 }
-//                 resolve(pgJsonResult)
-//                 dao.disconnect()
-//             })
-//         })
-//     }
-// }
-
-// // SELECT 	* FROM 	public.user WHERE courriel = 'employee@gmail.com' AND mot_passe = 'abc123'
-// const loginUser = class LoginUser {
-//     static getData (mail,pwd) {
-//         let pgJsonResult = null
-//         return new Promise(resolve => {
-//             dao.connect()
-//             dao.query('SELECT * FROM user WHERE courriel = $1 AND mot_passe =$2', [mail,pwd], (result) => {
+//             dao.query('SELECT * From public.cles_redis', [], (result) => {
 //                 if (result.rowCount > 0) {
 //                     pgJsonResult = result.rows
 //                 } else {
@@ -192,5 +154,6 @@ module.exports = {
     login,
     couleur,
     filtre
+    // clesRedis
 //    user
 }

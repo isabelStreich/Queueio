@@ -38,8 +38,9 @@ const updateCommerceConfig=(req,res)=>{
     const couleurId=req.params.couleur_id
     const nbMinutesRetard=req.params.nb_minutes_retard
     const tempsMoyenClients=req.params.temps_moyen_clients
+    const commerceId=req.params.commerce_id
     const id=req.params.id
-    manager_update.updateCommerceConfig.getData(filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,id).then(result=>{
+    manager_update.updateCommerceConfig.getData(filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,commerceId,id).then(result=>{
         sendData(res,result)
     })
 }

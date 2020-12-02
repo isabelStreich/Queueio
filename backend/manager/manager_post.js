@@ -21,7 +21,62 @@ const commerceInscription = class CommerceInscription {
         })
     }
 }
+const commerceConfiguration = class CommerceConfiguration {
+    // nom_commerce_list, nom_client, nom_cpt_client, cpt_client_servi,cpt_client_quitter,id_commerce
+    // nomCommerceList, nomClient, nomCptClient, cptClientServi,cptClientQuitter,idCommerce
+    // ,nomCommerceList, nomClient, nomCptClient, cptClientServi,cptClientQuitter
+    static getData (filtreId,statistiqueId,logo,couleurId,horaireId,nbMinutesRetard,nbClientsMax,tempsMoyenClients,employeeId,serviceId,commerceId,nomCommerceList, nomClient, nomCptClient, cptClientServi,cptClientQuitter) {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('INSERT INTO public.commerce_config(filtre_id,statistique_id,logo,couleur_id,horaire_id,nb_minutes_retard,nb_clients_max,temps_moyen_clients,employee_id,service_id,commerce_id) VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11)' ,[filtreId,statistiqueId,logo,couleurId,horaireId,nbMinutesRetard,nbClientsMax,tempsMoyenClients,employeeId,serviceId,commerceId], (result1) => {
+                if (result1.rowCount > 0) {
+                    dao.query('INSERT INTO cles_redis(nom_commerce_list, nom_client, nom_cpt_client, cpt_client_servi,cpt_client_quitter,id_commerce) VALUES($1, $2, $3, $4,$5,$6)', [nomCommerceList, nomClient, nomCptClient, cptClientServi,cptClientQuitter,commerceId], (result2) => {
+                        if (result2.rowCount > 0) {
+                            pgJsonResult = result2.rows
+                        } else {
+                            pgJsonResult = []
+                        }
+                        resolve(pgJsonResult)
+                        dao.disconnect()
+                    })
+                } else {
+                    pgJsonResult = { erreur: '409' }
+                    resolve(pgJsonResult)
+                    dao.disconnect()
+                }
+            })
+            // dao.query('INSERT INTO public.commerce_config(filtre_id,statistique_id,logo,couleur_id,horaire_id,nb_minutes_retard,nb_clients_max,temps_moyen_clients,employee_id,service_id,commerce_id) VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11)', [filtreId,statistiqueId,logo,couleurId,horaireId,nbMinutesRetard,nbClientsMax,tempsMoyenClients,employeeId,serviceId,commerceId], (result) => {
+            //     if (result.rowCount > 0) {
+            //         pgJsonResult = result.rows
+            //     } else {
+            //         pgJsonResult = []
+            //     }
+            //     resolve(pgJsonResult)
+            //     dao.disconnect()
+            // })
+        })
+    }
+}
 
+
+// const commerceInscription = class CommerceInscription {
+//     static getData (nom,adresse,courriel,mot_passe) {
+//         let pgJsonResult = null
+//         return new Promise(resolve => {
+//             dao.connect()
+//             dao.query('INSERT INTO public.commerce(nom,adresse,courriel,mot_passe) VALUES ($1, $2, $3,$4)', [nom,adresse,courriel,mot_passe], (result) => {
+//                 if (result.rowCount > 0) {
+//                     pgJsonResult = result.rows
+//                 } else {
+//                     pgJsonResult = []
+//                 }
+//                 resolve(pgJsonResult)
+//                 dao.disconnect()
+//             })
+//         })
+//     }
+// }
 
 //LOGIN:(session de login)
 const login = class Login {
@@ -113,6 +168,7 @@ const servicesCreation = class ServicesCreation {
 module.exports = {
     commerceInscription,
     employecreation,
-    servicesCreation
+    servicesCreation,
+    commerceConfiguration
    
 }

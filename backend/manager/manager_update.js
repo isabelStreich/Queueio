@@ -56,11 +56,11 @@ const updateCommerce=class UpdateCommerce{
 
 // UPDATE public.commerce_config set filtre_id=1, logo='monimage.img', couleur_id='2',nb_minutes_retard='1', temps_moyen_clients ='15' where id=1
 const updateCommerceConfig=class UpdateCommerceConfig{
-    static getData(filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,id){
+    static getData(filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,commerceId,id){
         let pgJsonResult=null
         return new Promise(resolve => {
             dao.connect()
-            dao.query('UPDATE public.commerce_config set filtre_id=$1, logo=$2, couleur_id=$3,nb_minutes_retard=$4, temps_moyen_clients =$5 where id= $6', [filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,id], (result) => {
+            dao.query('UPDATE public.commerce_config set filtre_id=$1, logo=$2, couleur_id=$3,nb_minutes_retard=$4, temps_moyen_clients =$5,commerce_id =$6 where id= $7', [filtreId,logo,couleurId,nbMinutesRetard,tempsMoyenClients,commerceId,id], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
                 } else {
