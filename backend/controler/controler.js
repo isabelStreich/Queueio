@@ -57,21 +57,15 @@ const filtre = (req, res) => {
         sendData(res, result)
     })
 }
-
-
-// const login = (req, res) => {
-//     const mail = req.params.courriel
-//     const pwd = req.params.mot_passe
-//     manager.loginUser.getData(mail,pwd).then(result => {
+// const clesRedis = (req, res) => {
+    
+//     manager.clesRedis.getData().then(result => {
 //         sendData(res, result)
 //     })
 // }
-// const user=(req,res)=>{
-//     const role=req.params.roleid
-//     manager.user.getData(role).then(result=>{
-//         sendData(res,result)
-//     })
-// }
+
+
+
 
 module.exports = {
     commercesss,
@@ -82,6 +76,7 @@ module.exports = {
     login,
     couleur,
     filtre
+    // clesRedis
     // user
 
 }
