@@ -68,10 +68,17 @@ const servicesCreation = (req, res) => {
     })
 }
 
+const creationcompteur=(req,res)=>{
+        manager.creationCompteur1.getData().then(result => {
+        sendData(res, result)
+    })
+}
+
 module.exports = {
     commerceInscription,
     login,
     employecreation,
     servicesCreation,
-    commerceConfiguration
+    commerceConfiguration,
+    creationcompteur
 }

@@ -10,6 +10,7 @@ const controlerUpdate = require('./backend/controler/controleur_update')
 const controler_post = require('./backend/controler/controler_post')
 const dao = require('./backend/BD/dao')
 const redis = require('redis');
+const manager_post = require('./backend/manager/manager_post');
 let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
 const app=express()
@@ -58,30 +59,30 @@ app.put('/update/updateStatistique/:nb_client_jour,:nb_client_mois,:nb_client_an
 //************* */
 //creation cpt et client
 //Retourn position client.
-app.get('/queueio/cles_redis',function(request,response){
-  
-    let pgJsonResult = null
-       
-    dao.connect()
-    dao.query('SELECT * From public.cles_redis', [], (result) => {
-        if (result.rowCount > 0) {
-                pgJsonResult = result.rows
-        } else {
-            pgJsonResult = []            
-        }
-        response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
-        // response.end(JSON.stringify(pgJsonResult))
-        dao.disconnect()
-        client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
-        client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
-        client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
-        client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
-        response.end(JSON.stringify(rep))
-        })
-        })
-    })
+app.get('/queueio/cles_redis',controler_post.creationcompteur)
+    // function(request,response)
+    // let pgJsonResult = null
+       //**************************************************************************************** */
+    // dao.connect()
+    // dao.query('SELECT * From public.cles_redis', [], (result) => {
+    //     if (result.rowCount > 0) {
+    //             pgJsonResult = result.rows
+    //     } else {
+    //         pgJsonResult = []            
+    //     }
+    //     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
+    //     // response.end(JSON.stringify(pgJsonResult))
+    //     dao.disconnect()
+    //     client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
+    //     client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
+    //     client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
+    //     client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
+    //     response.end(JSON.stringify(rep))
+    //     })
+    //     })
+    // })
     
-})
+// })
 
 app.post('/queueio/prendre_numero/:idcommerce,:nom,:telephone',function(request,response){
 
