@@ -1,5 +1,8 @@
 import React, { Component } from 'react' // importer li
-import LoginContainer from './accueil/page-login-container'
+//import LoginContainer from './accueil/page-login-container'
+//import PageInscriptionContainer from './accueil/page-inscription-container'
+import PageConfigurationCommerceContainer from './accueil/page-configuration-commerce-container'
+//import NavbarPage from './accueil/nav-bar-container'
 
 
 class App extends Component { // composant container qui est le formualaire 'Contenant'
@@ -13,8 +16,11 @@ class App extends Component { // composant container qui est le formualaire 'Con
     render() {
         return (
             <div>
+                {/* 
+                <LoginContainer /> */}
+                {/* <PageInscriptionContainer /> */}
+                <PageConfigurationCommerceContainer />
 
-                <LoginContainer />
 
             </div>
         )

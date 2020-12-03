@@ -1,197 +1,100 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 
-export default function radioButtonsGroup() {
-    const [value, setValue] = React.useState('female');
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
+const PageConfigurationComponent = ({ nomDuCommerceRef, villeRef, paysRef, userPhoneRef, emailRef, passwordRef, adresseRef, handleSubmit, errors, handleChange, maxClientDansCommerceRef, horaireOuvertureRef, horaireFermetureRef, tempsMaxAttenteClientRef }) => {
     return (
-        <FormControl component="fieldset">
-            <FormLabel component="legend">Definir la couleur de votre application</FormLabel>
-            <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                <FormControlLabel value="berge" control={<Radio />} label="berge par defaut" />
-                <FormControlLabel value="gris" control={<Radio />} label="gris" />
-                <FormControlLabel value="vert" control={<Radio />} label="vert" />
-            </RadioGroup>
-        </FormControl>
-    );
-}
+        <div className=''>
 
-export default function SwitchLabels() {
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
-    });
+            <div id='divTextMarketing'>
+                <div id='divText1' href='#'>
 
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
+                    <p>Bienvenu</p>
+                </div>
 
-    return (
-        <FormGroup row>
-            <FormControlLabel
-                control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
-                label="Secondary"
-            />
-            <FormControlLabel
-                control={
-                    <Switch
-                        checked={state.checkedB}
-                        onChange={handleChange}
-                        name="checkedB"
-                        color="primary"
-                    />
-                }
-                label="Primary"
-            />
-            <FormControlLabel control={<Switch />} label="Uncontrolled" />
-            <FormControlLabel disabled control={<Switch />} label="Disabled" />
-            <FormControlLabel disabled control={<Switch checked />} label="Disabled" />
-        </FormGroup>
-    );
-}
-//pour la date
-const useStyles = makeStyles((theme) => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
-}));
+                <div id='divFormulaire'>
+                    <form onSubmit={handleSubmit}>
+                        <h1>Configuration du Commerce</h1>
+                        <fieldset>
 
-//pour la date
-export default function TimePickers() {
-    const classes = useStyles();
+                            <div className='nomDuCommerce'>
+                                {/* <label htmlFor="nomDuCommerce">Nom Du Commerce</label> */}
+                                <input class="form-control mb-4" ref={nomDuCommerceRef} type='text' id="nomDuCommerce" name='nomDuCommerce' placeholder="Nom Du Commerce" required="required" maxlength="50" autofocus />
 
-    return (
-        <form className={classes.container} noValidate>
-            <TextField
-                id="debutTemps"
-                label="temps d'ouverture"
-                type="time"
-                defaultValue="07:30"
-                className={classes.textField1}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                inputProps={{
-                    step: 300, // 5 min
-                }}
-            />
+                            </div>
 
-            <TextField
-                id="finTemps"
-                label="temps de fermeture"
-                type="time"
-                defaultValue="18:30"
-                className={classes.textField2}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                inputProps={{
-                    step: 300, // 5 min
-                }}
-            />
-        </form>
-    );
-}
-const PageConfigurationComponent = () => (
-    <div className=''>
+                            <div className='ville'>
+                                {/* <label for="ville">Ville</label> */}
+                                <input class="form-control mb-4" ref={villeRef} type="text" id="ville" placeholder="Ville" name="ville" required="required" maxlength="50" />
+                            </div>
+                            <div className='pays'>
+                                {/* <label for="pays">Pays</label> */}
+                                <input class="form-control mb-4" ref={paysRef} type="text" id="pays" placeholder="pays" name="pays" required="required" maxlength="50" />
+                            </div>
 
-        <div id='divTextMarketing'>
-            <div id='divText1' href='#'>
+                            <div className='userPhone'>
+                                {/* <label for="userPhone">Téléphone</label> */}
+                                <input class="form-control mb-4" ref={userPhoneRef} type="tel" id="userPhone" name="userPhone" placeholder="514-888-9999"
+                                    pattern="^\(?\d{3}\)?(-| )?\d{3}(-| )?\d{4}$" required="required" />
+                            </div>
 
-                <p>Bienvenu</p>
-            </div>
+                            <div className='email'>
+                                {/* <label htmlFor="email">Email</label> */}
+                                <input class="form-control mb-4" ref={emailRef} type='email' name='email' onChange={handleChange} placeholder="Enter email" />
+                                {errors.email.length > 0 &&
+                                    <span className='error'>{errors.email}</span>}
+                            </div>
+                            <div className='password'>
+                                {/* <label htmlFor="password">Password</label> */}
+                                <input class="form-control mb-4" ref={passwordRef} type='password' name='password' onChange={handleChange} placeholder="Enter password" />
+                                {errors.password.length > 0 &&
+                                    <span className='error'>{errors.password}</span>}
+                            </div>
 
-            <div id='divFormulaire'>
-                <form action="configuration.html">
+                            <div className='adresse'>
+                                <label for="story">Adresse</label>
 
-                    <fieldset>
-                        <div>
-                            <label for="story">Adresse</label>
+                                <textarea class="form-control mb-4" id="adresse" ref={adresseRef} name="adresse" rows="3" cols="10" required>
+                                </textarea>
+                            </div>
 
-                            <textarea id="adresse" name="adresse" rows="5" cols="33">
-                            </textarea>
-                        </div>
+                            <div className='checkbox'>
+                                <label for="validationClient">Demander une validation au client(sms)</label>
+                                <input type="checkbox" id="validationClient" name="validation" value="sendMessageClient" onChange={handleChange} />
 
-                        <div>
-                            <label for="nomDuCommerce">Ville</label>
-                            <input type="text" id="ville" placeholder="Ville" name="ville" required="required" maxlength="50" />
-                        </div>
-                        <div>
-                            <label for="nomDuCommerce">Pays</label>
-                            <input type="text" id="pays" placeholder="pays" name="pays" required="required" maxlength="50" />
-                        </div>
+                            </div>
 
-                        <div>
-                            <label for="userPhone">Téléphone</label>
-                            <input type="tel" id="userPhone" name="userPhone" placeholder="514-888-9999"
-                                pattern="^\(?\d{3}\)?(-| )?\d{3}(-| )?\d{4}$" required="required" />
-                        </div>
+                            <div className='maxClientDansCommerce'>
+                                <label for="maxClientDansCommerce">max Clients  Dans le Commerce</label>
+                                <input ref={maxClientDansCommerceRef} type="text" id="maxClientDansCommerce" placeholder="max Clients  Dans le Commerce" name="maxClientDansCommerce" required="required" maxlength="50" />
+                            </div>
+                            <div className='horaireOuverture'>
+                                <label for="horaireOuverture">horaire d'Ouverture:</label>
+                                <input ref={horaireOuvertureRef} type="time" id="horaireOuverture" name="horaireOuverture"
+                                    min="06:00" max="23:00" required></input>
+                            </div>
+                            <div className='horaireFermeture'>
+                                <label for="horaireFermeture">horaire de fermeture:</label>
+                                <input ref={horaireFermetureRef} type="time" id="horaireFermetureRef" name="horaireFermetureRef"
+                                    min="06:00" max="23:00" required></input>
 
-                        <div>
-                            <label for="maxClient">Definir le nombre maximum de client dans le commerce </label>
-                            <input type="text" id="maxClient" name="maxClient" placeholder="max Client dans le commerce" required="required"
-                                maxlength="2000" />
-                        </div>
+                            </div>
+                            <div className='tempsMaxAttenteClient'>
+                                <label for="tempsMaxAttenteClient">le temps Max d'attente du Client dans la file</label>
+                                <input ref={tempsMaxAttenteClientRef} type="text" id="tempsMaxAttenteClient" placeholder="max temps  Dans le Commerce" name="maxClientDansCommerce" required="required" maxlength="50" />
+                            </div>
 
-                        <div>
-                            <label for="userEmail">Courriel</label>
-                            <input type="email" id="userEmail" name="userEmail" placeholder="Courriel" required="required"
-                                maxlength="100" />
-                        </div>
+                            <div className='submit'>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Sauvegarder les modifications</button>
+                            </div>
+                            <div className='quitter'>
+                                <button type="submit" class="btn btn-secondary btn-lg btn-block">Annuler</button>
+                            </div>
+                        </fieldset>
 
-                        <div>
-                            <label for="password">Mot de Passe </label>
-                            <input type="text" id="password" name="password" placeholder="Mot de Passe" required="required"
-                                maxlength="2000" />
-                        </div>
-
-
-                    </fieldset>
-
-                    <div class='affichageCouleur'>
-                        {radioButtonsGroup()}
-                    </div>
-
-                    <div class='switch'>
-                        <label for="validationClient">Demander une validation au client(sms)</label>
-                        {SwitchLabels()}
-                    </div>
-
-                    <div class='formatDate'>
-                        <label for="validationClient">Definir horaire de travail</label>
-                        {TimePickers()}
-                    </div>
-                    <h1>Definire les services</h1>
-                    <div id='divBtnJoin'>
-                        <Button id='btnSaveModification' variant='outlined'>Sauvegarder Les modifications </Button>
-                        <Button id='btnCancel' variant='outlined'>Annuler</Button>
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
-)
+    )
+}
 
 export default PageConfigurationComponent

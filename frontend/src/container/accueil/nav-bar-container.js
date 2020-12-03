@@ -1,56 +1,69 @@
+// import React, { Component } from "react";
+// import {
+//     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBFormInline,
+//     MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
+// } from "mdbreact";
+// import { BrowserRouter as Router } from 'react-router-dom';
 
-import React, { Component } from 'react' // importer librairie react
+// class NavbarPage extends Component {
 
-import NavBarComponent from '../../component/nav-bar-component' // importer le composant navbar
-// import '../component/Navbar/navbar.css'
+//     constructor(props) {
+//         super(props)
+//         this.state = {
+//             isOpen: false
+//         }
 
-class NavBarContainer extends Component {
-    constructor(props) {
-        super(props)
+//     }
 
-        this.state = {
-            genres: [],
-            options: []
-        }
 
-        this.handleOnClick = this.handleOnClick.bind(this)
 
-        this.BUTTONS = [
-            {
-                label: 'Acceuil',
-                onClick: this.handleOnClick
-            },
-            {
-                label: 'Commerces',
-                onClick: this.handleOnClick
-            },
+//     render() {
+//         return (
+//             <Router>
+//                 <MDBNavbar color="indigo" dark expand="md">
+//                     <MDBNavbarBrand>
+//                         <strong className="white-text">Navbar</strong>
+//                     </MDBNavbarBrand>
+//                     <MDBNavbarToggler onClick={!this.state.isOpen} />
+//                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+//                         <MDBNavbarNav left>
+//                             <MDBNavItem active>
+//                                 <MDBNavLink to="#!">Home</MDBNavLink>
+//                             </MDBNavItem>
+//                             <MDBNavItem>
+//                                 <MDBNavLink to="#!">Features</MDBNavLink>
+//                             </MDBNavItem>
+//                             <MDBNavItem>
+//                                 <MDBNavLink to="#!">Pricing</MDBNavLink>
+//                             </MDBNavItem>
+//                             <MDBNavItem>
+//                                 <MDBDropdown>
+//                                     <MDBDropdownToggle nav caret>
+//                                         <span className="mr-2">Dropdown</span>
+//                                     </MDBDropdownToggle>
+//                                     <MDBDropdownMenu>
+//                                         <MDBDropdownItem href="#!">Action</MDBDropdownItem>
+//                                         <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
+//                                         <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+//                                         <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+//                                     </MDBDropdownMenu>
+//                                 </MDBDropdown>
+//                             </MDBNavItem>
+//                         </MDBNavbarNav>
+//                         <MDBNavbarNav right>
+//                             <MDBNavItem>
+//                                 <MDBFormInline waves>
+//                                     <div className="md-form my-0">
+//                                         <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+//                                     </div>
+//                                 </MDBFormInline>
+//                             </MDBNavItem>
+//                         </MDBNavbarNav>
+//                     </MDBCollapse>
+//                 </MDBNavbar>
+//             </Router>
+//         );
+//     }
+// }
 
-            {
-                label: 'Contact',
-                onClick: this.handleOnClick
-            }
-        ]
-    }
-
-    handleOnClick() {
-        console.log('test button click')
-    }
-
-    // didmont
-
-    componentDidMount() {
-        fetch('/playlists/genres', { method: 'GET' })
-            .then(response => response.json())
-            .then(responseJson => {
-                this.setState({ genres: responseJson })
-            })
-    }
-
-    render() {
-        return (
-            <NavBarComponent onSubmit={this.props.onHandleRechercheOnClick} genres={this.state.genres} buttons={this.BUTTONS} />
-        )
-    }
-}
-
-export default NavBarContainer
+// export default NavbarPage;

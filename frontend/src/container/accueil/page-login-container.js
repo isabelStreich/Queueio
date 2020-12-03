@@ -4,6 +4,10 @@ import React, { Component } from 'react'
 import LoginComponent from '../../component/page-login-component'
 import NavBarComponent from '../../component/nav-bar-component'
 
+
+
+import utilisateurs from '/w17-project-octobre2020-queue.io/frontend/utilisateurs.json'
+
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
@@ -27,6 +31,7 @@ class LoginContainer extends Component {
                 email: '',
                 password: '',
             }
+
 
         }
 
@@ -67,17 +72,35 @@ class LoginContainer extends Component {
             console.info('Valid Form')
             const emailUtilisateur = this.emailRef.current.value
             const passwordUtilisateur = this.passwordRef.current.value
-
+            alert(emailUtilisateur)
+            alert(passwordUtilisateur)
             const credentialObject = { email: emailUtilisateur, password: passwordUtilisateur }
 
-            fetch('http://localhost:8080/queueio.com/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(credentialObject)
-            }).then(response => response.json())
-                .then((result) => this.setState({ result: result }))
+            console.log(utilisateurs)
+
+
+
+            const utilisateurJsonArray = JSON.stringify(utilisateurs, null, 2);
+            for (let i = 0; i < utilisateurs.length; i++) {
+                let obj = utilisateurs[i];
+
+                console.log(`Name: ${obj.email}, ${obj.pwd}`);
+            }
+
+
+
+
+
+            // fetch('http://localhost:8080/queueio.com/login', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(credentialObject)
+            // }).then(response => response.json())
+            //     .then((result) => this.setState({ result: result }))
+
+
         } else {
             console.error('Invalid Form')
         }

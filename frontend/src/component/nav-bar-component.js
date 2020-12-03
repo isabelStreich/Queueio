@@ -1,53 +1,55 @@
 
-import React from 'react'
+// import React from 'react'
+// import Navbar from '../container/accueil/navbarContainer'
 
-function renderLi(buttons, index) {
-    return (
+// const NavBarComponent = ({ onSubmit, genres, buttons }) => {
+//     return (
+//         <div className=''>
 
-        <li class='nav-item active' key={index}>
+//             <Navbar bg="dark" variant="dark">
+//                 <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+//                 <Nav className="mr-auto">
+//                     <Nav.Link href="#home">Home</Nav.Link>
+//                     <Nav.Link href="#features">Features</Nav.Link>
+//                     <Nav.Link href="#pricing">Pricing</Nav.Link>
+//                 </Nav>
+//                 <Form inline>
+//                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+//                     <Button variant="outline-info">Search</Button>
+//                 </Form>
+//             </Navbar>
+//             <br />
+//             <Navbar bg="primary" variant="dark">
+//                 <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+//                 <Nav className="mr-auto">
+//                     <Nav.Link href="#home">Home</Nav.Link>
+//                     <Nav.Link href="#features">Features</Nav.Link>
+//                     <Nav.Link href="#pricing">Pricing</Nav.Link>
+//                 </Nav>
+//                 <Form inline>
+//                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+//                     <Button variant="outline-light">Search</Button>
+//                 </Form>
+//             </Navbar>
 
-            <a class='nav-link' onClick={buttons.handleOnClick} href=''>{buttons.label}<span class='sr-only' /></a>
+//             <br />
+//             <Navbar bg="light" variant="light">
+//                 <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+//                 <Nav className="mr-auto">
+//                     <Nav.Link href="#home">Home</Nav.Link>
+//                     <Nav.Link href="#features">Features</Nav.Link>
+//                     <Nav.Link href="#pricing">Pricing</Nav.Link>
+//                 </Nav>
+//                 <Form inline>
+//                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+//                     <Button variant="outline-primary">Search</Button>
+//                 </Form>
+//             </Navbar>
 
-        </li>
+//         </div>
 
-    )
-}
 
-function optionRender(genre, index) {
-    return <option value={genre.id} key={index}>{genre.title}</option>
-}
+//     )
+// }
 
-const NavBarComponent = ({ onSubmit, genres, buttons }) => (
-
-    <div className=''>
-
-        <nav id='navbarComplete' class='navbar fixed-top navbar navbar-expand-xl   '>
-
-            <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation'>
-
-                <span class='navbar-toggler-icon' />
-
-            </button>
-
-            <div class='navbar-brand' id='divLogo'>
-
-                <a id='titreLogo' href='#'>
-
-                    <p>Queue.io</p>
-
-                </a>
-
-                <a id='lienLogo' class='navbar-brand' href='#'>
-
-                    <img id='logoSite' src='image/peoples_queue.JPG.jpg' alt='logo du site' />
-
-                </a>
-
-            </div>
-        </nav>
-
-    </div >
-
-)
-
-export default NavBarComponent
+// export default NavBarComponent
