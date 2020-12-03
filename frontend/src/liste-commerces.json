@@ -1,0 +1,30 @@
+[
+    {"id":"123",
+    "nom_compagnie": "iga",
+    "addresse": "fmdfsmfs",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+    "temps_moyen_client": "15"
+    },
+    {"id":"123",
+    "nom_compagnie": "iga",
+    "addresse": "fmdfsmfs",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    },
+    {"id":"123",
+    "nom_compagnie": "iga",
+    "addresse": "fmdfsmfs",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    },
+    {"id":"123",
+    "nom_compagnie": "iga",
+    "addresse": "fmdfsmfs",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    }
+]
