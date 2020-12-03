@@ -196,10 +196,35 @@ const creationCompteur1 = class CreationCompteur {
     }
 }
 
+const prendreNumero = class PrendreNumero{
+    static getData(commerceId,telephone,nom){
+        let pgJsonResult=null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * from cles_redis where id_commerce = $1', [commerceId], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                    client.incr(pgJsonResult[0].nom_cpt_client+'',function(){})
+                    client.get(pgJsonResult[0].nom_cpt_client+'',function(err,reply){
+                        client.hmset(pgJsonResult[0].nom_client+reply+'',{'position': ''+reply ,'tel':telephone+'','nom':nom+''},function(){})
+                        client.rpush(pgJsonResult[0].nom_commerce_list+'',pgJsonResult[0].nom_client+reply+'')
+                    })
+                    resolve(pgJsonResult)
+                } else {
+                    pgJsonResult = []
+                    resolve(pgJsonResult)
+                }
+                dao.disconnect()
+            })
+        })
+    }
+}
+
 module.exports = {
     commerceInscription,
     employecreation,
     servicesCreation,
     commerceConfiguration,
-    creationCompteur1
+    creationCompteur1,
+    prendreNumero
 }

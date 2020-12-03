@@ -74,11 +74,21 @@ const creationcompteur=(req,res)=>{
     })
 }
 
+const prendreNumero=(req,res)=>{
+    const idCommerce=req.params.commerceId
+    const telephone=req.params.telephone
+    const nom= req.params.nom
+    manager.prendreNumero.getData(idCommerce,telephone,nom).then(result=>{
+        sendData(res,result)
+    })
+}
+
 module.exports = {
     commerceInscription,
     login,
     employecreation,
     servicesCreation,
     commerceConfiguration,
-    creationcompteur
+    creationcompteur,
+    prendreNumero
 }
