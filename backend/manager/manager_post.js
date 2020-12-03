@@ -1,5 +1,6 @@
 const dao = require('../BD/dao')
-
+const redis = require('redis');
+let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
 //(creation commerce//Formulaire d'Inscription)
 // INSERT INTO public.commerce(nom,adresse,courriel,mot_passe)
@@ -55,6 +56,9 @@ const commerceConfiguration = class CommerceConfiguration {
             //     resolve(pgJsonResult)
             //     dao.disconnect()
             // })
+            client.set(nomCptClient+'',0,function(){})
+            client.set(cptClientServi+'',0,function(){})
+            client.set(cptClientQuitter+'',0,function(){})
         })
     }
 }
@@ -118,7 +122,7 @@ const employecreation = class Employecreation {
 // (creation service)
 //INSERT INTO public.services (nom_service,duree_aprox) VALUES ('service pour hommes','10')
 
-const servicesCreation = class ServicesCreation {
+const servicesCreation = class ServicesCreation1 {
     static getData (nomService,dureeAprox) {
         let pgJsonResult = null
         return new Promise(resolve => {
@@ -165,10 +169,37 @@ const servicesCreation = class ServicesCreation {
 //     }
 // }
 
+const creationCompteur1 = class CreationCompteur {
+    static getData () {
+        let pgJsonResult = null
+        return new Promise(resolve => {
+            dao.connect()
+            dao.query('SELECT * From public.cles_redis', [], (result) => {
+                if (result.rowCount > 0) {
+                    pgJsonResult = result.rows
+                } else {
+                    pgJsonResult = []            
+                }
+                dao.disconnect()
+                // response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
+                // response.end(JSON.stringify(pgJsonResult))
+                client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
+                client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
+                    client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
+                    client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
+                        // response.end(JSON.stringify(rep))
+                    })
+                })
+            })
+            resolve(pgJsonResult)
+        })
+    }
+}
+
 module.exports = {
     commerceInscription,
     employecreation,
     servicesCreation,
-    commerceConfiguration
-   
+    commerceConfiguration,
+    creationCompteur1
 }
