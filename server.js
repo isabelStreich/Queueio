@@ -11,6 +11,8 @@ const controler_post = require('./backend/controler/controler_post')
 const dao = require('./backend/BD/dao')
 const redis = require('redis');
 const manager_post = require('./backend/manager/manager_post');
+const controleur = require('../ztest_redis_socket/controleur');
+const controleur_update = require('./backend/controler/controleur_update');
 let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
 const app=express()
@@ -145,6 +147,53 @@ app.get('/testredis3',function(request,response){
         response.end(JSON.stringify(rep))
     });
 })
+
+app.get('/redis/infoClient/:commerceId',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.lrange(pgJsonResult[0].nom_commerce_list,0,1,function(err,reply){
+                client.hgetall(reply[0],function(err,info1){
+                    client.hgetall(reply[1],function(err,info2){
+                        let clientInfo=[info1,info2]
+                        response.end(JSON.stringify(clientInfo))
+                    })
+                })
+            })
+        }else{
+            pgJsonResult =[]
+            response.end('client non trouve')
+        }
+        dao.disconnect
+    })
+})
+
+app.get('/redis/listClient/:commerceId',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.lrange(pgJsonResult[0].nom_commerce_list,0,-1,function(err,reply){
+            let listClientPositions=[]
+            reply.forEach(element => {
+                let position=element.slice(15,30)
+                listClientPositions.push(position)
+            })
+            response.end(JSON.stringify(listClientPositions))
+            })
+        }else{
+            pgJsonResult =[]
+            response.end('client non trouve')
+        }
+        dao.disconnect
+    })
+})
+
+app.put('/redis/incrementCptServi/:idcommerce',controleur_update.incrementCptServi)
+app.put('/redis/incrementCptQuitte/:idcommerce',controleur_update.incrementCptQuitte)
 // *********************************
     // client.get('nb',function(err,reply){
     //     console.log(reply)

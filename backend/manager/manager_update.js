@@ -1,4 +1,6 @@
 const dao = require('../BD/dao')
+const redis = require('redis');
+let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
 //test
 const updateCouleur=class UpdateCouleur{
@@ -157,6 +159,43 @@ const deleteCommerce=class DeleteCommerce{
     }
 }
 
+const incrementeCptServi= class IncrementecptServi{
+    static getData(idcommerce){
+        let pgJsonResult=null
+        return new Promise(resolve=>{
+            dao.connect()
+            dao.query('SELECT * from cles_redis where id_commerce = $1',[idcommerce],(result)=>{
+                if(result.rowCount>0){
+                    pgJsonResult = result.rows
+                    client.incr(pgJsonResult[0].cpt_client_servi+'',function(){})
+                }else{
+                    pgJsonResult=[]
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+const incrementeCptQuitte= class IncrementecptQuitte{
+    static getData(idcommerce){
+        let pgJsonResult=null
+        return new Promise(resolve=>{
+            dao.connect()
+            dao.query('SELECT * from cles_redis where id_commerce = $1',[idcommerce],(result)=>{
+                if(result.rowCount>0){
+                    pgJsonResult = result.rows
+                    client.incr(pgJsonResult[0].cpt_client_quitter+'',function(){})
+                }else{
+                    pgJsonResult=[]
+                }
+                resolve(pgJsonResult)
+                dao.disconnect()
+            })
+        })
+    }
+}
+
 module.exports = {
     updateCouleur,
     updateHoraire,
@@ -165,6 +204,8 @@ module.exports = {
     updateemployee,
     updateService,
     updateStatistique,
-    deleteCommerce
+    deleteCommerce,
+    incrementeCptServi,
+    incrementeCptQuitte
 
 }

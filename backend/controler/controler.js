@@ -63,7 +63,14 @@ const filtre = (req, res) => {
 //         sendData(res, result)
 //     })
 // }
-
+// ********************************************************************
+//aa corriger
+// const infoClient=(req,res)=>{
+//     const idCommerce=req.params.commerceId
+//     manager.infoClient.getData(idCommerce).then(result=>{
+//         sendData(res,result)
+//     })
+// }
 
 
 
@@ -76,6 +83,7 @@ module.exports = {
     login,
     couleur,
     filtre
+    // infoClient
     // clesRedis
     // user
 
