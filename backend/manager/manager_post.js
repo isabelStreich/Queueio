@@ -56,9 +56,9 @@ const commerceConfiguration = class CommerceConfiguration {
             //     resolve(pgJsonResult)
             //     dao.disconnect()
             // })
-            client.set(nomCptClient+'',0,function(){})
-            client.set(cptClientServi+'',0,function(){})
-            client.set(cptClientQuitter+'',0,function(){})
+            // client.set(nomCptClient+'',0,function(){})
+            // client.set(cptClientServi+'',0,function(){})
+            // client.set(cptClientQuitter+'',0,function(){})
         })
     }
 }
@@ -168,7 +168,7 @@ const servicesCreation = class ServicesCreation1 {
 //         })
 //     }
 // }
-
+//test
 const creationCompteur1 = class CreationCompteur {
     static getData () {
         let pgJsonResult = null

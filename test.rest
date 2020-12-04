@@ -63,3 +63,10 @@ POST http://localhost:3000/test/commerceConfig/2,1,testImages,2,1,0,10,20,2,1,3
 ###
 POST http://localhost:3000/queueio/prendreNumero/3,514987324,toto@hotmail
 ###
+GET http://localhost:3000/redis/infoClient/3
+###
+GET http://localhost:3000/redis/listClient/3
+###
+PUT http://localhost:3000/redis/incrementCptServi/3
+###
+PUT http://localhost:3000/redis/incrementCptQuitte/3

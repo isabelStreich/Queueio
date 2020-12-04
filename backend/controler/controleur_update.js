@@ -86,6 +86,19 @@ const deleteCommerce=(req,res)=>{
     })
 }
 
+const incrementCptServi=(req,res)=>{
+    const idcommerce=req.params.idcommerce
+    manager_update.incrementeCptServi.getData(idcommerce).then(result=>{
+        sendData(res,result)
+    })
+}
+const incrementCptQuitte=(req,res)=>{
+    const idcommerce=req.params.idcommerce
+    manager_update.incrementeCptQuitte.getData(idcommerce).then(result=>{
+        sendData(res,result)
+    })
+}
+
 module.exports = {
     updateCouleur,
     updateOuverture,
@@ -94,5 +107,7 @@ module.exports = {
     updateemployee,
     updateService,
     updateStatistique,
-    deleteCommerce
+    deleteCommerce,
+    incrementCptServi,
+    incrementCptQuitte
 }

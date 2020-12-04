@@ -1,4 +1,7 @@
+const { response } = require('express')
 const dao = require('../BD/dao')
+const redis = require('redis');
+let client =redis.createClient({port:6379,host:'127.0.0.1'});
 //select by id
 const commerce = class commerceSele {
     static getData (comerceID) {
@@ -145,6 +148,43 @@ const filtre = class Filtre {
 //         })
 //     }
 // }
+// ******************************************************************************************
+// aaa corriger
+// const infoClient = class InfoClient{
+//     static getData(idCommerce){
+//         let pgJsonResult=null
+//         return new Promise(resolve=>{
+//             dao.connect()
+//             dao.query('SELECT * from public.cles_redis where id_commerce = $1',[idCommerce],(result)=>{
+//                 if (result.rowCount>0){
+//                     pgJsonResult= result.rows
+//                     // client.lrange(pgJsonResult[0].nom_commerce_list,0,1,function(err,reply){
+//                     //     client.hgetall(reply[0],function(err,info1){
+//                     //         client.hgetall(reply[1],function(err,info2){
+//                     //             let r=[info1,info2]
+//                     //             res
+//                     //             resolve(r)
+//                     //             console.log(r,'*********************************************************')
+//                     //         })
+//                     //     })
+//                     // })
+//                 }else{
+//                     pgJsonResult =[]
+//                 }
+//                 client.lrange(pgJsonResult[0].nom_commerce_list,0,1,function(err,reply){
+//                     client.hgetall(reply[0],function(err,info1){
+//                         client.hgetall(reply[1],function(err,info2){
+//                             let r=[info1,info2]
+//                             resolve(r)
+//                             console.log(r,'*********************************************************')
+//                         })
+//                     })
+//                 })
+//                 dao.disconnect
+//             })
+//         })
+//     }
+// }
 
 module.exports = {
     commerce,
@@ -154,6 +194,7 @@ module.exports = {
     login,
     couleur,
     filtre
+    // infoClient
     // clesRedis
 //    user
 }
