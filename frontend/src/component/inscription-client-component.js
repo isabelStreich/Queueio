@@ -1,11 +1,15 @@
 import React, {useState} from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, Link, useHistory} from 'react-router-dom'
 import '../App.css'
 
-const INSCRIPTION_CLIENT = props => {
+const INSCRIPTION_CLIENT = props => {   
+
+    let history = useHistory();
+
     const {commerceId} = useParams();
     const [name, setName] =  useState("");
     const [telephone, setTelephone] =  useState("");
+
 
     const onClickHandler = e =>{
             e.preventDefault();
@@ -25,16 +29,18 @@ const INSCRIPTION_CLIENT = props => {
             else{
                 clients = JSON.parse(clients);
                 const info = {
-                    id: clients.length,
+                    id: clients.length + 1 ,
                     nom: name,
                     telephone,
                     id_commerce: commerceId,
                     position:  clients.filter(clients=>clients.id_commerce === commerceId).length + 1
                 }
                 clients.push(info);
-                localStorage.setItem("clients", JSON.stringify(clients));
+                localStorage.setItem("clients", JSON.stringify(clients));                
             }
+            history.push("/file-attente")
     }
+
 
     return(
     <div>
@@ -46,9 +52,9 @@ const INSCRIPTION_CLIENT = props => {
                 <div className="form-group">
                     <label htmlFor="telephone">Entrez votre numéro de téléphone</label>
                     <input type="tel" className="form-control" id="telephone" value={telephone} onChange={e=>setTelephone(e.target.value)}></input>
-                </div>
-                
+                </div>                
                 <button className="btn btn-primary" onClick={onClickHandler}>Se mettre en ligne</button>
+               
         </form>
     </div>
 )}

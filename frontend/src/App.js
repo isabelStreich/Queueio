@@ -4,15 +4,15 @@ import PageListeCommerces from './container/page-liste-commerces-container'
 import PageInscriptionClient from'./container/page-inscription-client-container'
 import PageFileAttente from './container/page-file-attente-container'
 import {BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams} from 'react-router-dom'
-
+import {createBrowserHistory} from 'history'
 
 function App() {
+
+  const history = createBrowserHistory();
+
   return (
-    <Router>
+    <Router history={history}>
       <div className="App">
-        <Link to="/">Home</Link>
-        <Link to="/info-client">Info</Link>
-        <Link to="/file-attente">File</Link>
         <Switch>
           <Route path="/info-client/:commerceId">
             <PageInscriptionClient/>
