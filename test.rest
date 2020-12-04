@@ -67,6 +67,10 @@ GET http://localhost:3000/redis/infoClient/3
 ###
 GET http://localhost:3000/redis/listClient/3
 ###
+GET http://localhost:3000/redis/cptclientservi/3
+###
+GET http://localhost:3000/redis/cptclientquitter/3
+###
 PUT http://localhost:3000/redis/incrementCptServi/3
 ###
 PUT http://localhost:3000/redis/incrementCptQuitte/3
