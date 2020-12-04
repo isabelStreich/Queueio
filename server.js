@@ -1,7 +1,7 @@
 'use strict'
 
 const express =require('express')
-const socketIO = require('socket.io');
+// const socketIO = require('socket.io');
 const http = require('http');
 const bodyParser = require('body-parser')
 const {response} = require('express')
@@ -205,6 +205,40 @@ app.get('/redis/listClient/:commerceId',function(request,response){
         }else{
             pgJsonResult =[]
             response.end('client non trouve')
+        }
+        dao.disconnect
+    })
+})
+
+app.get('/redis/cptclientservi/:commerceId',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT cpt_client_servi from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.get(pgJsonResult[0].cpt_client_servi,function(err,reply){
+                response.end(JSON.stringify(reply))
+            })
+        }else{
+            pgJsonResult =[]
+            
+        }
+        dao.disconnect
+    })
+})
+
+app.get('/redis/cptclientquitter/:commerceId',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT cpt_client_quitter from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.get(pgJsonResult[0].cpt_client_quitter,function(err,reply){
+                response.end(JSON.stringify(reply))
+            })
+        }else{
+            pgJsonResult =[]
+            
         }
         dao.disconnect
     })
