@@ -72,3 +72,5 @@ GET http://localhost:3000/redis/cptclientquitter/3
 PUT http://localhost:3000/redis/incrementCptServi/3
 ###
 PUT http://localhost:3000/redis/incrementCptQuitte/3
+###
+DELETE http://localhost:3000/redis/deleteClientList/3,commerce3Client100

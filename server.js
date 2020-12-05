@@ -246,6 +246,21 @@ app.get('/redis/cptclientquitter/:commerceId',function(request,response){
 
 app.put('/redis/incrementCptServi/:idcommerce',controleur_update.incrementCptServi)
 app.put('/redis/incrementCptQuitte/:idcommerce',controleur_update.incrementCptQuitte)
+
+app.delete('/redis/deleteClientList/:idCommerce,:keyClient',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.idCommerce],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.lrem(pgJsonResult[0].nom_commerce_list,1,request.params.keyClient,function(){})
+        }else{
+            pgJsonResult =[]
+        }
+        dao.disconnect
+    })
+})
+
 // *********************************
     // client.get('nb',function(err,reply){
     //     console.log(reply)

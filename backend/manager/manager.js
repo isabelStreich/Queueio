@@ -130,6 +130,7 @@ const filtre = class Filtre {
         })
     }
 }
+
 //get all filtre
 // const clesRedis = class ClesRedis {
 //     static getData () {

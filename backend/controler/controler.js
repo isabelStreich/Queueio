@@ -57,6 +57,8 @@ const filtre = (req, res) => {
         sendData(res, result)
     })
 }
+
+
 // const clesRedis = (req, res) => {
     
 //     manager.clesRedis.getData().then(result => {
