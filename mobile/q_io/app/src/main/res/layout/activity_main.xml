@@ -8,20 +8,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/peoples_queue" />
+
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="left"
-        android:hint="Bienvenue"
-        android:textColor="#99aab5"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:visibility="visible" />
-
-    <TextView
-        android:layout_width="229dp"
+        android:layout_width="161dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"

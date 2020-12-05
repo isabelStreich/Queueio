@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Definition de logo
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.peoples_queue);
+//        getSupportActionBar().setIcon(R.drawable.peoples_queue);
         getSupportActionBar().setTitle("queue.io");
         setContentView(R.layout.activity_main);
         // Variables
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 //            {
             startActivity(intent);
 //            } else {
-//                setValidation();
+                setValidation();
 //            }
         });
     }
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         if (password.getText().toString().isEmpty()) {
             password.setError(getResources().getString(R.string.password_error));
             isPasswordValid = false;
-        } else if (password.getText().length() < 4) {
+        } else if (password.getText().length() < 5) {
             password.setError(getResources().getString(R.string.error_invalid_password));
             isPasswordValid = false;
         } else {
