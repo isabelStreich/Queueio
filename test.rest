@@ -55,9 +55,7 @@ PUT http://localhost:3000/update/updateStatistique/3,30,536,60,50,2
 GET http://localhost:3000/queueio/cles_redis
 
 ###
-POST http://localhost:3000/queueio/prendre_numero/:idcommerce,:nom,:telephone
 
-###
 POST http://localhost:3000/test/commerceConfig/2,1,testImages,2,1,0,10,20,2,1,3
 
 ###
@@ -74,3 +72,5 @@ GET http://localhost:3000/redis/cptclientquitter/3
 PUT http://localhost:3000/redis/incrementCptServi/3
 ###
 PUT http://localhost:3000/redis/incrementCptQuitte/3
+###
+DELETE http://localhost:3000/redis/deleteClientList/3,commerce3Client100

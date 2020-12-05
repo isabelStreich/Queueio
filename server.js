@@ -11,7 +11,6 @@ const controler_post = require('./backend/controler/controler_post')
 const dao = require('./backend/BD/dao')
 const redis = require('redis');
 const manager_post = require('./backend/manager/manager_post');
-// const controleur = require('../ztest_redis_socket/controleur');
 const controleur_update = require('./backend/controler/controleur_update');
 let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
@@ -86,8 +85,27 @@ app.get('/queueio/cles_redis',controler_post.creationcompteur)
     
 // })
 
-app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',controler_post.prendreNumero)
+// app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',controler_post.prendreNumero)
 
+app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.incr(pgJsonResult[0].nom_cpt_client+'',function(){})
+                    client.get(pgJsonResult[0].nom_cpt_client+'',function(err,reply){
+                        client.hmset(pgJsonResult[0].nom_client+reply+'',{'position': ''+reply ,'tel':request.params.telephone+'','nom':request.params.nom+''},function(){})
+                        client.rpush(pgJsonResult[0].nom_commerce_list+'',pgJsonResult[0].nom_client+reply+'')
+                        response.end(JSON.stringify(pgJsonResult[0].nom_client+reply+''))
+                    })
+        }else{
+            pgJsonResult =[]
+            response.end('client non trouve')
+        }
+        dao.disconnect
+    })
+})
 
 // app.post('/queueio/prendre_numero/:idcommerce,:nom,:telephone',function(request,response){
 
@@ -228,6 +246,21 @@ app.get('/redis/cptclientquitter/:commerceId',function(request,response){
 
 app.put('/redis/incrementCptServi/:idcommerce',controleur_update.incrementCptServi)
 app.put('/redis/incrementCptQuitte/:idcommerce',controleur_update.incrementCptQuitte)
+
+app.delete('/redis/deleteClientList/:idCommerce,:keyClient',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.idCommerce],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.lrem(pgJsonResult[0].nom_commerce_list,1,request.params.keyClient,function(){})
+        }else{
+            pgJsonResult =[]
+        }
+        dao.disconnect
+    })
+})
+
 // *********************************
     // client.get('nb',function(err,reply){
     //     console.log(reply)
