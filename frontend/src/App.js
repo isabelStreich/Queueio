@@ -12,6 +12,7 @@ function App() {
 
   return (
     <Router history={history}>
+      <Link to="/login">Login </Link>
       <div className="App">
         <Switch>
           <Route path="/info-client/:commerceId">
@@ -19,6 +20,10 @@ function App() {
           </Route>
 
           <Route path="/file-attente">
+            <PageFileAttente/>
+          </Route>
+
+          <Route path="/login">
             <PageFileAttente/>
           </Route>
 

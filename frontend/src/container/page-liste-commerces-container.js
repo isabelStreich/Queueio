@@ -3,18 +3,23 @@ import '../App.css';
 import Navbar from '../component/navbar-component'
 import CarteCommerce from '../component/carte-commerce-component'
 import Filtre from '../component/filtre-component'
-import ListeCommerces from '../liste-commerces.json'
 
 function PageListeCommerces() {
 
   const [search, setSearch] =  useState("");
   const [activeFilter, setActiveFilter] =  useState("clear");
 
-  const [maListeCommerces, setMaListeCommerces] =  useState(ListeCommerces);
+  const [maListeCommerces, setMaListeCommerces] =  useState([]);
 
+  useEffect(() =>{
+    fetch('https://queueio.herokuapp.com/commercestous')
+    .then(response => response.json())
+    .then((liste) => setMaListeCommerces(liste));
+    console.log(maListeCommerces);
+  }, [])
 
   useEffect(() => {
-    let searchResult = ListeCommerces.filter(commerce => commerce.nom_compagnie.toLowerCase().includes(search.toLowerCase()));
+    let searchResult = maListeCommerces.filter(commerce => commerce.nom_compagnie.toLowerCase().includes(search.toLowerCase()));
     if (activeFilter !== "clear") searchResult = searchResult.filter(commerce => commerce.filtre_id === activeFilter);    
     setMaListeCommerces(searchResult);    
   }, [search,activeFilter]);
@@ -52,7 +57,7 @@ function PageListeCommerces() {
         </div>
 
         <div className="conteneur-commerces">
-          {maListeCommerces.map((commerce, index) => <CarteCommerce nom={commerce.nom_compagnie} id={commerce.id} addresse={commerce.addresse} key={`commerce-${index}`} nbPersonnesEnFile={fetchNombreClientsCommerceId(commerce.id)} tempsAttenteApprox = {fetchNombreClientsCommerceId(commerce.id) * 5}   /> )}      
+          {maListeCommerces.map((commerce, index) => <CarteCommerce nom={commerce.nom} id={commerce.id} addresse={commerce.adresse} key={`commerce-${index}`} nbPersonnesEnFile={fetchNombreClientsCommerceId(commerce.id)} tempsAttenteApprox = {fetchNombreClientsCommerceId(commerce.id) * 5}   /> )}      
         </div>
       </div>
     </div>

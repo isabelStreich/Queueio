@@ -5,7 +5,7 @@ import ListeCommerce from '../liste-commerces.json'
 import FileAttente from '../file-attente.json'
 import {useHistory} from "react-router-dom"
 
-const myUserid = 2;
+const myUserid = 1;
 
 
 
@@ -25,6 +25,7 @@ function PageFileAttente() {
       setClient(clients.find(client =>{
 
         if (client.id === myUserid){
+          console.log(client.id_commerce);
           setCommerce(ListeCommerce.find(commerce =>commerce.id === client.id_commerce));
           setFile(FileAttente.find(f => f.id_commerce === client.id_commerce));
           return true
