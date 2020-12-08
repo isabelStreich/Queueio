@@ -1,10 +1,9 @@
 package com.example.q_io;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import android.widget.Chronometer;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +41,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private Button inviteBtn;
     private Button terminateServiceBtn;
     private Button deconnectionBtn;
+    TextView tvMain;
     Chronometer chronometer_up;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +59,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         chronometer_up = findViewById(R.id.count_up);
         tempsText = (TextView) findViewById(R.id.temps_text_id);
-
 //        Appel API
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
@@ -97,7 +87,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         timeApp.setText(currentTime);
         //Définir des boutons
         terminateServiceBtn.setOnClickListener(this);
-        deconnectionBtn.setOnClickListener(this);
+        JSONObject userData = new JSONObject();
+        deconnectionBtn.setOnClickListener(v -> showAlertDialog());
         tempsText.setText(" Bonne journée !");
         inviteBtn.setOnClickListener(v1 -> {
             new CountDownTimer(10000, 1000) {
@@ -109,12 +100,12 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     tempsText.setText("Temps d'attente du client");
                     if (confirmBtn.isPressed() == true) {
                         cancel();
-
                         chronometer_up.setText("");
                         chronometer_up.setBase(SystemClock.elapsedRealtime());
                         confirmBtn.setOnClickListener(view -> chronometer_up.start());
                         inviteBtn.setText("Soyons gentils avec tous les clients");
-                        confirmBtn.setText(":)");
+                        confirmBtn.setText("En service № ");// +  currentNumber.setText(userData.getString("current_number")); //ATTENTION !!!!!!!!!!
+                        confirmBtn.setTextColor(Color.parseColor("#008000"));
                         inviteBtn.setTextColor(Color.parseColor("#008000"));
                         tempsText.setText("Attention ! ");
                         tempsText.setTextColor(Color.parseColor("#ff0000"));
@@ -132,7 +123,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 }
                 public void onFinish() {
                     tempsText.setText("Temps écoulé...");
-                    chronometer.setText("Passer donc au client suivent ?");
+                    chronometer.setText("Passer au client suivent ?");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -148,6 +139,40 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Client invité", Toast.LENGTH_SHORT).show();
         });
     }
+    public void showAlertDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Déconnetion... ");
+        alert.setMessage("Êtes-vous vraiment en pause ?");
+        alert.setPositiveButton("Oui", (dialog, which) -> {
+            Intent intent = new Intent(ctx, MainActivity.class);
+            startActivity(intent);
+        });
+        alert.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.create().show();
+    }
+
+    // l'exemple N'EST PAS FONCTIONNEL
+//    private String JsonDataFromAsset() {
+//        URL url = null;
+//        String json = "";
+//        try {
+//            url = new URL("https://queueio.herokuapp.com");
+//            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+//            json = in.readLine();
+//            urlConnection.disconnect();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return json;
+//    }
+//     JSON l'exemple BIEN FONCTIONNEL
     private String JsonDataFromAsset() {
         String json = null;
         try {
@@ -187,7 +212,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         startActivity(intent);
         Thread.sleep(0);
         Toast.makeText(this, "Si vous êtes pret", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Clicker \"INVITER CLIENT\"", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "clicker \"INVITER CLIENT\"", Toast.LENGTH_SHORT).show();
     }
     public void deconnection() {
         Intent intent = new Intent(ctx, MainActivity.class);
