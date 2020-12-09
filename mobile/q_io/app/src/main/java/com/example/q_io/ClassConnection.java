@@ -14,7 +14,7 @@ import java.net.URL;
 public class ClassConnection extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
-        HttpURLConnection httpURLConnection = null;
+        HttpURLConnection httpURLConnection;
         URL url = null;
         try {
             url = new URL(strings[0]);
