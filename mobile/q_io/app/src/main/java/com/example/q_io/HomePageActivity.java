@@ -16,13 +16,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +50,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private Button inviteBtn;
     private Button terminateServiceBtn;
     private Button deconnectionBtn;
-    TextView tvMain;
     Chronometer chronometer_up;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,34 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         chronometer_up = findViewById(R.id.count_up);
         tempsText = (TextView) findViewById(R.id.temps_text_id);
+        /*
+         *    !!!  terminateServiceBtn - est un bouton DOIT mettre a jour
+         *    !!!                         la page du terminal et recuperer :
+         *    !!!                     currentNumber ("numero_actuel")
+         *    !!!                     totalInQueue("total_numero_pris")
+         * */
+        terminateServiceBtn.setOnClickListener(v -> {
+            ClassConnection connection = new ClassConnection();
+            try {
+                String response = connection.execute("https://queueio.herokuapp.com/").get();
+                JSONArray jsonArray = new JSONArray(response);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+//====================================================================================================
+//                    numero_actuel
+//                    total_numero_pris
+//====================================================================================================
+                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
+                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
+                currentNumber.setText(numeroActuelVarTemp);
+                totalInQueue.setText(totalNumeroPrisVarTemp);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
 //        Appel API
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
@@ -67,8 +103,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 JSONObject userData = jsonArray.getJSONObject(i);
                 companyName.setText(userData.getString("commerce_id"));
                 companyLogo.setImageResource(R.drawable.logo_rbc);
-                currentNumber.setText(userData.getString("current_number"));
-                totalInQueue.setText(userData.getString("totalInQueue"));
+//                currentNumber.setText(userData.getString("current_number"));
+//                totalInQueue.setText(userData.getString("totalInQueue"));
 //                password.setText(userData.getString("password"));
 //                email.add(userData.getString("email"));
 //                date.add(userData.getString("date"));
@@ -88,7 +124,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         //Définir des boutons
         terminateServiceBtn.setOnClickListener(this);
         JSONObject userData = new JSONObject();
-        deconnectionBtn.setOnClickListener(v -> showAlertDialog());
+        deconnectionBtn.setOnClickListener(v -> deconnectionAlertDialog());
         tempsText.setText(" Bonne journée !");
         inviteBtn.setOnClickListener(v1 -> {
             new CountDownTimer(10000, 1000) {
@@ -122,6 +158,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 public void onFinish() {
+                    timeFinishedAlertDialog();
                     tempsText.setText("Temps écoulé...");
                     chronometer.setText("Passer au client suivent ?");
                     try {
@@ -139,40 +176,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Client invité", Toast.LENGTH_SHORT).show();
         });
     }
-    public void showAlertDialog() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Déconnetion... ");
-        alert.setMessage("Êtes-vous vraiment en pause ?");
-        alert.setPositiveButton("Oui", (dialog, which) -> {
-            Intent intent = new Intent(ctx, MainActivity.class);
-            startActivity(intent);
-        });
-        alert.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.create().show();
-    }
-
-    // l'exemple N'EST PAS FONCTIONNEL
-//    private String JsonDataFromAsset() {
-//        URL url = null;
-//        String json = "";
-//        try {
-//            url = new URL("https://queueio.herokuapp.com");
-//            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-//            json = in.readLine();
-//            urlConnection.disconnect();
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return json;
-//    }
-//     JSON l'exemple BIEN FONCTIONNEL
+    //Call API
+// JSON l'exemple BIEN FONCTIONNEL
     private String JsonDataFromAsset() {
         String json = null;
         try {
@@ -187,6 +192,31 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             return null;
         }
         return json;
+    }
+    public void deconnectionAlertDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Déconnetion... ");
+        alert.setMessage("Êtes-vous vraiment en pause ?");
+        alert.setPositiveButton("Oui", (dialog, which) -> {
+            Intent intent = new Intent(ctx, MainActivity.class);
+            startActivity(intent);
+        });
+        alert.setNegativeButton("Non", (dialog, which) -> {
+        });
+        alert.create().show();
+    }
+    public void timeFinishedAlertDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Temps écoulé... ");
+        alert.setMessage("Passer au client suivent ?");
+        alert.setNegativeButton("Non", (dialog, which) -> {
+            deconnectionAlertDialog();
+        });
+        alert.setPositiveButton("Oui", (dialog, which) -> {
+            Intent intent = new Intent(ctx, HomePageActivity.class);
+            startActivity(intent);
+        });
+        alert.create().show();
     }
     //Traitement des boutons
     @Override
@@ -219,7 +249,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         startActivity(intent);
         Toast.makeText(this, "Vous êtes déconnecté", Toast.LENGTH_SHORT).show();
     }
-//Call API
 //    private void jsonParse() {
 //        String url = "https://queueio.com/queue";
 //        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
