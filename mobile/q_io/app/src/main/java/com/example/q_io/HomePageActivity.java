@@ -36,6 +36,8 @@ import java.util.concurrent.ExecutionException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static androidx.appcompat.widget.AppCompatDrawableManager.get;
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
     Context ctx;
     private ImageView companyLogo;
@@ -70,32 +72,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         chronometer_up = findViewById(R.id.count_up);
         tempsText = (TextView) findViewById(R.id.temps_text_id);
-        /*
-         *    !!!  terminateServiceBtn - ce bouton DOIT mettre a jour
-         *    !!!                         la page du terminal et recuperer :
-         *    !!!                     currentNumber ("numero_actuel")
-         *    !!!                     totalInQueue("total_numero_pris")
-         * */
-//        ClassConnection connection = new ClassConnection();
-//        try {
-//            String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
-//            JSONArray jsonArray = new JSONArray(response);
-//            JSONObject jsonObject = jsonArray.getJSONObject(0);
-////                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
-////                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
-//            String companyNameVarTemp = jsonObject.getString("nom");
-//            Toast.makeText(this, idCommerce, Toast.LENGTH_SHORT).show();
-////                currentNumber.setText(numeroActuelVarTemp);
-////                totalInQueue.setText(totalNumeroPrisVarTemp);
-//            companyName.setText(companyNameVarTemp);
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-        terminateServiceBtn.setOnClickListener(v -> {
+//
+//        terminateServiceBtn.setOnClickListener(v -> {
 //            ClassConnection connection = new ClassConnection();
 //            try {
 //                String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
@@ -115,7 +93,28 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }
-        });
+//        });
+//        ClassConnection connection = new ClassConnection();
+//        try {
+//            String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
+//            JSONArray jsonArray = new JSONArray(response);
+//            JSONObject jsonObject = jsonArray.getJSONObject(0);
+////                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
+////                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
+//            String companyNameVarTemp = jsonObject.getString("nom");
+//            Toast.makeText(this, idCommerce, Toast.LENGTH_SHORT).show();
+//            String chronometerVarTemp = jsonObject.getString("temps_de_service_30_min"); // ATTENTION !!! ("temps_de_service_30_min") - changer la variable venue d'API
+////                currentNumber.setText(numeroActuelVarTemp);
+////                totalInQueue.setText(totalNumeroPrisVarTemp);
+//            chronometer.setText(chronometerVarTemp);
+//            companyName.setText(companyNameVarTemp);
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 //        Appel API
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
@@ -161,7 +160,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         chronometer_up.setBase(SystemClock.elapsedRealtime());
                         confirmBtn.setOnClickListener(view -> chronometer_up.start());
                         inviteBtn.setText("Soyons gentils avec tous les clients");
-                        confirmBtn.setText("En service № ");// +  currentNumber.setText(userData.getString("current_number")); //ATTENTION !!!!!!!!!!
+                        confirmBtn.setText("En service № " + currentNumber);        //ATTENTION BOGUE Le resultat inprevu!!!!!!!!!!
                         confirmBtn.setTextColor(Color.parseColor("#008000"));
                         inviteBtn.setTextColor(Color.parseColor("#008000"));
                         tempsText.setText("Attention ! ");
@@ -183,7 +182,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     tempsText.setText("Temps écoulé...");
                     chronometer.setText("Passer au client suivent ?");
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -270,22 +269,4 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         startActivity(intent);
         Toast.makeText(this, "Vous êtes déconnecté", Toast.LENGTH_SHORT).show();
     }
-//    private void jsonParse() {
-//        String url = "https://queueio.com/queue";
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-//                response -> {
-//                    try {
-//                        JSONArray jsonArray = response.getJSONArray("queues");
-//                        for (int i = 0; i < jsonArray.length(); i++) {
-//                            JSONObject queue = jsonArray.getJSONObject(i);
-//                            int totalInQueue = queue.getInt("totalInQueue");
-//                            int nextNumberInQueue = queue.getInt("nextNumberInQueue");
-//                            totalQueue.append(totalInQueue + ", " + String.valueOf(nextNumberInQueue) + "\n\n");
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }, error -> error.printStackTrace());
-//        myQueue.add(request);
-//    }
 }
