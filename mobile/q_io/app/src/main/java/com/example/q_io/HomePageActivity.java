@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +32,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +51,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private TextView dateApp;
     private TextView timeApp;
     private TextView tempsText;
+    private TextView tempsAttente;
     public TextView totalInQueue;
     public TextView currentNumber;
     private Button confirmBtn;
@@ -53,6 +59,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private Button terminateServiceBtn;
     private Button deconnectionBtn;
     Chronometer chronometer_up;
+    String idCommerce;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +67,12 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         ctx = this;
         Intent intent;
         intent = getIntent();
-        String idCommerce = intent.getStringExtra("idCommerceVarTemp");
+        idCommerce = intent.getStringExtra("idCommerceVarTemp");
         companyLogo = (ImageView) findViewById(R.id.company_logo_id);
         companyName = (TextView) findViewById(R.id.company_name_id);
         totalInQueue = (TextView) findViewById(R.id.total_queue_id);
         currentNumber = (TextView) findViewById(R.id.current_number_id);
+        tempsAttente = (TextView) findViewById(R.id.temps_attente_id);
         chronometer = (TextView) findViewById(R.id.chronometer_id);
         Button confirmBtn = (Button) findViewById(R.id.confirm_btn_id);
         Button inviteBtn = (Button) findViewById(R.id.invite_btn_id);
@@ -72,57 +80,33 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         chronometer_up = findViewById(R.id.count_up);
         tempsText = (TextView) findViewById(R.id.temps_text_id);
-//
-//        terminateServiceBtn.setOnClickListener(v -> {
-//            ClassConnection connection = new ClassConnection();
-//            try {
-//                String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
-//                JSONArray jsonArray = new JSONArray(response);
-//                JSONObject jsonObject = jsonArray.getJSONObject(0);
-////                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
-////                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
-//                String companyNameVarTemp = jsonObject.getString("nom");
-//
-////                currentNumber.setText(numeroActuelVarTemp);
-////                totalInQueue.setText(totalNumeroPrisVarTemp);
-//                companyName.setText(companyNameVarTemp);
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        ClassConnection connection = new ClassConnection();
-//        try {
-//            String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
-//            JSONArray jsonArray = new JSONArray(response);
-//            JSONObject jsonObject = jsonArray.getJSONObject(0);
-////                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
-////                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
-//            String companyNameVarTemp = jsonObject.getString("nom");
-//            Toast.makeText(this, idCommerce, Toast.LENGTH_SHORT).show();
-//            String chronometerVarTemp = jsonObject.getString("temps_de_service_30_min"); // ATTENTION !!! ("temps_de_service_30_min") - changer la variable venue d'API
-////                currentNumber.setText(numeroActuelVarTemp);
-////                totalInQueue.setText(totalNumeroPrisVarTemp);
-//            chronometer.setText(chronometerVarTemp);
-//            companyName.setText(companyNameVarTemp);
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        Appel API
+        String urlLogo = "https://image.shutterstock.com/image-photo/foto-real-tomado-en-estudio-260nw-1678360027.jpg";
+//        Picasso.with((this).load(urlLogo).into(companyLogo));
+        ClassConnection connection = new ClassConnection();
+        try {
+            String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
+            JSONArray jsonArray = new JSONArray(response);
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            String companyNameVarTemp = jsonObject.getString("nom");
+            companyName.setText(companyNameVarTemp);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        connection = new ClassConnection();
+
+
+//        Appel JSON
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
             JSONArray jsonArray = jsonObject.getJSONArray("queues");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject userData = jsonArray.getJSONObject(i);
-//                companyName.setText(userData.getString("commerce_id"));
                 companyLogo.setImageResource(R.drawable.logo_rbc);
+//                companyName.setText(userData.getString("commerce_id"));
 //                currentNumber.setText(userData.getString("current_number"));
 //                totalInQueue.setText(userData.getString("totalInQueue"));
 //                password.setText(userData.getString("password"));
@@ -160,13 +144,27 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         chronometer_up.setBase(SystemClock.elapsedRealtime());
                         confirmBtn.setOnClickListener(view -> chronometer_up.start());
                         inviteBtn.setText("Soyons gentils avec tous les clients");
-                        confirmBtn.setText("En service № " + currentNumber);        //ATTENTION BOGUE Le resultat inprevu!!!!!!!!!!
+                        confirmBtn.setText("En service");
                         confirmBtn.setTextColor(Color.parseColor("#008000"));
                         inviteBtn.setTextColor(Color.parseColor("#008000"));
                         tempsText.setText("Attention ! ");
                         tempsText.setTextColor(Color.parseColor("#ff0000"));
-                        chronometer.setText("30 min. max. pour la visite !");
+                        chronometer.setText("Temps max. pour la visite: ");
                         chronometer.setTextColor(Color.parseColor("#636363"));
+                        ClassConnection connection = new ClassConnection();
+                        try {
+                            String response = connection.execute("https://queueio.herokuapp.com/commerceConfigId/" + idCommerce).get();
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String tempsAttenteVarTemp = jsonObject.getString("nb_minutes_retard");
+                            tempsAttente.setText(tempsAttenteVarTemp);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         deconnectionBtn.setEnabled(false);
                         deconnectionBtn.setTextColor(Color.parseColor("#ff0000"));
                         deconnectionBtn.setText("Client servi !");
@@ -246,21 +244,23 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 //                confirmPresence();
                 break;
             case R.id.terminate_btn_id:
-                try {
-                    terminateService();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                terminateService(idCommerce);
                 break;
             case R.id.deconnection_btn_id:
                 deconnection();
                 break;
         }
     }
-    public void terminateService() throws InterruptedException {
+    public void terminateService(String idCommerce) {
+//        public void terminateService(String idCommerce) {
         Intent intent = new Intent(ctx, HomePageActivity.class);
+        intent.putExtra("idCommerceVarTemp", idCommerce);
         startActivity(intent);
-        Thread.sleep(0);
+//        inviteBtn.setEnabled(true);
+//        inviteBtn.setText("Inviter client");
+//        inviteBtn.setTextColor(Color.parseColor("#008000"));
+//        deconnectionBtn.setEnabled(true);
+//        deconnectionBtn.setText("Déconnection");
         Toast.makeText(this, "Si vous êtes pret", Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "clicker \"INVITER CLIENT\"", Toast.LENGTH_SHORT).show();
     }
