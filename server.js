@@ -14,6 +14,11 @@ const manager_post = require('./backend/manager/manager_post');
 const controleur_update = require('./backend/controler/controleur_update');
 let client =redis.createClient({port:6379,host:'127.0.0.1'});
 
+
+//TWILIO(VERIFICATION CEL NUMERO)
+const { PhoneNumberContext } = require('twilio/lib/rest/lookups/v1/phoneNumber')
+const config = require('./config')
+const clientTwilio =require('twilio')(config.ACCOUNT_SID,config.AUTH_TOKEN)
 const app=express()
 
 
@@ -23,6 +28,9 @@ const CONTENT_TYPE_JSON = 'application/json'
 const CONTENT_TYPE_HTML = 'text/html'
 
 //GET
+app.get('/', (request, response) => {
+    response.json({ info: 'Node.js, Redis, and Postgres API' })
+  })
 app.get('/commercetest/:commerce_id',controler.commercesss) //obtenir un commerce
 app.get('/commercetest/filtreId/:filtre_id',controler.commerceAvecFiltre)
 app.get('/commercetest',controler.commercesTous) //obtenir la liste de tous les commerces
@@ -56,96 +64,76 @@ app.put('/update/updateemployee/:nom,:courriel,:mot_passe,:id',controlerUpdate.u
 app.put('/update/updateService/:nom_service,:duree_aprox,:id',controlerUpdate.updateService)
 app.put('/update/updateStatistique/:nb_client_jour,:nb_client_mois,:nb_client_annee,:temp_moyen_attendre,:temp_moyen_client_commerce,:id',controlerUpdate.updateStatistique)
 //************* */
+// TWILIO-VERIFICATION
+//************* */
+app.get('/envoyerVerification', (req,res)=>{
+    if (req.query.phonenumber) {
+        clientTwilio
+            .verify
+            .services(config.SERVICE_ID)
+            .verifications
+            .create({
+                to: '+1' + req.query.phonenumber,
+                channel: req.query.channel
+            })
+            // .then((data)=>{
+            //     resp.status(200).send(data)
+            // })
+            .then(data => {
+                res.status(200).send({
+                    message: "Verification envoye!!",
+                    phonenumber: req.query.phonenumber,
+                    data
+                })
+            }) 
+         } else {
+            res.status(400).send({
+                message: "Mauvais numéro de téléphone!!!",
+                phonenumber: req.query.phonenumber,
+                data
+            })
+         }
+
+})
+app.get('/recevoirVerification',(req,res)=>{
+    if (req.query.phonenumber && (req.query.code).length === 4) {
+        clientTwilio
+        .verify
+        .services(config.SERVICE_ID)
+        .verificationChecks
+        .create({
+            to: '+1'+ req.query.phonenumber,
+            code: req.query.code
+        })
+        // .then((data)=>{
+        //     resp.status(200).send(data)
+        // })
+        .then(data => {
+            if (data.status === "approved") {
+                res.status(200).send({
+                    message: "client verifiee!!",
+                    data
+                })
+            }
+        })
+} else {
+    res.status(400).send({
+        message: "Mauvais numéro de telephone ou code !!!",
+        phonenumber: req.query.phonenumber,
+        data
+    })
+}
+
+})
+
+
+
+//************* */
 // REDIS
 //************* */
 //creation cpt et client
 //Retourn position client.
 app.get('/queueio/cles_redis',controler_post.creationcompteur)
-    // function(request,response)
-    // let pgJsonResult = null
-       //**************************************************************************************** */
-    // dao.connect()
-    // dao.query('SELECT * From public.cles_redis', [], (result) => {
-    //     if (result.rowCount > 0) {
-    //             pgJsonResult = result.rows
-    //     } else {
-    //         pgJsonResult = []            
-    //     }
-    //     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
-    //     // response.end(JSON.stringify(pgJsonResult))
-    //     dao.disconnect()
-    //     client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
-    //     client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
-    //     client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
-    //     client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
-    //     response.end(JSON.stringify(rep))
-    //     })
-    //     })
-    // })
-    
-// })
-
-// app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',controler_post.prendreNumero)
-
-app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',function(request,response){
-    let pgJsonResult
-    dao.connect()
-    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
-        if (result.rowCount>0){
-            pgJsonResult= result.rows
-            client.incr(pgJsonResult[0].nom_cpt_client+'',function(){})
-                    client.get(pgJsonResult[0].nom_cpt_client+'',function(err,reply){
-                        client.hmset(pgJsonResult[0].nom_client+reply+'',{'position': ''+reply ,'tel':request.params.telephone+'','nom':request.params.nom+''},function(){})
-                        client.rpush(pgJsonResult[0].nom_commerce_list+'',pgJsonResult[0].nom_client+reply+'')
-                        response.end(JSON.stringify(pgJsonResult[0].nom_client+reply+''))
-                    })
-        }else{
-            pgJsonResult =[]
-            response.end('client non trouve')
-        }
-        dao.disconnect
-    })
-})
-
-// app.post('/queueio/prendre_numero/:idcommerce,:nom,:telephone',function(request,response){
-
-    
-//     let pgJsonResult = null
-       
-//     dao.connect()
-//     dao.query('SELECT * From public.cles_redis', [], (result) => {
-//         if (result.rowCount > 0) {
-//                 pgJsonResult = result.rows
-//         } else {
-//             pgJsonResult = []            
-//         }
-//         response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
-//         // response.end(JSON.stringify(pgJsonResult))
-//         dao.disconnect()
-//         // client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
-//         // client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
-//         // client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
-//         // client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
-//         // response.end(JSON.stringify(rep))
-//         client.incr('nb',function(){})
-//         client.get('nb',function(err,reply){
-//         console.log(reply)
-//         client.hmset('client'+reply, {'nom':''+request.params.nom,'telephone': ''+request.params.tel,'potition':''+reply});
-//     })
-//      // response.end(JSON.stringify(rep))
-       
-        
-//     })
-// //     client.incr('nb',function(){})
-// //     client.get('nb',function(err,reply){
-// //         console.log(reply)
-// //         client.hmset('client'+reply, {'nom':''+request.params.nom,'telephone': ''+request.params.tel,'potition':''+reply});
-// //     })
-// //     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
-// //     // client.hmset('client', {'id': 'example3','nom': 'example4','telephone': 'example5','idcommerce':''+request.params.idcommerce,'potition':''+rep});
-// })
-
-
 app.get('/queueio/testredis',function(request,response){
     
     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
@@ -243,6 +231,92 @@ app.get('/redis/cptclientquitter/:commerceId',function(request,response){
         dao.disconnect
     })
 })
+    // function(request,response)
+    // let pgJsonResult = null
+       //**************************************************************************************** */
+    // dao.connect()
+    // dao.query('SELECT * From public.cles_redis', [], (result) => {
+    //     if (result.rowCount > 0) {
+    //             pgJsonResult = result.rows
+    //     } else {
+    //         pgJsonResult = []            
+    //     }
+    //     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
+    //     // response.end(JSON.stringify(pgJsonResult))
+    //     dao.disconnect()
+    //     client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
+    //     client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
+    //     client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
+    //     client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
+    //     response.end(JSON.stringify(rep))
+    //     })
+    //     })
+    // })
+    
+// })
+
+// app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',controler_post.prendreNumero)
+
+app.post('/queueio/prendreNumero/:commerceId,:telephone,:nom',function(request,response){
+    let pgJsonResult
+    dao.connect()
+    dao.query('SELECT * from public.cles_redis where id_commerce = $1',[request.params.commerceId],(result)=>{
+        if (result.rowCount>0){
+            pgJsonResult= result.rows
+            client.incr(pgJsonResult[0].nom_cpt_client+'',function(){})
+                    client.get(pgJsonResult[0].nom_cpt_client+'',function(err,reply){
+                        client.hmset(pgJsonResult[0].nom_client+reply+'',{'position': ''+reply ,'tel':request.params.telephone+'','nom':request.params.nom+''},function(){})
+                        client.rpush(pgJsonResult[0].nom_commerce_list+'',pgJsonResult[0].nom_client+reply+'')
+                        response.end(JSON.stringify(pgJsonResult[0].nom_client+reply+''))
+                    })
+        }else{
+            pgJsonResult =[]
+            response.end('client non trouve')
+        }
+        dao.disconnect
+    })
+})
+
+// app.post('/queueio/prendre_numero/:idcommerce,:nom,:telephone',function(request,response){
+
+    
+//     let pgJsonResult = null
+       
+//     dao.connect()
+//     dao.query('SELECT * From public.cles_redis', [], (result) => {
+//         if (result.rowCount > 0) {
+//                 pgJsonResult = result.rows
+//         } else {
+//             pgJsonResult = []            
+//         }
+//         response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
+//         // response.end(JSON.stringify(pgJsonResult))
+//         dao.disconnect()
+//         // client.set(pgJsonResult[0].nom_cpt_client+'', 0, function(){})
+//         // client.get(pgJsonResult[0].nom_cpt_client+'', function(err,reply){
+//         // client.hmset(pgJsonResult[0].nom_client+ ''+reply,{'potition':''+reply},function(){})
+//         // client.hgetall(pgJsonResult[0].nom_client+ ''+reply,function(err,rep){
+//         // response.end(JSON.stringify(rep))
+//         client.incr('nb',function(){})
+//         client.get('nb',function(err,reply){
+//         console.log(reply)
+//         client.hmset('client'+reply, {'nom':''+request.params.nom,'telephone': ''+request.params.tel,'potition':''+reply});
+//     })
+//      // response.end(JSON.stringify(rep))
+       
+        
+//     })
+// //     client.incr('nb',function(){})
+// //     client.get('nb',function(err,reply){
+// //         console.log(reply)
+// //         client.hmset('client'+reply, {'nom':''+request.params.nom,'telephone': ''+request.params.tel,'potition':''+reply});
+// //     })
+// //     response.writeHead(HTTP_OK, { 'Content-type': CONTENT_TYPE_JSON })
+// //     // client.hmset('client', {'id': 'example3','nom': 'example4','telephone': 'example5','idcommerce':''+request.params.idcommerce,'potition':''+rep});
+// })
+
+
+
 
 app.put('/redis/incrementCptServi/:idcommerce',controleur_update.incrementCptServi)
 app.put('/redis/incrementCptQuitte/:idcommerce',controleur_update.incrementCptQuitte)

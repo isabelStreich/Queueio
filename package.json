@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",
     "redis": "^3.0.2",
-    "socket.io": "^3.0.3"
+    "socket.io": "^3.0.3",
+    "twilio": "^3.54.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
