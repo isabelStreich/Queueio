@@ -1,108 +1,102 @@
+import React, { useState } from 'react'
+import {Link, useHistory} from 'react-router-dom'
+import NavBarComponent from '../component/navbar-component'
 
-import React, { Component } from 'react'
+function PageConfifigurationCommerceContainer(props){
 
-import PageInscriptionComponent from '../../component/page-inscription-commercant-component'
-import NavBarComponent from '../../component/nav-bar-component'
+    let history = useHistory();
 
-const validEmailRegex = RegExp(
-    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-);
-const validateForm = errors => {
-    let valid = true;
-    Object.values(errors).forEach(val => val.length > 0 && (valid = false));
-    return valid;
-};
-class PageConfifigurationCommerceContainer extends Component {
-    constructor(props) {
-        super(props)
-        this.emailRef = React.createRef()
-        this.passwordRef = React.createRef()
-        this.nomDuCommerceRef = React.createRef()
-        this.villeRef = React.createRef()
-        this.paysRef = React.createRef()
-        this.userPhoneRef = React.createRef()
-        this.adresseRef = React.createRef()
+    const initialFormData = Object.freeze({
+        nomDuCommerce: "",        
+        adresse: "",
+        email: "",
+        password: ""
+    });
 
-        this.state = {
-            email: null,
-            password: null,
-            errors: {
-                email: '',
-                password: '',
-            }
-        }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
+    const [formData, setFormData] = useState(initialFormData);
 
-    handleChange(e) {
-        e.preventDefault();
-        const { name, value } = e.target;
-        let errors = this.state.errors;
+    const onChangeHandler = e =>{
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value.trim()
+        });
+    };
 
-        switch (name) {
-            case 'email':
-                errors.email =
-                    validEmailRegex.test(value)
-                        ? ''
-                        : 'Email is not valid!';
-                break;
-            case 'password':
-                errors.password =
-                    value.length < 8
-                        ? 'Password must be at least 8 characters long!'
-                        : '';
-                break;
-            default:
-                break;
-        }
+    const onSubmitHandler = e =>{
+        e.preventDefault();        
 
-        this.setState({ errors, [name]: value });
-    }
+        fetch('https://queueio.herokuapp.com/commerceinscription/'.concat(formData.nomDuCommerce,'/',formData.adresse,'/', formData.email,'/', formData.password),{
+            method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+        });
 
-    handleSubmit(e) {
-        e.preventDefault();
+        history.push("/login")
 
-        if (validateForm(this.state.errors)) {
-            console.info('Valid Form')
-            const emailUtilisateur = this.emailRef.current.value
-            const passwordUtilisateur = this.passwordRef.current.value
-            const nomDuCommerceUtilisateur = this.nomDuCommerceRef.current.value
-            const villeUtilisateur = this.villeRef.current.value
-            const paysUtilisateur = this.paysRef.current.value
-            const userPhoneUtilisateur = this.userPhoneRef.current.value
-            const adresseUtilisateur = this.adresseRef.current.value
-
-            const credentialObject = { email: emailUtilisateur, password: passwordUtilisateur, nomDuCommerce: nomDuCommerceUtilisateur, ville: villeUtilisateur, pays: paysUtilisateur, userPhone: userPhoneUtilisateur, adresse: adresseUtilisateur }
-
-
-
-            // fetch('http://localhost:8080/queueio.com/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(credentialObject)
-            // }).then(response => response.json())
-            //     .then((result) => this.setState({ result: result }))
-        } else {
-            console.error('Invalid Form')
-        }
 
     }
 
+    return (
+        <div>
+            <NavBarComponent/>
 
-    render() {
+            <h1>Inscription</h1>
 
+            <div id='divFormulaire'>
+                <form onSubmit={onSubmitHandler} className="text-center border border-light p-5">
 
-        return (
+                    <fieldset>
+                        <div className='nomDuCommerce'>
+                            <input className="form-control mb-4" type='text' id="nomDuCommerce" name='nomDuCommerce' placeholder="Nom Du Commerce" required maxLength="50" autoFocus onChange={onChangeHandler} />
+                        </div>
 
-            <div>
-                <PageInscriptionComponent nomDuCommerceRef={this.nomDuCommerceRef} villeRef={this.villeRef} paysRef={this.paysRef} userPhoneRef={this.userPhoneRef} handleChange={this.handleChange} handleSubmit={this.handleSubmit} errors={this.state.errors} adresseRef={this.adresseRef} />
-            </div>
+                        {/* <div className='ville'>
+                            <input className="form-control mb-4" type="text" id="ville" placeholder="Ville" name="ville" required="required" maxLength="50" onChange={onChangeHandler} />
+                        </div>
 
-        )
-    }
+                        <div className='pays'>
+                            <input className="form-control mb-4" type="text" id="pays" placeholder="pays" name="pays" required="required" maxLength="50" onChange={onChangeHandler} />
+                        </div> */}
+
+                        {/* <div className='userPhone'>                           
+                            <input className="form-control mb-4" type="tel" id="userPhone" name="userPhone" placeholder="514-888-9999"
+                                pattern="^\(?\d{3}\)?(-| )?\d{3}(-| )?\d{4}$" required="required" onChange={onChangeHandler} />
+                        </div> */}
+
+                        <div className='email'>                            
+                            <input className="form-control mb-4" type='email' name='email' placeholder="Enter email" required onChange={onChangeHandler}/>                         
+                        </div>
+
+                        <div className='password'>
+                            <input className="form-control mb-4" type='password' name='password'  placeholder="Enter password" required onChange={onChangeHandler} />                           
+                        </div>
+
+                        <div className='adresse'>
+                            <label htmlFor="story">Adresse</label>
+                            <textarea className="form-control mb-4" id="adresse"name="adresse" rows="3" cols="10" required onChange={onChangeHandler}>
+                            </textarea>
+                        </div>
+                    </fieldset>
+
+                    <div className='submit'>
+                        <button type="submit" className="btn btn-info btn-block my-4">Soumettre</button>
+                    </div>
+                    <div className='quitter'>
+                        <Link to={`/`}>
+                            <button type="submit" className="btn btn-info btn-block my-4">Quitter</button>
+                        </Link>
+                        
+                    </div>
+                </form>
+            </div>           
+        </div>
+
+    )
 }
 
 export default PageConfifigurationCommerceContainer

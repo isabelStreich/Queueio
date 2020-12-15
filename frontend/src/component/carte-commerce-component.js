@@ -1,11 +1,8 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import logo from '../logo.svg';
 import {Link} from 'react-router-dom'
-import FileAttente from '../file-attente.json'
 
-const CARTE_COMMERCE = props => {
-
-  // const [file, setFile] =  useState({});
+const CARTE_COMMERCE = props => { 
 
 
   return(
@@ -17,9 +14,9 @@ const CARTE_COMMERCE = props => {
             <p className="card-text">Addresse: {props.addresse}</p>
             <p className="card-text">Nombre de personnes en file: {props.nbPersonnesEnFile} personnes.</p>
             <p className="card-text">Temps d'attente approximatif: {props.tempsAttenteApprox} minutes.</p>
-            <Link to={`/info-client/${props.id}`}>
-              <button type="button" className="btn btn-success">Prendre un numéro</button>
-            </Link>
+            {/* <Link to={`/info-client/${props.id}`}> */}
+              <button type="button" className="btn btn-success" onClick={() => props.onClickHandler(props.id)}>Prendre un numéro</button>
+            {/* </Link> */}
           </div>
         </div>
       </div>

@@ -1,67 +1,111 @@
-import React, {useState, useEffect} from 'react';
-import '../App.css';
-import Navbar from '../component/navbar-component'
-import CarteCommerce from '../component/carte-commerce-component'
-import Filtre from '../component/filtre-component'
+import React, { useState, useEffect } from "react";
+import "../App.css";
+import Navbar from "../component/navbar-component";
+import CarteCommerce from "../component/carte-commerce-component";
+import Filtre from "../component/filtre-component";
 
-function PageListeCommerces() {
+function PageListeCommerces(props) {
+    const [search, setSearch] = useState("");
+    const [activeFilter, setActiveFilter] = useState("clear");
 
-  const [search, setSearch] =  useState("");
-  const [activeFilter, setActiveFilter] =  useState("clear");
+    const [ListeComplete, setListeComplete] = useState([]);
+    const [maListeCommerces, setMaListeCommerces] = useState([]);
 
-  const [maListeCommerces, setMaListeCommerces] =  useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch("https://queueio.herokuapp.com/");
+            const liste = await response.json();
+            return liste;
+        }
+        fetchData().then((liste) => {
+            setListeComplete(liste);
+            makeList(liste);
+        });
+    }, []);
 
-  useEffect(() =>{
-    fetch('https://queueio.herokuapp.com/commercestous')
-    .then(response => response.json())
-    .then((liste) => setMaListeCommerces(liste));
-    console.log(maListeCommerces);
-  }, [])
+    const makeList = (liste) => {
+        setMaListeCommerces(liste);
+    };
 
-  useEffect(() => {
-    let searchResult = maListeCommerces.filter(commerce => commerce.nom_compagnie.toLowerCase().includes(search.toLowerCase()));
-    if (activeFilter !== "clear") searchResult = searchResult.filter(commerce => commerce.filtre_id === activeFilter);    
-    setMaListeCommerces(searchResult);    
-  }, [search,activeFilter]);
+    useEffect(() => {
+        let searchResult = ListeComplete.filter((commerce) =>
+            commerce.nom.toLowerCase().includes(search.toLowerCase())
+        );
+        if (activeFilter !== "clear")
+            searchResult = searchResult.filter(
+                (commerce) => commerce.filtre_id === activeFilter
+            );
+        setMaListeCommerces(searchResult);
+    }, [search, activeFilter]);
 
-  const onChangeHandler = id =>{
-    console.log(id);
-    setActiveFilter(id);    
-  }
+    const onChangeHandler = (id) => {
+        console.log(id);
+        setActiveFilter(id);
+    };
 
-  const fetchNombreClientsCommerceId = id =>{
-    let clients = localStorage.getItem("clients"); 
-    if(clients){
-      clients = JSON.parse(clients).filter(client => client.id_commerce === id ); 
-      return clients.length  
+    const onClickHandler = id =>{
+
+        let commerce_id = id
+        console.log(commerce_id);
+    
+        props.history.push({
+            pathname: '/info-client',
+            state: commerce_id
+        }) 
+        console.log("dans le click handler");           
     }
-    else return 0     
-  } 
 
-  return (
-    <div>
-      <Navbar
-      />
-      <h1>Bienvenue!</h1>
+    const fetchNombreClientsCommerceId = (id) => {
+        let clients = localStorage.getItem("clients");
+        if (clients) {
+            clients = JSON.parse(clients).filter(
+                (client) => client.id_commerce === id
+            );
+            return clients.length;
+        } else return 0;
+    };
 
-      <input type="text" className="form-control" id="input-recherche" value={search} placeholder="Rechercher des commerces" onChange={e=>setSearch(e.target.value)}></input>      
-     
-      <h1 className="liste-commerces">Liste de commerces</h1>     
+    return (
+        <div>
+            <Navbar />
+            <h1>Bienvenue!</h1>
 
-      <div className="vue-commerces">
+            <input
+                type="text"
+                className="form-control"
+                id="input-recherche"
+                value={search}
+                placeholder="Rechercher des commerces"
+                onChange={(e) => setSearch(e.target.value)}
+            ></input>
 
-        <div className="div-filtre">
-          <Filtre
-            onChangeHandler = {onChangeHandler}          
-          />    
+            <h1 className="liste-commerces">Liste de commerces</h1>
+
+            <div className="vue-commerces">
+                <div className="div-filtre">
+                    {/* <Filtre onChangeHandler={onChangeHandler} /> */}
+                </div>
+
+                <div className="conteneur-commerces">
+                    {maListeCommerces.map((commerce, index) => (
+                        <CarteCommerce
+                            nom={commerce.nom}
+                            id={commerce.id}
+                            addresse={commerce.adresse}
+                            key={`commerce-${index}`}
+                            nbPersonnesEnFile={fetchNombreClientsCommerceId(
+                                commerce.id
+                            )}
+                            tempsAttenteApprox={
+                                fetchNombreClientsCommerceId(commerce.id) * 5
+                            }
+                            onClickHandler={onClickHandler}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
-
-        <div className="conteneur-commerces">
-          {maListeCommerces.map((commerce, index) => <CarteCommerce nom={commerce.nom} id={commerce.id} addresse={commerce.adresse} key={`commerce-${index}`} nbPersonnesEnFile={fetchNombreClientsCommerceId(commerce.id)} tempsAttenteApprox = {fetchNombreClientsCommerceId(commerce.id) * 5}   /> )}      
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default PageListeCommerces;

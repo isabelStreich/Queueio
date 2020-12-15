@@ -17,8 +17,8 @@ const NAVBAR = () => (
                   Accueil - Commerces <span className="sr-only">(current)</span>
               </Link>                
               </li>
-              <li className="nav-item">
-              <Link to="/" className="nav-link">
+              <li className="nav-item active">
+              <Link to="/login" className="nav-link">
                 Se connecter
               </Link>
               </li>
