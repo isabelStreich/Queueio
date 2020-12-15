@@ -1,33 +1,41 @@
 import React from 'react'
 import './App.css'
 import PageListeCommerces from './container/page-liste-commerces-container'
-import PageInscriptionClient from'./container/page-inscription-client-container'
+import PageInscriptionClient from'./component/inscription-client-component'
 import PageFileAttente from './container/page-file-attente-container'
+import PageLogin from './container/page-login-container'
+import PageInscription from './container/page-inscription-container'
+import PageCommerceConfig from './container/page-configuration-commerce-container'
+import PageStatistiqueContainer from './container/page-statistique-container'
 import {BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams} from 'react-router-dom'
-
+import {createBrowserHistory} from 'history'
 
 function App() {
+
+  const history = createBrowserHistory();
+
   return (
-    <Router>
+    <Router history={history}>
+      <Link to="/login">Login </Link>      
+      <Link to="/inscription">inscription </Link>
+      <Link to="/commerceConfig">Commerce Config</Link>
+      <Link to="/statistique">Statistique</Link>
       <div className="App">
-        <Link to="/">Home</Link>
-        <Link to="/info-client">Info</Link>
-        <Link to="/file-attente">File</Link>
         <Switch>
-          <Route path="/info-client/:commerceId">
-            <PageInscriptionClient/>
-          </Route>
+          <Route component={PageInscriptionClient} path="/info-client"/>
 
-          <Route path="/file-attente">
-            <PageFileAttente/>
-          </Route>
+          <Route component={PageFileAttente} path="/file-attente"/>
 
-          <Route path="/">
-            <PageListeCommerces/>
-          </Route>
-        </Switch>
-        
-        
+          <Route component={PageLogin} path="/login"/>         
+
+          <Route component={PageInscription} path="/inscription"/>
+
+          <Route component={PageCommerceConfig} path="/commerceConfig"/>          
+
+          <Route component={PageStatistiqueContainer} path="/statistique"/>
+
+          <Route component={PageListeCommerces} path="/"/>
+        </Switch>       
       </div>
     </Router>
   );
