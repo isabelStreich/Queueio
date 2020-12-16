@@ -1,0 +1,48 @@
+POST http://localhost:3000/commerceConfig/1/RBClogo/123456/2/50/15/1
+###
+POST http://localhost:3000/employecreation/Dmytro/dmytro@mail.com/123456/1
+###
+POST http://localhost:3000/horaire/9/21/1
+###
+POST  http://localhost:3000/post
+###
+PUT  http://localhost:3000/put
+###
+DELETE  http://localhost:3000/delete
+###
+GET http://localhost:3000/commerceById/1
+###
+###
+GET http://localhost:3000/commerceConfigId/1
+###
+###
+GET http://localhost:3000/employeByIdCommerce/1
+###
+GET http://localhost:3000/commerceStatistiques/1
+###
+###
+GET http://localhost:3000/login/rbc@mail.com/rbc123
+###
+###
+GET http://localhost:3000/loginEmployee/dmytro@mail.com/123456
+###
+###
+GET http://localhost:3000/commerceavecfiltre/1
+###
+###
+GET http://localhost:3000/commerceById/1
+###
+###
+GET http://localhost:3000/redis/cptclientquitter/1
+###
+
+PUT  http://localhost:3000/horaire/10/23/1
+###
+
+PUT  http://localhost:3000/commerceupdate/RBC,456 rue Lemieux,rbc@mail.com,rbc123,1
+###
+
+PUT  http://localhost:3000/updateemployee/Dmytro Lunhu,dmytro@mail.com,123456,1
+###
+PUT  http://localhost:3000/updateStatistique/1,29,365,10,15,1
+###
