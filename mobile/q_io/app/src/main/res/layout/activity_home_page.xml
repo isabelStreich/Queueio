@@ -23,36 +23,26 @@
                 android:id="@+id/company_logo_id"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="100dp"
-                app:srcCompat="@drawable/logo_com" />
+                android:layout_marginLeft="0dp"
+                app:srcCompat="@drawable/peoples_queue" />
 
             <TextView
                 android:id="@+id/company_name_id"
-                android:layout_width="145dp"
+                android:layout_width="148dp"
                 android:layout_height="70dp"
-                android:text="TEST. Nom du commerçant"
+                android:text="TEST"
                 android:textSize="22dp"
+                android:layout_marginLeft="50dp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/visit_timer_id"
-                android:layout_width="82dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="7dp"
-                android:gravity="center_horizontal"
-                android:text=""
-                android:textAlignment="center"
-                android:textColor="#ff0000"
-                android:textSize="20dp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="403dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -64,7 +54,7 @@
                     android:layout_width="142dp"
                     android:layout_height="60dp"
                     android:gravity="center"
-                    android:text="Bienvenue Maria!"
+                    android:text="Bienvenue!"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
@@ -118,12 +108,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="128dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="115dp"
+                    android:layout_width="120dp"
                     android:layout_height="32dp"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
@@ -135,7 +125,7 @@
 
                 <TextView
                     android:id="@+id/current_number_id"
-                    android:layout_width="115dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
@@ -147,7 +137,7 @@
 
                 <Button
                     android:id="@+id/invite_btn_id"
-                    android:layout_width="112dp"
+                    android:layout_width="120dp"
                     android:layout_height="293dp"
                     android:layout_below="@+id/output"
                     android:layout_marginLeft="7dp"
@@ -171,12 +161,12 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="128dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="112dp"
+                    android:layout_width="120dp"
                     android:layout_height="32dp"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
@@ -188,7 +178,7 @@
 
                 <TextView
                     android:id="@+id/total_queue_id"
-                    android:layout_width="112dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/my_gradient"
@@ -200,14 +190,14 @@
 
                 <Button
                     android:id="@+id/terminate_btn_id"
-                    android:layout_width="115dp"
+                    android:layout_width="120dp"
                     android:layout_height="295dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginTop="50dp"
                     android:background="#3203DAC5"
                     android:text="Mettre fin à la visite actuelle du client"
                     android:textColor="#bf0000"
-                    android:textSize="11dp"
+                    android:textSize="12dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -236,7 +226,7 @@
                 android:id="@+id/time_app_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="33dp"
+                android:layout_marginTop="68dp"
                 android:background="#FFC107"
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
@@ -248,6 +238,7 @@
                 android:id="@+id/date_app_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:background="#FFC107"
                 android:gravity="center_horizontal"
                 android:textAlignment="center"

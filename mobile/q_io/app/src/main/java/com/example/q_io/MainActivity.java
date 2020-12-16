@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -40,18 +41,33 @@ public class MainActivity extends AppCompatActivity {
         ctx = this;
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
-        String user_email = "maria@gmail.com";
-        String user_password = "maria";
         loginBtn = findViewById(R.id.login_btn_id);
         loginBtn.setOnClickListener(v ->
         {
-            Intent intent = new Intent(ctx, HomePageActivity.class);
-//            if (email.getText().toString().equals(user_email) && password.getText().toString().equals(user_password))
-//            {
-            startActivity(intent);
-//            } else {
-                setValidation();
-//            }
+            try {
+                ClassConnection connection = new ClassConnection();
+                String response = connection.execute("https://queueio.herokuapp.com/loginEmployee/" + email.getText().toString() + "/" + password.getText().toString()).get();
+                if (response != null) {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    String emailVarTemp = jsonObject.getString("courriel");
+                    String passwordVarTemp = jsonObject.getString("mot_passe");
+                    String idCommerceVarTemp = jsonObject.getString("id_commerce");
+                    Intent intent = new Intent(ctx, HomePageActivity.class);
+                    if (email.getText().toString().equals(emailVarTemp) && !passwordVarTemp.equals("")) {
+                        intent.putExtra("idCommerceVarTemp", idCommerceVarTemp);
+                        startActivity(intent);
+                    } else {
+                        setValidation();
+                    }
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
     }
     public void setValidation() {
