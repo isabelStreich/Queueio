@@ -1,0 +1,217 @@
+.form-inline{
+  justify-content:center;
+}
+
+/* Recherce page liste de commerces */
+#rechercheCommerce{
+  flex: 5;
+}
+
+#input-recherche{
+  width: 50%;
+  margin: auto;
+}
+#btn-recherche{
+  flex: 1;
+  margin: 0px 30px;
+}
+
+/* Liste de commerce et carte commerces */
+#bienvenue{
+  color: white;
+}
+
+
+.liste-commerces{
+  text-align: center;
+  margin: 15px;
+}
+
+#carte-commerce{
+  max-width: 35rem;
+  min-width: 22rem;
+  
+}
+
+.vue-commerces{
+  display: flex;
+}
+
+.card-header{
+  font-size: 2rem;
+}
+
+.conteneur-commerces{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.conteneur-commerces div{
+  margin: 10px;
+  flex: 1;
+}
+
+/*Filtres*/
+#filtre-commerce{
+  width: 100%;
+  background-color: #5cd28e36 !important;
+}
+
+.div-filtre{
+  margin: 23px;
+}
+
+.label-filtre{
+  display: block;
+  margin: 10px;
+}
+
+.form-client{
+  width: 50%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.file-attente{
+  width: 50%;
+  margin: auto;
+}
+
+.file-attente h2 {
+  margin-top: 30px;
+}
+
+#carte-file-attente{
+  margin-top: 100px;
+}
+
+.filtres-label{
+  margin: 10px;
+  font-size: 1.4rem;
+}
+
+.filtres-label input{
+  margin-top: 10px;
+}
+
+.filtres-label label{
+  margin-left: 20px;
+}
+
+
+/* Page Login */
+.form-wrapper{
+  width: 50%;
+  margin: auto;
+}
+
+
+/*Formulaire cmommerce config*/
+.logo-commerce{
+   flex: 8;
+   height: 120px;
+}
+
+#btn-logo{
+  height: 50px;
+  margin-top: 40px;
+}
+
+#divFormulaire{
+  width: 50%;
+  margin: auto;
+}
+
+.fieldset-config div{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fieldset-config div label{
+  width: 100%;
+  margin-bottom: 0rem!important;
+  color: darkgray;
+}
+
+.fieldset-config div input, .fieldset-config div select{
+  margin-top: 5px;
+  flex: 8;
+}
+
+.fieldset-config div button{
+  flex: 1;
+  margin-bottom: 1.5rem ;
+  margin-left: 1rem;
+}
+
+#submit{
+  margin-top: 1.5rem;
+  display: block;
+}
+
+#submit button{
+  width: 50%;
+  margin: auto;
+}
+
+#quitter{
+  margin-top: 1.5rem;
+  display: block;
+}
+
+#quitter button{
+  width: 50%;
+  margin: auto;
+}
+
+.bottom-space{
+  margin: 20px;
+}
+
+/*Page statistique*/
+.statistique-wrapper{
+  width: 50%;
+  margin: auto;
+}
+
+#message-stat{
+  text-align: center;
+  margin: 20px;
+}
+
+#btn-stat{
+  width: 50%;
+  margin: auto;
+}
+
+.stat-info{
+  display: flex;
+  box-shadow: 3px 5px 8px #888888a1;
+}
+
+.stat-info ul{
+  flex: 1;
+}
+
+#chiffre-stat{
+  font-weight: bold;
+  text-align: right;
+  color: #449ae6;
+}
+
+#chiffre-stat li{
+  border-left: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+#texte-stat li{
+  border-right: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/*Navbar commercant*/
+#stat-link{
+  cursor: pointer;
+}

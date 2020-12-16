@@ -1,0 +1,21 @@
+[
+    {
+        "id": "1",
+        "nom": "Restaurant"
+    },
+    {
+        "id": "2",
+        "nom": "Services gouvernementaux"
+    },
+    {
+        "id": "3",
+        "nom": "Vente"
+    },
+    {
+        "id": "4",
+        "nom": "Épicerie"
+    }
+
+    
+
+]

@@ -1,0 +1,34 @@
+[
+    {"id":"1",
+    "nom_compagnie": "IGA",
+    "filtre_id": "4",
+    "addresse": "Boulevard Gouin",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+    "temps_moyen_client": "15"
+    },
+    {"id":"2",
+    "nom_compagnie": "SAAQ",
+    "filtre_id": "2",
+    "addresse": "123 Main Street",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    },
+    {"id":"3",
+    "nom_compagnie": "Walmart",
+    "filtre_id": "3",
+    "addresse": "456 Boulevard du Carrefour",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    },
+    {"id":"4",
+    "nom_compagnie": "Provigo",
+    "filtre_id": "4",
+    "addresse": "Newman Street",
+    "nombre_clients_max": "20",
+    "horaire":"8-17",
+     "temps_moyen_client": "15"
+    }
+]
