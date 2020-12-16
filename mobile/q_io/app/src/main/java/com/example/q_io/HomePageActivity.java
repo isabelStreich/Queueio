@@ -6,10 +6,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import android.widget.Chronometer;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -36,17 +41,17 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     Context ctx;
     private ImageView companyLogo;
     private TextView companyName;
-    private TextView totalInQueue;
-    private TextView listQueue;
-    private TextView currentNumber;
     private TextView chronometer;
     private TextView dateApp;
     private TextView timeApp;
+    private TextView tempsText;
+    public TextView totalInQueue;
+    public TextView currentNumber;
     private Button confirmBtn;
     private Button inviteBtn;
     private Button terminateServiceBtn;
     private Button deconnectionBtn;
-    private RequestQueue myQueue;
+    Chronometer chronometer_up;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,30 +61,32 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         companyName = (TextView) findViewById(R.id.company_name_id);
         totalInQueue = (TextView) findViewById(R.id.total_queue_id);
         currentNumber = (TextView) findViewById(R.id.current_number_id);
-//        listQueue = (TextView) findViewById(R.id.list_queue_id);
         chronometer = (TextView) findViewById(R.id.chronometer_id);
         Button confirmBtn = (Button) findViewById(R.id.confirm_btn_id);
         Button inviteBtn = (Button) findViewById(R.id.invite_btn_id);
         Button terminateServiceBtn = (Button) findViewById(R.id.terminate_btn_id);
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
-        //Définir la date actuelle
+        chronometer_up = findViewById(R.id.count_up);
+        tempsText = (TextView) findViewById(R.id.temps_text_id);
+
+//        Appel API
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
             JSONArray jsonArray = jsonObject.getJSONArray("queues");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject userData = jsonArray.getJSONObject(i);
-                //.add(userData.getString("commerce_id"));
                 companyName.setText(userData.getString("commerce_id"));
                 companyLogo.setImageResource(R.drawable.logo_rbc);
+                currentNumber.setText(userData.getString("current_number"));
+                totalInQueue.setText(userData.getString("totalInQueue"));
 //                password.setText(userData.getString("password"));
 //                email.add(userData.getString("email"));
-                currentNumber.setText(userData.getString("current_number"));
 //                date.add(userData.getString("date"));
-                totalInQueue.setText(userData.getString("totalInQueue"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        //Définir la date actuelle
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         dateApp = (TextView) findViewById(R.id.date_app_id);
@@ -88,26 +95,57 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         timeApp = (TextView) findViewById(R.id.time_app_id);
         String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         timeApp.setText(currentTime);
-//        myQueue = Volley.newRequestQueue(this);
-//        inviteBtn.setOnClickListener(v -> jsonParse());
         //Définir des boutons
         terminateServiceBtn.setOnClickListener(this);
         deconnectionBtn.setOnClickListener(this);
+        tempsText.setText(" Bonne journée !");
         inviteBtn.setOnClickListener(v1 -> {
             new CountDownTimer(10000, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    chronometer.setText(millisUntilFinished / 1000 + "");
+                    chronometer.setText(millisUntilFinished / 1000 + " sec.");
                     inviteBtn.setEnabled(false);
-                    inviteBtn.setText("Attendre client ...");
+                    deconnectionBtn.setEnabled(false);
+                    deconnectionBtn.setText("");
+                    tempsText.setText("Temps d'attente du client");
                     if (confirmBtn.isPressed() == true) {
                         cancel();
-                        chronometer.setText("Client servi !");
+
+                        chronometer_up.setText("");
+                        chronometer_up.setBase(SystemClock.elapsedRealtime());
+                        confirmBtn.setOnClickListener(view -> chronometer_up.start());
+                        inviteBtn.setText("Soyons gentils avec tous les clients");
+                        confirmBtn.setText(":)");
+                        inviteBtn.setTextColor(Color.parseColor("#008000"));
+                        tempsText.setText("Attention ! ");
+                        tempsText.setTextColor(Color.parseColor("#ff0000"));
+                        chronometer.setText("30 min. max. pour la visite !");
+                        chronometer.setTextColor(Color.parseColor("#636363"));
+                        deconnectionBtn.setEnabled(false);
+                        deconnectionBtn.setTextColor(Color.parseColor("#ff0000"));
+                        deconnectionBtn.setText("Client servi !");
+                    } else {
+                        inviteBtn.setTextColor(Color.parseColor("#ff0000"));
+                        inviteBtn.setText("Attendre le client ...");
+                        deconnectionBtn.setEnabled(false);
+                        deconnectionBtn.setText("");
                     }
                 }
                 public void onFinish() {
-                    chronometer.setText("Temps écoulé, passer donc au client suivent ?");
+                    tempsText.setText("Temps écoulé...");
+                    chronometer.setText("Passer donc au client suivent ?");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    inviteBtn.setEnabled(true);
+                    inviteBtn.setText("Inviter client");
+                    inviteBtn.setTextColor(Color.parseColor("#008000"));
+                    deconnectionBtn.setEnabled(true);
+                    deconnectionBtn.setText("Déconnection");
                 }
             }.start();
+            Toast.makeText(this, "Client invité", Toast.LENGTH_SHORT).show();
         });
     }
     private String JsonDataFromAsset() {
@@ -130,47 +168,31 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm_btn_id:
-                confirmPresence();
+//                confirmPresence();
                 break;
-//            case R.id.invite_btn_id:
-//                inviteClient();
-//                break;
             case R.id.terminate_btn_id:
-                terminateService();
-                break;
-            case R.id.deconnection_btn_id:
                 try {
-                    deconnection();
+                    terminateService();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 break;
+            case R.id.deconnection_btn_id:
+                deconnection();
+                break;
         }
     }
-    public void confirmPresence() {
-        Toast.makeText(this, "Présence du client confirmée", Toast.LENGTH_SHORT).show();
-    }
-    public void terminateService() {
-//        inviteBtn.setEnabled(false);
+    public void terminateService() throws InterruptedException {
         Intent intent = new Intent(ctx, HomePageActivity.class);
         startActivity(intent);
+        Thread.sleep(0);
+        Toast.makeText(this, "Si vous êtes pret", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicker \"INVITER CLIENT\"", Toast.LENGTH_SHORT).show();
     }
-    //    public void close() {
-//        deconnectionBtn.setOnClickListener(v -> {
-////            this.close();
-//            Intent intent = new Intent(ctx, MainActivity.class);
-//            startActivity(intent);
-//        });
-//    }
-    public void deconnection() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(1);
-        close();
-    }
-    private void close() {
-//        Toast.makeText(this, "Déconnection", Toast.LENGTH_SHORT).show();
-        if (deconnectionBtn.isPressed() == true) {
-            this.close();
-        }
+    public void deconnection() {
+        Intent intent = new Intent(ctx, MainActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "Vous êtes déconnecté", Toast.LENGTH_SHORT).show();
     }
 //Call API
 //    private void jsonParse() {
