@@ -65,15 +65,11 @@ const horaireByIdCommerce = (req, res) => {
 const login = (req, res) => {
     const courriel = req.params.courriel
     const mot_passe = req.params.mot_passe
-    if(courriel !== req.params.courriel && mot_passe !== req.params.mot_passe){
-        newManager.login.getData(courriel,mot_passe).then(result => {
-            sendData(res, result)
-        }).catch(err => console.error('connection error', err.stack))
-    }else{
-        let result = {code : 404, msg: "Courriel ou mot de passe ne sont pas corrects!"};
-        sendData(res, result);
-    }
-    
+
+    newManager.login.getData(courriel,mot_passe).then(result => {
+    sendData(res, result)
+}).catch(err => console.error('connection error', err.stack))
+  
 }
 const loginEmployee = (req, res) => {
     const courriel = req.params.courriel

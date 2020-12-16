@@ -88,6 +88,7 @@ const horaireByIdCommerce = class HoraireByIdCommerce {
                     pgJsonResult = result.rows
                 } else {
                     pgJsonResult = []
+                    resolve({code : 404, msg: "Commerce id INCORRECT!!!"})
                 }
                 resolve(pgJsonResult)
                 dao.disconnect()
@@ -103,7 +104,9 @@ const login = class Login {
             dao.query('SELECT * FROM public.commerce WHERE courriel = $1 AND mot_passe =$2', [courriel, sha256(mot_passe)], (result) => {
                 if (result.rowCount > 0) {
                     pgJsonResult = result.rows
+                    
                 } else {
+                    resolve({code : 404, msg: "Courriel ou Mot de passe INCORRECT!!!"})
                     pgJsonResult = []
                 }
                 resolve(pgJsonResult)
@@ -122,6 +125,7 @@ const loginEmployee = class LoginEmployee {
                     pgJsonResult = result.rows
                 } else {
                     pgJsonResult = []
+                    resolve({code : 404, msg: "Courriel ou Mot de passe INCORRECT!!!"})
                 }
                 resolve(pgJsonResult)
                 dao.disconnect()
@@ -139,6 +143,7 @@ const commerceFiltre = class CommerceFiltre {
                     pgJsonResult = result.rows
                 } else {
                     pgJsonResult = []
+                    resolve({code : 404, msg: "Le filtre id que vous cherchez n'existe pas!!!!"})
                 }
                 resolve(pgJsonResult)
                 dao.disconnect()
@@ -156,6 +161,7 @@ const filtre = class Filtre {
                     pgJsonResult = result.rows
                 } else {
                     pgJsonResult = []
+                    resolve({code : 404, msg: "Erreur. La table que vous chercez n'existe pas!!!!"})
                 }
                 resolve(pgJsonResult)
                 dao.disconnect()
@@ -176,6 +182,7 @@ const commerceInscription = class CommerceInscription {
                     pgJsonResult = result.rows
                 } else {
                     pgJsonResult = []
+                    resolve({code : 404, msg: "Erreur. Votre entreprise n'a pas été enregistrée!!!!"})
                 }
                 resolve(pgJsonResult)
                 dao.disconnect()
@@ -195,6 +202,8 @@ const commerceConfig = class CommerceConfig {
                             pgJsonResult = result1.rows
                         } else {
                             pgJsonResult = []
+                    resolve({code : 404, msg: "Erreur. Les configurations ont pas été enregistrés!!!!"})
+
                         }
                         resolve(pgJsonResult)
                         dao.disconnect()
