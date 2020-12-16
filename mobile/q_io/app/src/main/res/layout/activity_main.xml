@@ -48,7 +48,6 @@
 
     <EditText
         android:id="@+id/email"
-        android:text="victor@mail.com"
         android:layout_width="250dp"
         android:layout_height="40dp" />
 
@@ -64,7 +63,6 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="250dp"
-        android:text="123456"
         android:layout_height="40dp" />
 
     <Button

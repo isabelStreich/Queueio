@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -20,12 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +38,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private TextView dateApp;
     private TextView timeApp;
     private TextView tempsText;
-    private TextView tempsAttente;
     public TextView totalInQueue;
     public TextView currentNumber;
     private Button confirmBtn;
@@ -46,20 +45,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private Button terminateServiceBtn;
     private Button deconnectionBtn;
     Chronometer chronometer_up;
-    private static final String TAG = "HomePageActivity";
-    private Handler mainHandler = new Handler() {
-        @Override
-        public void publish(LogRecord record) {
-        }
-        @Override
-        public void flush() {
-        }
-        @Override
-        public void close() throws SecurityException {
-        }
-    };
-    private volatile boolean stopThread = false;
-    String idCommerce;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,12 +52,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         ctx = this;
         Intent intent;
         intent = getIntent();
-        idCommerce = intent.getStringExtra("idCommerceVarTemp");
+        String idCommerce = intent.getStringExtra("idCommerceVarTemp");
         companyLogo = (ImageView) findViewById(R.id.company_logo_id);
         companyName = (TextView) findViewById(R.id.company_name_id);
         totalInQueue = (TextView) findViewById(R.id.total_queue_id);
         currentNumber = (TextView) findViewById(R.id.current_number_id);
-        tempsAttente = (TextView) findViewById(R.id.temps_attente_id);
         chronometer = (TextView) findViewById(R.id.chronometer_id);
         Button confirmBtn = (Button) findViewById(R.id.confirm_btn_id);
         Button inviteBtn = (Button) findViewById(R.id.invite_btn_id);
@@ -80,14 +64,18 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         Button deconnectionBtn = (Button) findViewById(R.id.deconnection_btn_id);
         chronometer_up = findViewById(R.id.count_up);
         tempsText = (TextView) findViewById(R.id.temps_text_id);
-        String urlLogo = "https://image.shutterstock.com/image-photo/foto-real-tomado-en-estudio-260nw-1678360027.jpg";
-//        Picasso.with((this).load(urlLogo).into(companyLogo));
+        terminateServiceBtn.setEnabled(false);
         ClassConnection connection = new ClassConnection();
         try {
-            String response = connection.execute("https://queueio.herokuapp.com/commerce/" + idCommerce).get();
+            String response = connection.execute("https://queueio.herokuapp.com/commerceById/" + idCommerce).get();
             JSONArray jsonArray = new JSONArray(response);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
+//                String numeroActuelVarTemp = jsonObject.getString("numero_actuel");
+//                String totalNumeroPrisVarTemp = jsonObject.getString("total_numero_pris");
             String companyNameVarTemp = jsonObject.getString("nom");
+            Toast.makeText(this, idCommerce, Toast.LENGTH_SHORT).show();
+//                currentNumber.setText(numeroActuelVarTemp);
+//                totalInQueue.setText(totalNumeroPrisVarTemp);
             companyName.setText(companyNameVarTemp);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -96,15 +84,61 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        connection = new ClassConnection();
-//        Appel JSON
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (true) {
+                    ClassConnection connection = new ClassConnection();
+                    try {
+                        String response = connection.execute("https://queueio.herokuapp.com/redis/listClient/" + idCommerce).get();
+                        JSONArray jsonArray = new JSONArray(response);
+                        if (jsonArray.length() != 0) {
+                            List<String> list = new ArrayList<String>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                list.add(jsonArray.getString(i));
+                            }
+                            currentNumber.setText(list.get(0) + "");
+                            totalInQueue.setText(list.size() + "");
+                            inviteBtn.setEnabled(true);
+                        } else {
+                            currentNumber.setText("Pas de client");
+                            totalInQueue.setText("Pas de client");
+                            inviteBtn.setEnabled(false);
+                        }
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        });
+        terminateServiceBtn.setOnClickListener(v -> {
+            inviteBtn.setEnabled(true);
+            inviteBtn.setText("Inviter client");
+            tempsText.setText("Bonne journée !");
+            chronometer_up.setText("");
+            chronometer_up.setBase(SystemClock.elapsedRealtime());
+            chronometer_up.stop();
+            deconnectionBtn.setEnabled(true);
+            deconnectionBtn.setText("Déconnection");
+            confirmBtn.setText("Confirmer la présence du client");
+            confirmBtn.setEnabled(false);
+            chronometer.setText("");
+            terminateServiceBtn.setEnabled(false);
+        });
+//        Appel JSON pour tester
         try {
             JSONObject jsonObject = new JSONObject(JsonDataFromAsset());
             JSONArray jsonArray = jsonObject.getJSONArray("queues");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject userData = jsonArray.getJSONObject(i);
-                companyLogo.setImageResource(R.drawable.logo_rbc);
 //                companyName.setText(userData.getString("commerce_id"));
+                companyLogo.setImageResource(R.drawable.logo_rbc);
 //                currentNumber.setText(userData.getString("current_number"));
 //                totalInQueue.setText(userData.getString("totalInQueue"));
 //                password.setText(userData.getString("password"));
@@ -124,11 +158,27 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         timeApp.setText(currentTime);
         //Définir des boutons
-        terminateServiceBtn.setOnClickListener(this);
+//        terminateServiceBtn.setOnClickListener(this);
         JSONObject userData = new JSONObject();
         deconnectionBtn.setOnClickListener(v -> deconnectionAlertDialog());
         tempsText.setText(" Bonne journée !");
         inviteBtn.setOnClickListener(v1 -> {
+            confirmBtn.setEnabled(true);
+            ClassConnection connect = new ClassConnection();
+            int milisecs = 0;
+            try {
+                String response = connect.execute("https://queueio.herokuapp.com/commerceConfigid/" + idCommerce).get();
+                JSONArray jsonArray = new JSONArray(response);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                milisecs = Integer.parseInt(jsonObject.getString("nb_minutes_retard"));
+                Toast.makeText(this, idCommerce, Toast.LENGTH_SHORT).show();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             new CountDownTimer(10000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     chronometer.setText(millisUntilFinished / 1000 + " sec.");
@@ -137,6 +187,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     deconnectionBtn.setText("");
                     tempsText.setText("Temps d'attente du client");
                     if (confirmBtn.isPressed() == true) {
+                        terminateServiceBtn.setEnabled(true);
                         cancel();
                         chronometer_up.setText("");
                         chronometer_up.setBase(SystemClock.elapsedRealtime());
@@ -145,48 +196,59 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         confirmBtn.setText("En service");
                         confirmBtn.setTextColor(Color.parseColor("#008000"));
                         inviteBtn.setTextColor(Color.parseColor("#008000"));
+                        inviteBtn.setEnabled(false);
                         tempsText.setText("Attention ! ");
                         tempsText.setTextColor(Color.parseColor("#ff0000"));
-                        chronometer.setText("Temps max. pour la visite: ");
-                        chronometer.setTextColor(Color.parseColor("#008000"));
-//                        if (chronometer_up.getText().toString().equals("00:05") ) {              // ATTENTION!!!!    Ne fonctione pas
-//                        if (chronometer_up.getText().toString().equals(tempsAttente))             // ATTENTION!!!!    Ne fonctione pas
-                            timeServiceFinishedAlertDialog();
-//                        }
-                        ClassConnection connection = new ClassConnection();
+                        chronometer.setText("30 min. max. pour la visite !");
+                        chronometer.setTextColor(Color.parseColor("#636363"));
+                        deconnectionBtn.setEnabled(false);
+                        deconnectionBtn.setTextColor(Color.parseColor("#ff0000"));
+                        deconnectionBtn.setText("Client servi !");
+                        ClassConnection connect = new ClassConnection();
                         try {
-                            String response = connection.execute("https://queueio.herokuapp.com/commerceConfigId/" + idCommerce).get();
-                            JSONArray jsonArray = new JSONArray(response);
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            String tempsAttenteVarTemp = jsonObject.getString("nb_minutes_retard") + " min.";
-                            tempsAttente.setText(tempsAttenteVarTemp);
+                            connect.execute("https://queueio.herokuapp.com/incrementCptServi/" + idCommerce).get();
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                        } catch (JSONException e) {
+                        }
+                        ClassConnection connection = new ClassConnection();
+                        try {
+                            String response = connection.execute("https://queueio.herokuapp.com/deleteClientServi/" + idCommerce).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        deconnectionBtn.setEnabled(false);
-                        deconnectionBtn.setTextColor(Color.parseColor("#ff0000"));
-                        deconnectionBtn.setText("Client servi !");
                     } else {
                         inviteBtn.setTextColor(Color.parseColor("#ff0000"));
                         inviteBtn.setText("Attendre le client ...");
+//                        inviteBtn.setEnabled(true);
                         deconnectionBtn.setEnabled(false);
                         deconnectionBtn.setText("");
                     }
                 }
                 public void onFinish() {
-                    timeServiceFinishedAlertDialog();
-//                    timeAttenteFinishedAlertDialog();
-                    tempsText.setText("Temps écoulé...");
-                    chronometer.setText("Passer au client suivent ?");
+                    timeFinishedAlertDialog(idCommerce);
+                    ClassConnection connection = new ClassConnection();
                     try {
-                        Thread.sleep(0);
+                        String response = connection.execute("https://queueio.herokuapp.com/deleteClientServi/" + idCommerce).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    ClassConnection connect = new ClassConnection();
+                    try {
+                        connect.execute("https://queueio.herokuapp.com/incrementCptQuitte/" + idCommerce).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    tempsText.setText("Temps écoulé...");
+                    chronometer.setText("Passer au client suivent ?");
+                    chronometer_up.stop();
                     inviteBtn.setEnabled(true);
                     inviteBtn.setText("Inviter client");
                     inviteBtn.setTextColor(Color.parseColor("#008000"));
@@ -197,89 +259,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Client invité", Toast.LENGTH_SHORT).show();
         });
     }
-    public void startThread(View view) {
-        stopThread = false;
-        QueueRunnable runnable = new QueueRunnable(10);
-        new Thread(runnable).start();
-        /*
-        ExampleThread thread = new ExampleThread(10);
-        thread.start();
-        */
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //work
-            }
-        }).start();
-        */
-    }
-    public void stopThread(View view) {
-        stopThread = true;
-    }
-    class QueueThread extends Thread {
-        int seconds;
-        QueueThread(int seconds) {
-            this.seconds = seconds;
-        }
-        @Override
-        public void run() {
-            for (int i = 0; i < seconds; i++) {
-                Log.d(TAG, "startThread: " + i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    class QueueRunnable implements Runnable {
-        int seconds;
-        QueueRunnable(int seconds) {
-            this.seconds = seconds;
-        }
-        @Override
-        public void run() {
-            for (int i = 0; i < seconds; i++) {
-                if (stopThread)
-                    return;
-                if (i == 5) {
-                    /*
-                    Handler threadHandler = new Handler(Looper.getMainLooper());
-                    threadHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            buttonStartThread.setText("50%");
-                        }
-                    });
-                    */
-                    /*
-                    buttonStartThread.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            buttonStartThread.setText("50%");
-                        }
-                    });
-                    */
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                           confirmBtn.setText("50%");
-                        }
-                    });
-                }
-                Log.d(TAG, "startThread: " + i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
     //Call JSON LOCALE: "queues.json"
-// JSON l'exemple BIEN FONCTIONNEL
     private String JsonDataFromAsset() {
         String json = null;
         try {
@@ -297,7 +277,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
     public void deconnectionAlertDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Déconnetion... ");
+        alert.setTitle("Déconnetion: ");
         alert.setMessage("Êtes-vous en pause ?");
         alert.setPositiveButton("Oui", (dialog, which) -> {
             Intent intent = new Intent(ctx, MainActivity.class);
@@ -307,7 +287,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         });
         alert.create().show();
     }
-    public void timeAttenteFinishedAlertDialog() {
+    public void timeFinishedAlertDialog(String idCommerce) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Temps écoulé... ");
         alert.setMessage("Passer au client suivent ?");
@@ -315,17 +295,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             deconnectionAlertDialog();
         });
         alert.setPositiveButton("Oui", (dialog, which) -> {
-            Intent intent = new Intent(ctx, HomePageActivity.class);
-            startActivity(intent);
-        });
-        alert.create().show();
-    }
-    public void timeServiceFinishedAlertDialog() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Temps pour le service du client actuel est terminé ! ");
-//        alert.setMessage("Inviter un client suivent.");
-        alert.setPositiveButton("Inviter un client suivent.", (dialog, which) -> {
-            terminateService(idCommerce);
         });
         alert.create().show();
     }
@@ -334,21 +303,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm_btn_id:
-//                confirmPresence();
-                break;
-            case R.id.terminate_btn_id:
-                terminateService(idCommerce);
                 break;
             case R.id.deconnection_btn_id:
                 deconnection();
                 break;
         }
-    }
-    public void terminateService(String idCommerce) {
-        Intent intent = new Intent(ctx, HomePageActivity.class);
-        intent.putExtra("idCommerceVarTemp", idCommerce);
-        startActivity(intent);
-        Toast.makeText(this, "Si vous êtes pret clicker \"INVITER CLIENT\"", Toast.LENGTH_LONG).show();
     }
     public void deconnection() {
         Intent intent = new Intent(ctx, MainActivity.class);
