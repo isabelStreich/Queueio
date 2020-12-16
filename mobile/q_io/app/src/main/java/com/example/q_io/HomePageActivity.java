@@ -137,13 +137,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             JSONArray jsonArray = jsonObject.getJSONArray("queues");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject userData = jsonArray.getJSONObject(i);
-//                companyName.setText(userData.getString("commerce_id"));
-                companyLogo.setImageResource(R.drawable.logo_rbc);
-//                currentNumber.setText(userData.getString("current_number"));
-//                totalInQueue.setText(userData.getString("totalInQueue"));
-//                password.setText(userData.getString("password"));
-//                email.add(userData.getString("email"));
-//                date.add(userData.getString("date"));
+                companyLogo.setImageResource(R.drawable.peoples_queue);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -179,7 +173,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            new CountDownTimer(10000, 1000) {
+            new CountDownTimer(milisecs*60000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     chronometer.setText(millisUntilFinished / 1000 + " sec.");
                     inviteBtn.setEnabled(false);
