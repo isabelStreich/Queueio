@@ -253,20 +253,23 @@ function PageConfigurationCommerceContainer(props) {
 		async function sendEmployee() {
 			let employeeMethode;
 			if(isFirstTime){
-				employeeMethode =  "employecreation/";
+               
+				employeeMethode =  "https://queueio.herokuapp.com/employecreation/" + employe.nom + "/"  + employe.courriel + "/"  + employe.mot_passe + "/"  + commerceId;
 			}
 			else{
-				employeeMethode =  "updateemployee/";
-			}
-			console.log("https://queueio.herokuapp.com/"+ employeeMethode + employe.nom + "/"  + employe.courriel + "/"  + employe.mot_passe + "/"  + commerceId);
+                employeeMethode =  "https://queueio.herokuapp.com/updateemployee/" + employe.nom + ","  + employe.courriel + ","  + employe.mot_passe + ","  + commerceId;
+            }
+				
             const response = await fetch(
-                "https://queueio.herokuapp.com/"+ employeeMethode + employe.nom + "/"  + employe.courriel + "/"  + employe.mot_passe + "/"  + commerceId, {
+                employeeMethode, {
 					method: isFirstTime ? 'POST' :  'PUT'
 				}          
             );
             const liste = await response.json();
             console.log(liste);
         }     
+        
+        alert("Les modifications ont été sauvegardées!");
 	};
 	
 	//https://queueio.herokuapp.com/employeCreation/john/micro@mail.com/123/7

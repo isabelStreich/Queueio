@@ -17,6 +17,11 @@
 }
 
 /* Liste de commerce et carte commerces */
+#bienvenue{
+  color: white;
+}
+
+
 .liste-commerces{
   text-align: center;
   margin: 15px;

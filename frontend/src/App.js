@@ -16,10 +16,6 @@ function App() {
 
   return (
     <Router history={history}>
-      <Link to="/login">Login </Link>      
-      <Link to="/inscription">inscription </Link>
-      <Link to="/commerceConfig">Commerce Config</Link>
-      <Link to="/statistique">Statistique</Link>
       <div className="App">
         <Switch>
           <Route component={PageInscriptionClient} path="/info-client"/>
